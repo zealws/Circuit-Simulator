@@ -1,0 +1,13 @@
+# include all our compiler options
+include Makefile.inc
+
+# Build the executable file
+$(EXE): $(OBJS)
+	# do not link
+	#$(LD) $(LDFLAGS) -o $(EXE) $(OBJS)
+
+dist: $(OBJS)
+	# do not link
+
+# Include all the automatically created dependencies
+include Makefile.dep
