@@ -6,7 +6,6 @@
 #include <string>
 #include "gc_cpp.h"
 #include <utility>
-#include <sparsehash/sparse_hash_map>
 using namespace std;
 
 ////

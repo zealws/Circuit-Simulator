@@ -6,7 +6,7 @@
 #include <string>
 #include "gc_cpp.h"
 #include <utility>
-#include <sparsehash/sparse_hash_map>
+#include "sparse_hash_map.h"
 using namespace std;
 
 //
@@ -28,9 +28,6 @@ struct eqstr {
 class Circuit : public gc {
 
 private:
-
-    // For comparing pairs, so I can use std::list's built-in sort operation.
-    static bool compare_subcircuit_pairs(pair<string,Component>,pair<string,Component>);
 
     // Inputs to the Circuit
     list<Subcircuit*> inputSubcircuits;

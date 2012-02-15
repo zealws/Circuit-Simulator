@@ -31,7 +31,7 @@ realclean: clean deleteBackups
 
 # Delete backup files (created automatically by my text editor)
 deleteBackups:
-	rm -f `find . | grep ".*~"`
+	rm -f `find . | grep "\.*~"`
 
 # Performs a line count of all the files i've written
 linecount:

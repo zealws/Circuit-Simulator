@@ -14,7 +14,8 @@ INCLUDES = \
 	-Isrc/Observer \
 	-Isrc/CircuitIterator \
 	-Isrc/Exceptions \
-	-Isrc/gc/include
+	-Isrc/gc/include \
+	-Isrc/sparsehash
 
 GC_LIB = src/gc/lib/
 GC_INCLUDE = src/gc/include/
@@ -68,7 +69,16 @@ DIST_FILES = \
 	src/Exceptions/CircuitEvalError.h \
 	src/Exceptions/WireError.h \
 	src/Exceptions/SubcircuitError.h \
-	src/BaseCircuits/BaseCircuits.h
+	src/BaseCircuits/BaseCircuits.h \
+	src/sparsehash/sparse_hash_map.h \
+	src/sparsehash/sparse_hash_set.h \
+	src/sparsehash/sparsetable.h \
+	src/sparsehash/template_util.h \
+	src/sparsehash/type_traits.h \
+	src/sparsehash/hashtable-common.h \
+	src/sparsehash/libc_allocator_with_realloc.h \
+	src/sparsehash/sparseconfig.h \
+	src/sparsehash/sparsehashtable.h
 
 # These files will NOT be copied to the distribution folder
 # when building it.
@@ -89,7 +99,6 @@ OTHER_FILES =  \
 
 # List of Source Files for the dependency generator
 SRCS = $(DIST_FILES) $(OTHER_FILES)
-
 
 # List of all source files
 # Mainly so that I can do linecounts and searches easily

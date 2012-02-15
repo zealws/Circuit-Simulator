@@ -14,12 +14,6 @@ using namespace std;
 //// Circuit Class
 ////
 
-// For comparing pairs, so I can use std::list's built-in sort operation.
-bool Circuit::compare_subcircuit_pairs(pair<string,Component> first,
-                                       pair<string,Component> second) {
-    return first.first < second.first;
-}
-
 // Helper Function to add a component pair
 void Circuit::AddComponent(string id,Component c) {
     components[id.data()] = c;
