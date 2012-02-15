@@ -7,7 +7,7 @@
 //// CircuitInput
 ////
 
-class CircuitInput : public Subcircuit {
+class CircuitInput : public CustomComponent {
 
 protected:
 
@@ -17,25 +17,39 @@ protected:
     // Evaluates the Subcircuit with certain states.
     // Returns the amount of time it takes to run.
     // If not simulating gate delays, a 0 should be returned.
-    TimeStamp Evaluate(const vector<State>& inputStates, vector<State>& outputStates) {
+    virtual void Evaluate(const vector<State>& inputStates, vector<State>& outputStates) {
 
         // Actually Do Stuff:
 
         outputStates[0] = state;
 
-        // Timestamp:
+    }
 
+    // Returns the delay of the component
+    Timestamp Delay() {
         return 1;
+    }
+
+    // Return the state of the input.
+    bool GetState() {
+        return state;
     }
 
 public:
 
     // Constructor
     CircuitInput(bool initState = false)
-        : state(initState), Subcircuit("CircuitInput", 0, 1)
+        : state(initState), CustomComponent("CircuitInput", 0, 1)
         {
         // There are no internal mechanisms for our gate that need to be
         // created or initialized, so nothing goes here.
+    }
+
+    // Pass-through constructor
+    // Specifically for creating instances of derived classes from CircuitInput
+    CircuitInput(string name)
+        : state(false), CustomComponent(name, 0, 1) {
+        // Do Nothing
     }
 
     void SetState(bool newState) {

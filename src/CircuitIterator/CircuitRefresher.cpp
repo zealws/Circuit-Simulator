@@ -52,14 +52,14 @@ void CircuitRefresher::Progress() {
     }
 
     RemoveAll(myCurrItem, toBeVisited);
-    for(list<Subcircuit*>::iterator p = beenVisited.begin();
+    for(list<CustomComponent*>::iterator p = beenVisited.begin();
         p != beenVisited.end();
         p++) {
         RemoveAll(*p, toBeVisited);
     }
 }
 
-Subcircuit* CircuitRefresher::CurrentItem() {
+CustomComponent* CircuitRefresher::CurrentItem() {
     return myCurrItem;
 }
 
@@ -74,7 +74,7 @@ CircuitRefresher::~CircuitRefresher() {
 
 // Sets up iteration for a given circuit.
 void CircuitRefresher::Setup(Circuit& toEvaluate) {
-    toBeVisited = toEvaluate.GetInputSubcircuits();
+    toBeVisited = toEvaluate.GetInputCustomComponents();
     Progress();
 }
 
@@ -100,13 +100,13 @@ void RefreshCircuit(Circuit& c) {
     try {
         try {
             v.Iterate();
-        } catch (SubcircuitError e) {
+        } catch (CustomComponentError e) {
             cerr << "Circuit Evaluation failed. Circuit gave message:\n";
-            cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetSubcircuitName() << "'\n";
+            cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetCustomComponentName() << "'\n";
         }
     } catch (WireError e) {
         cerr << "Circuit Evaluation failed. Wire gave message:\n";
-        cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetSubcircuitName() << "' and '" << e.Offender()->Next()->GetSubcircuitName() << "'\n";
+        cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetCustomComponentName() << "' and '" << e.Offender()->Next()->GetCustomComponentName() << "'\n";
     }
     v.Clear();
 }

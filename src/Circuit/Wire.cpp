@@ -1,5 +1,5 @@
 #include "Circuit.h"
-#include "Subcircuit.h"
+#include "CustomComponent.h"
 #include "WireState.h"
 #include <cstdlib>
 using namespace std;
@@ -7,10 +7,6 @@ using namespace std;
 ////
 //// Wire Class
 ////
-
-WireState myState;
-
-Circuit* outputCircuit;
 
 // Constructor
 // Create a wire with no output gate.
@@ -45,12 +41,12 @@ bool Wire::SetState(WireState newState) {
 }
 
 // The output circuit of this wire.
-Subcircuit* Wire::Next() {
+CustomComponent* Wire::Next() {
     return outputCircuit;
 }
 
 // The input circuit of this wire.
-Subcircuit* Wire::Prev() {
+CustomComponent* Wire::Prev() {
     return inputCircuit;
 }
 
@@ -60,12 +56,12 @@ WireState Wire::State() const {
 }
 
 // Sets the output of this wire.
-void Wire::SetOutputCircuit(Subcircuit* c) {
+void Wire::SetOutputCircuit(CustomComponent* c) {
     outputCircuit = c;
 }
 
 // Sets the input of this wire.
-void Wire::SetInputCircuit(Subcircuit* c) {
+void Wire::SetInputCircuit(CustomComponent* c) {
     inputCircuit = c;
 }
 

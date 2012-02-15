@@ -17,7 +17,7 @@ class Component : public gc {
 private:
 
     // A pointer to the body of the component.
-    Subcircuit* bodyRef;
+    CustomComponent* bodyRef;
 
 public:
 
@@ -25,14 +25,14 @@ public:
     Component();
 
     // Creates a top-level circuit from a Subcircuit
-    Component(Subcircuit*);
-    Component(const string&, Subcircuit*);
+    Component(CustomComponent*);
+    Component(const string&, CustomComponent*);
 
     // Destructor
     virtual ~Component();
 
     // Returns the body of this circuit.
-    Subcircuit* body();
+    CustomComponent* body();
 
 };
 

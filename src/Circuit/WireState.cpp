@@ -5,34 +5,34 @@
 ////
 
 // Default Constructor
-TimeStamp::TimeStamp(unsigned long long initStamp) : stamp(initStamp) {
+Timestamp::Timestamp(unsigned long long initStamp) : stamp(initStamp) {
     // Do Nothing
 }
 
 // Incremental copy constructor
 // Copies the value, then adds the specified amount.
-TimeStamp::TimeStamp(const TimeStamp& other, const unsigned long long& incr)
+Timestamp::Timestamp(const Timestamp& other, const unsigned long long& incr)
     : stamp(other.value() + incr) {
     // Do Nothing
 }
 
 // Copy Constructor
-TimeStamp::TimeStamp(const TimeStamp& other)
+Timestamp::Timestamp(const Timestamp& other)
     : stamp(other.value()) {
     // Do Nothing
 }
 
 // Addition
-TimeStamp TimeStamp::operator+(const TimeStamp& other) const {
-    return TimeStamp(value()+other.value());
+Timestamp Timestamp::operator+(const Timestamp& other) const {
+    return Timestamp(value()+other.value());
 }
 
 // Subtraction
-TimeStamp TimeStamp::operator-(const TimeStamp& other) const {
-    return TimeStamp(value()-other.value());
+Timestamp Timestamp::operator-(const Timestamp& other) const {
+    return Timestamp(value()-other.value());
 }
 
-unsigned long long TimeStamp::value() const {
+unsigned long long Timestamp::value() const {
     return stamp;
 }
 
@@ -104,13 +104,13 @@ const State WireState::Low = State(false);
 
 // Creates a Wire State with a State Change and Timestamp.
 // Uses (0->1, 0) as default.
-WireState::WireState (STATE_CHANGE initChange, TimeStamp time)
+WireState::WireState (STATE_CHANGE initChange, Timestamp time)
     : change(initChange), changeTime(time) {
     // Do Nothing
 }
 
 // Creates a Wire State with a particular initial state.
-WireState::WireState (const State& other, const TimeStamp time)
+WireState::WireState (const State& other, const Timestamp time)
     : change(other == Up ? UpShift : DownShift) {
     // Do Nothing
 }

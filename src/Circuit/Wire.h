@@ -16,9 +16,9 @@ private:
 
     WireState myState;
 
-    Subcircuit* outputCircuit;
+    CustomComponent* outputCircuit;
 
-    Subcircuit* inputCircuit;
+    CustomComponent* inputCircuit;
 
     bool beenUpdated;
 
@@ -39,19 +39,19 @@ public:
     bool SetState(WireState);
 
     // The output circuit of this wire.
-    Subcircuit* Next();
+    CustomComponent* Next();
 
     // The input circuit of this wire.
-    Subcircuit* Prev();
+    CustomComponent* Prev();
 
     // Gets the state of the wire.
     WireState State() const;
 
     // Sets the output of this wire.
-    void SetOutputCircuit(Subcircuit*);
+    void SetOutputCircuit(CustomComponent*);
 
     // Sets the input of this wire.
-    void SetInputCircuit(Subcircuit*);
+    void SetInputCircuit(CustomComponent*);
 
     // Refreshes the wire, so it will be freshly evaluated.
     void Refresh();

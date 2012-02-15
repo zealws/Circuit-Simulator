@@ -7,7 +7,7 @@
 //// SRlatch
 ////
 
-class SRlatch : public Subcircuit {
+class SRlatch : public CustomComponent {
 
 protected:
 
@@ -16,7 +16,7 @@ protected:
     // Evaluates the Subcircuit with certain states.
     // Returns the amount of time it takes to run.
     // If not simulating gate delays, a 0 should be returned.
-    TimeStamp Evaluate(const vector<State>& inputStates, vector<State>& outputStates) {
+    void Evaluate(const vector<State>& inputStates, vector<State>& outputStates) {
 
         // Actually Do Stuff:
 
@@ -29,9 +29,11 @@ protected:
         outputStates[0] = ((CircuitOutput*)(c.Lookup("Q").body()))->GetState();
         outputStates[1] = ((CircuitOutput*)(c.Lookup("q").body()))->GetState();
 
-        // Timestamp:
+    }
 
-        return 0;
+    // Returns the delay of the component
+    Timestamp Delay() {
+        return 10;
     }
 
 public:
@@ -41,7 +43,7 @@ public:
 
     // Constructor
     SRlatch()
-        : Subcircuit("SRlatch", 2, 2)
+        : CustomComponent("SRlatch", 2, 2)
         {
 
         // We actually create the SR latch internals.

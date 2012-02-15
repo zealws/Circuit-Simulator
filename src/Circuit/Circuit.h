@@ -30,10 +30,10 @@ class Circuit : public gc {
 private:
 
     // Inputs to the Circuit
-    list<Subcircuit*> inputSubcircuits;
+    list<CustomComponent*> inputSubcircuits;
 
     // Outputs to the Circuit
-    list<Subcircuit*> outputComponents;
+    list<CustomComponent*> outputComponents;
 
     // Hash table for all the linked components
     google::sparse_hash_map<string, Component, tr1::hash<string>, eqstr> components;
@@ -51,22 +51,22 @@ public:
 
     // Links a circuit as an input gate of this circuit, with an optional identifier
     void LinkInput(Component);
-    void LinkInput(Subcircuit*);
+    void LinkInput(CustomComponent*);
     void LinkInput(string);
 
     // Links a subcircuit as an output gate of this circuit, with an optional identifier
     void LinkOutput(Component);
-    void LinkOutput(Subcircuit*);
+    void LinkOutput(CustomComponent*);
     void LinkOutput(string);
 
     // Links an arbitrary component with an identifier.
     void Link(string, Component);
 
     // Returns the input subcircuits
-    list<Subcircuit*> GetInputSubcircuits() const;
+    list<CustomComponent*> GetInputComponents() const;
 
     // Returns the output subcircuits
-    list<Subcircuit*> GetOutputSubcircuits() const;
+    list<CustomComponent*> GetOutputComponents() const;
 
     // Returns the component with the given identifier.
     Component Lookup(string);

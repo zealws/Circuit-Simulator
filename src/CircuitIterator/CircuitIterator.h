@@ -2,7 +2,7 @@
 #define __CIRCUIT_ITERATOR_H__
 
 #include "Circuit.h"
-#include "Subcircuit.h"
+#include "CustomComponent.h"
 #include "gc_cpp.h"
 
 ////
@@ -23,7 +23,7 @@ protected:
     virtual void Progress() = 0;
 
     // Fetch the current item
-    virtual Subcircuit* CurrentItem() = 0;
+    virtual CustomComponent* CurrentItem() = 0;
 
 public:
 

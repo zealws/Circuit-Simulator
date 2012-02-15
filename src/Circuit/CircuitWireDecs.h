@@ -13,8 +13,8 @@ class WireState;
 // From Wire.h
 class Wire;
 
-// From Subcircuit.h
-class Subcircuit;
+// From CustomComponent.h
+class CustomComponent;
 
 // From Component.h
 class Component;

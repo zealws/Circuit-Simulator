@@ -3,6 +3,6 @@
 
 #include "CircuitEvalError.h"
 #include "WireError.h"
-#include "SubcircuitError.h"
+#include "ComponentError.h"
 
 #endif

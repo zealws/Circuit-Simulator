@@ -17,7 +17,7 @@ enum STATE_CHANGE { DownShift = 0 , UpShift = 1 };
 // available to timestamps.
 // It's essentially a wrapper for an integer type with only
 // certain operations defined.
-class TimeStamp : public gc
+class Timestamp : public gc
 {
 
 private:
@@ -31,20 +31,20 @@ private:
 public:
 
     // Default Constructor
-    TimeStamp(unsigned long long = 0);
+    Timestamp(unsigned long long = 0);
 
     // Incremental copy constructor
     // Copies the value, then adds the specified amount.
-    TimeStamp(const TimeStamp&, const unsigned long long&);
+    Timestamp(const Timestamp&, const unsigned long long&);
 
     // Copy Constructor
-    TimeStamp(const TimeStamp&);
+    Timestamp(const Timestamp&);
 
     // Addition
-    TimeStamp operator+(const TimeStamp&) const;
+    Timestamp operator+(const Timestamp&) const;
 
     // Subtraction
-    TimeStamp operator-(const TimeStamp&) const;
+    Timestamp operator-(const Timestamp&) const;
 
     unsigned long long value() const;
 
@@ -110,7 +110,7 @@ private:
     STATE_CHANGE change;
 
     // Timestamp of the most recent change.
-    TimeStamp changeTime;
+    Timestamp changeTime;
 
 public:
 
@@ -121,10 +121,10 @@ public:
 
     // Creates a Wire State with a State Change and Timestamp.
     // Uses (0->1, 0) as default.
-    WireState (STATE_CHANGE = DownShift, TimeStamp = 0);
+    WireState (STATE_CHANGE = DownShift, Timestamp = 0);
 
     // Creates a Wire State with a particular initial state.
-    WireState (const State&, const TimeStamp);
+    WireState (const State&, const Timestamp);
 
     // Copy Constructor
     // Leave unimplemented.

@@ -1,13 +1,20 @@
-#ifndef __Button_H__
-#define __Button_H__
+#ifndef __StreamInput_H__
+#define __StreamInput_H__
 
 #include "CircuitInput.h"
+#include <istream>
+using namespace std;
 
 ////
-//// Button
+//// StreamInput
 ////
 
-class Button : public CircuitInput {
+class StreamInput : private CircuitInput {
+
+private:
+
+    // The stream to read input from
+    istream& sin;
 
 protected:
 
@@ -19,26 +26,22 @@ protected:
         // Actually Do Stuff:
 
         char c;
-        cout << "[button:] ";
-        cin >> c;
-        bool temp =
+        sin >> c;
+        outputStates[0] =
             c == 'Y' ||
             c == 'y' ||
             c == 't' ||
             c == 'T' ||
             c == '1';
-        outputStates[0] = temp;
 
     }
 
 public:
 
     // Constructor
-    Button()
-        : CircuitInput("Button")
-        {
-        // There are no internal mechanisms for our gate that need to be
-        // created or initialized, so nothing goes here.
+    StreamInput(istream& input)
+        : CircuitInput("StreamInput"), sin(input) {
+        // Do Nothing
     }
 
 };

@@ -1,13 +1,16 @@
 ////
 //// In order to write circuit:
 ////
-//// 1) Copy everything below this block comment to a new header file.
-//// 2) Change all instances of "NAME" to the name of your circuit.
-//// 3) Change Evaluate so it calculates the outputs and returns the timestamp.
+//// 1)  Copy everything below this block comment to a new header file.
+//// 2)  Change all instances of "NAME" to the name of your circuit.
+//// 3)  Change Evaluate so it calculates the outputs and returns the timestamp.
 //// 3a) If you are not simulating gate delays, you can return 0 as the timestamp.
-//// 4) Include the file in your cpp file.
-//// 5) Create it with this syntax:
-////    Circuit myCircuit(new NAME());
+//// 4)  Include the file in your cpp file.
+//// 5)  Create it with any of these syntaxes:
+////
+////     Component myCircuit(new NAME());
+////
+////     topLevelCircuit.Link("myCircuit", new NAME());
 ////
 
 #ifndef __NAME_H__
@@ -19,7 +22,7 @@
 //// NAME
 ////
 
-class NAME : public Subcircuit {
+class NAME : public CustomComponent {
 
 protected:
 

@@ -3,11 +3,10 @@
 ////
 
 #include "Circuit.h"
-#include "Subcircuit.h"
+#include "CustomComponent.h"
 #include "Component.h"
 #include "Observable.h"
 #include "Observer.h"
-#include "Subcircuit.h"
 #include "Wire.h"
 #include "WireState.h"
 #include "CircuitIterator.h"

@@ -37,7 +37,7 @@ CIRCUIT_LIBRARY = src/BaseCircuits/
 # List of object files for linking and building the dist folder
 OBJS =  src/Circuit/WireState.o \
 	src/Circuit/Circuit.o \
-	src/Circuit/Subcircuit.o \
+	src/Circuit/CustomComponent.o \
 	src/Circuit/Component.o \
 	src/Circuit/Wire.o \
 	src/Observer/Observable.o \
@@ -47,7 +47,7 @@ OBJS =  src/Circuit/WireState.o \
 	src/CircuitIterator/BFSCircuitEvaluator.o \
 	src/Exceptions/WireError.o \
 	src/Exceptions/CircuitEvalError.o \
-	src/Exceptions/SubcircuitError.o
+	src/Exceptions/ComponentError.o
 
 # These files will be copied to the distribution folder
 # when building it.
@@ -55,7 +55,7 @@ DIST_FILES = \
 	src/CircuitSimulator.h \
 	src/Circuit/WireState.h \
 	src/Circuit/Circuit.h \
-	src/Circuit/Subcircuit.h \
+	src/Circuit/CustomComponent.h \
 	src/Circuit/Component.h \
 	src/Circuit/Wire.h \
 	src/Circuit/CircuitWireDecs.h \
@@ -68,7 +68,7 @@ DIST_FILES = \
 	src/Exceptions/Exceptions.h \
 	src/Exceptions/CircuitEvalError.h \
 	src/Exceptions/WireError.h \
-	src/Exceptions/SubcircuitError.h \
+	src/Exceptions/ComponentError.h \
 	src/BaseCircuits/BaseCircuits.h \
 	src/sparsehash/sparse_hash_map.h \
 	src/sparsehash/sparse_hash_set.h \
@@ -85,14 +85,14 @@ DIST_FILES = \
 OTHER_FILES =  \
 	src/Exceptions/WireError.cpp \
 	src/Exceptions/CircuitEvalError.cpp \
-	src/Exceptions/SubcircuitError.cpp \
+	src/Exceptions/ComponentError.cpp \
 	src/CircuitIterator/CircuitIterator.cpp \
 	src/CircuitIterator/BFSCircuitEvaluator.cpp \
 	src/Observer/UpdateCounter.cpp \
 	src/Observer/Observable.cpp \
 	src/Observer/Observer.cpp \
 	src/Circuit/WireState.cpp \
-	src/Circuit/Subcircuit.cpp \
+	src/Circuit/CustomComponent.cpp \
 	src/Circuit/Circuit.cpp \
 	src/Circuit/Wire.cpp \
 	src/Circuit/Component.cpp

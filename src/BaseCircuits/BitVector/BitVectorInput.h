@@ -7,18 +7,18 @@
 //// BitVectorInput
 ////
 
-class BitVectorInput : public Subcircuit {
+class BitVectorInput : public CustomComponent {
 
 protected:
 
     // Evaluates the Subcircuit with certain states.
     // Returns the amount of time it takes to run.
     // If not simulating gate delays, a 0 should be returned.
-    TimeStamp Evaluate(const vector<State>& inputStates, vector<State>& outputStates) {
+    void Evaluate(const vector<State>& inputStates, vector<State>& outputStates) {
 
         // Actually Do Stuff:
 
-        cout << "[" << GetSubcircuitName() << "(" << outputStates.size() << ")] ";
+        cout << "[" << GetName() << "(" << outputStates.size() << ")] ";
         for(int i = 0; i < outputStates.size(); i++) {
             char c;
             cin >> c;
@@ -30,17 +30,18 @@ protected:
                 c == '1';
             outputStates[i] = temp;
         }
-
-        // Timestamp:
-
-        return 0;
+    }
+    
+    // Returns the delay of the component
+    Timestamp Delay() {
+        return 1;
     }
 
 public:
 
     // Constructor
     BitVectorInput(int size)
-        : Subcircuit("BVin", 0, size)
+        : CustomComponent("BVin", 0, size)
         {
         // There are no internal mechanisms for our gate that need to be
         // created or initialized, so nothing goes here.

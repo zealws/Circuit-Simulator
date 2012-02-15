@@ -1,12 +1,12 @@
-#include "Subcircuit.h"
-#include "SubcircuitError.h"
+#include "CustomComponent.h"
+#include "ComponentError.h"
 
 // Creates an Error, with a given message and the offending wire.
-SubcircuitError::SubcircuitError(string msg, Subcircuit* c)
+ComponentError::ComponentError(string msg, CustomComponent* c)
     : CircuitEvalError(msg), offendingCircuit(c) {
 }
 
 // Returns the offending wire of the error.
-Subcircuit* SubcircuitError::Offender() {
+CustomComponent* ComponentError::Offender() {
     return offendingCircuit;
 }

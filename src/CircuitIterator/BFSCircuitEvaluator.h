@@ -11,9 +11,9 @@ class BFSCircuitEvaluator : public CircuitIterator {
 
 private:
 
-    list<Subcircuit*> toBeVisited;
+    list<CustomComponent*> toBeVisited;
 
-    Subcircuit* myCurrItem;
+    CustomComponent* myCurrItem;
 
     Circuit* myCircuit;
 
@@ -29,7 +29,7 @@ protected:
     virtual void Progress();
 
     // Fetch the current item
-    virtual Subcircuit* CurrentItem();
+    virtual CustomComponent* CurrentItem();
 
     // Resets the simulator for the given circuit.
     void reset();

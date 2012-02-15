@@ -17,10 +17,10 @@ bool BFSCircuitEvaluator::IsDone() {
 void BFSCircuitEvaluator::EvaluateCurrentItem() {
 
     // Remove duplicates from the toBeVisited vector
-    list<Subcircuit*>::iterator search = toBeVisited.begin();
+    list<CustomComponent*>::iterator search = toBeVisited.begin();
     while(search != toBeVisited.end()) {
         if(*search == myCurrItem) {
-            list<Subcircuit*>::iterator del = search;
+            list<CustomComponent*>::iterator del = search;
             search++;
             toBeVisited.erase(del);
         }
@@ -29,10 +29,10 @@ void BFSCircuitEvaluator::EvaluateCurrentItem() {
         }
     }
 
-    list<Subcircuit*> updated = myCurrItem->EvaluateSubcircuit();
+    list<CustomComponent*> updated = myCurrItem->EvaluateCustomComponent();
 
     while(not(updated.empty())) {
-        Subcircuit* p = updated.front();
+        CustomComponent* p = updated.front();
         toBeVisited.push_back(p);
         updated.pop_front();
     }
@@ -49,14 +49,14 @@ void BFSCircuitEvaluator::Progress() {
     }
 }
 
-Subcircuit* BFSCircuitEvaluator::CurrentItem() {
+CustomComponent* BFSCircuitEvaluator::CurrentItem() {
     return myCurrItem;
 }
 
 // Resets the simulator for the given circuit.
 void BFSCircuitEvaluator::reset() {
     Clear();
-    toBeVisited = myCircuit->GetInputSubcircuits();
+    toBeVisited = myCircuit->GetInputComponents();
     Progress();
 }
 

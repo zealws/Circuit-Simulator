@@ -1,5 +1,5 @@
 #include "Circuit.h"
-#include "Subcircuit.h"
+#include "CustomComponent.h"
 #include "UpdateCounter.h"
 #include "BFSCircuitEvaluator.h"
 #include "Exceptions.h"
@@ -34,7 +34,7 @@ void Circuit::LinkInput(Component c) {
     inputSubcircuits.push_back(c.body());
 }
 
-void Circuit::LinkInput(Subcircuit* c) {
+void Circuit::LinkInput(CustomComponent* c) {
     inputSubcircuits.push_back(c);
 }
 
@@ -47,7 +47,7 @@ void Circuit::LinkOutput(Component c) {
     outputComponents.push_back(c.body());
 }
 
-void Circuit::LinkOutput(Subcircuit* c) {
+void Circuit::LinkOutput(CustomComponent* c) {
     outputComponents.push_back(c);
 }
 
@@ -58,16 +58,16 @@ void Circuit::LinkOutput(string id) {
 // Links an arbitrary component with an identifier.
 void Circuit::Link(string id, Component c) {
     AddComponent(id,c);
-    c.body()->SetSubcircuitName(c.body()->GetSubcircuitName() + ":" + id);
+    c.body()->SetName(c.body()->GetName() + ":" + id);
 }
 
 // Returns the input subcircuits
-list<Subcircuit*> Circuit::GetInputSubcircuits() const {
+list<CustomComponent*> Circuit::GetInputComponents() const {
     return inputSubcircuits;
 }
 
 // Returns the output subcircuits
-list<Subcircuit*> Circuit::GetOutputSubcircuits() const {
+list<CustomComponent*> Circuit::GetOutputComponents() const {
     return outputComponents;
 }
 
@@ -100,13 +100,13 @@ void Circuit::Evaluate() {
     try {
         try {
             v.Iterate();
-        } catch (SubcircuitError e) {
+        } catch (ComponentError e) {
             cerr << "Circuit Evaluation failed. Circuit gave message:\n";
-            cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetSubcircuitName() << "'\n";
+            cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetName() << "'\n";
         }
     } catch (WireError e) {
         cerr << "Circuit Evaluation failed. Wire gave message:\n";
-        cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetSubcircuitName() << "' and '" << e.Offender()->Next()->GetSubcircuitName() << "'\n";
+        cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetName() << "' and '" << e.Offender()->Next()->GetName() << "'\n";
     }
     v.Clear();
 }

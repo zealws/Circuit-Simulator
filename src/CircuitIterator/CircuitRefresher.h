@@ -11,11 +11,11 @@ class CircuitRefresher : public CircuitIterator {
 
 private:
 
-    list<Subcircuit*> beenVisited;
+    list<CustomComponent*> beenVisited;
 
-    list<Subcircuit*> toBeVisited;
+    list<CustomComponent*> toBeVisited;
 
-    Subcircuit* myCurrItem;
+    CustomComponent* myCurrItem;
 
 protected:
 
@@ -29,7 +29,7 @@ protected:
     virtual void Progress();
 
     // Fetch the current item
-    virtual Subcircuit* CurrentItem();
+    virtual CustomComponent* CurrentItem();
 
 public:
 

@@ -1,5 +1,5 @@
 #include "Component.h"
-#include "Subcircuit.h"
+#include "CustomComponent.h"
 #include <string>
 using namespace std;
 
@@ -14,14 +14,14 @@ Component::Component()
 }
 
 // Creates a top-level circuit from a Subcircuit
-Component::Component(Subcircuit* c)
+Component::Component(CustomComponent* c)
     : bodyRef(c) {
     // Do Nothing
 }
 
-Component::Component(const string& id, Subcircuit* c)
+Component::Component(const string& id, CustomComponent* c)
     : bodyRef(c) {
-    bodyRef->SetSubcircuitName(bodyRef->GetSubcircuitName() + ":" + id);
+    bodyRef->SetName(bodyRef->GetName() + ":" + id);
 }
 
 // Destructor
@@ -30,6 +30,6 @@ Component::~Component () {
 }
 
 // Returns the body of this circuit.
-Subcircuit* Component::body() {
+CustomComponent* Component::body() {
     return bodyRef;
 }

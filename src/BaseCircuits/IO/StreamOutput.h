@@ -1,13 +1,19 @@
-#ifndef __NOT_H__
-#define __NOT_H__
+#ifndef __StreamOutput_H__
+#define __StreamOutput_H__
 
-#include "CircuitSimulator.h"
+#include "CircuitOutput.h"
+#include <ostream>
+using namespace std;
 
 ////
-//// Not Gate
+//// StreamOutput
 ////
 
-class Not : public CustomComponent {
+class StreamOutput : public CircuitOutput {
+
+private:
+
+    ostream& sout;
 
 protected:
 
@@ -18,21 +24,15 @@ protected:
 
         // Actually Do Stuff:
 
-        outputStates[0] = State(not inputStates[0]);
+        sout << bool(inputStates[0]);
 
-    }
-    
-    // Returns the delay of the component
-    Timestamp Delay() {
-        return 1;
     }
 
 public:
 
     // Constructor
-    Not()
-        : CustomComponent("NotGate", 1, 1) // 2 inputs and 1 output
-        {
+    StreamOutput(ostream& output)
+        : CircuitOutput("StreamOutput"), sout(output) {
         // There are no internal mechanisms for our gate that need to be
         // created or initialized, so nothing goes here.
     }
