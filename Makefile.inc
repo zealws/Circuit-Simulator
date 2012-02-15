@@ -37,6 +37,7 @@ CIRCUIT_LIBRARY = src/BaseCircuits/
 OBJS =  src/Circuit/WireState.o \
 	src/Circuit/Circuit.o \
 	src/Circuit/Subcircuit.o \
+	src/Circuit/Component.o \
 	src/Circuit/Wire.o \
 	src/Observer/Observable.o \
 	src/Observer/Observer.o \
@@ -54,6 +55,7 @@ DIST_FILES = \
 	src/Circuit/WireState.h \
 	src/Circuit/Circuit.h \
 	src/Circuit/Subcircuit.h \
+	src/Circuit/Component.h \
 	src/Circuit/Wire.h \
 	src/Circuit/CircuitWireDecs.h \
 	src/Observer/Observable.h \
@@ -82,7 +84,8 @@ OTHER_FILES =  \
 	src/Circuit/WireState.cpp \
 	src/Circuit/Subcircuit.cpp \
 	src/Circuit/Circuit.cpp \
-	src/Circuit/Wire.cpp
+	src/Circuit/Wire.cpp \
+	src/Circuit/Component.cpp
 
 # List of Source Files for the dependency generator
 SRCS = $(DIST_FILES) $(OTHER_FILES)

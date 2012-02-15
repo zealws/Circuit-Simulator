@@ -3,6 +3,8 @@
 ////
 
 #include "Circuit.h"
+#include "Subcircuit.h"
+#include "Component.h"
 #include "Observable.h"
 #include "Observer.h"
 #include "Subcircuit.h"

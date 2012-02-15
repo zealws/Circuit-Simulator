@@ -21,13 +21,13 @@ protected:
         // Actually Do Stuff:
 
         // This is bad, but I don't know another way around it.
-        ((CircuitInput*)c.Lookup("R"))->SetState(inputStates[0]);
-        ((CircuitInput*)c.Lookup("S"))->SetState(inputStates[1]);
+        ((CircuitInput*)(c.Lookup("R").body()))->SetState(inputStates[0]);
+        ((CircuitInput*)(c.Lookup("S").body()))->SetState(inputStates[1]);
 
         EvaluateCircuit(c);
 
-        outputStates[0] = ((CircuitOutput*)c.Lookup("Q"))->GetState();
-        outputStates[1] = ((CircuitOutput*)c.Lookup("q"))->GetState();
+        outputStates[0] = ((CircuitOutput*)(c.Lookup("Q").body()))->GetState();
+        outputStates[1] = ((CircuitOutput*)(c.Lookup("q").body()))->GetState();
 
         // Timestamp:
 

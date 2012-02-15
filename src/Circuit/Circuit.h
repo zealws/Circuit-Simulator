@@ -30,51 +30,42 @@ class Circuit : public gc {
 private:
 
     // For comparing pairs, so I can use std::list's built-in sort operation.
-    static bool compare_subcircuit_pairs(pair<string,Subcircuit*>,pair<string,Subcircuit*>);
-
-    Subcircuit* bodyRef;
+    static bool compare_subcircuit_pairs(pair<string,Component>,pair<string,Component>);
 
     // Inputs to the Circuit
     list<Subcircuit*> inputSubcircuits;
 
     // Outputs to the Circuit
-    list<Subcircuit*> outputSubcircuits;
+    list<Subcircuit*> outputComponents;
 
     // Hash table for all the linked components
-    google::sparse_hash_map<string, Subcircuit*, tr1::hash<string>, eqstr> components;
-
-    // Helper functions to link input/output
-    void LinkOutput(Subcircuit*);
-    void LinkInput(Subcircuit*);
+    google::sparse_hash_map<string, Component, tr1::hash<string>, eqstr> components;
 
     // Helper Function to add a component pair
-    void AddComponent(string,Subcircuit*);
+    void AddComponent(string, Component);
 
 public:
 
     // Constructor
     Circuit();
 
-    // Creates a top-level circuit from a Subcircuit
-    Circuit(Subcircuit&);
-    Circuit(const string&, Subcircuit*);
-
     // Destructor
     virtual ~Circuit ();
 
-    // Returns the body of this circuit.
-    Subcircuit* body();
-
     // Links a circuit as an input gate of this circuit, with an optional identifier
-    //void LinkInput(Circuit&); // deprecated
-    void LinkInput(string,Subcircuit*);
+    void LinkInput(Component);
+    void LinkInput(Subcircuit*);
+    void LinkInput(string, Subcircuit*);
+    void LinkInput(string, Component);
 
     // Links a subcircuit as an output gate of this circuit, with an optional identifier
-    //void LinkOutput(Circuit&); // deprecated
-    void LinkOutput(string,Subcircuit*);
+    void LinkOutput(Component);
+    void LinkOutput(Subcircuit*);
+    void LinkOutput(string, Subcircuit*);
+    void LinkOutput(string, Component);
 
     // Links an arbitrary component with an identifier.
-    void Link(string, Subcircuit*);
+    void Link(string, Component);
 
     // Returns the input subcircuits
     list<Subcircuit*> GetInputSubcircuits() const;
@@ -83,17 +74,13 @@ public:
     list<Subcircuit*> GetOutputSubcircuits() const;
 
     // Returns the component with the given identifier.
-    Subcircuit* Lookup(const string&);
+    Component Lookup(string);
 
     // Links two circuits with a wire.
     // Uses the specified input and output wire numbers.
 
     // This function does all the work
-    void LinkWithWire(Subcircuit* in, int inNo, Subcircuit* out, int outNo, bool initWireState = true);
-
-    // All of these are variations on a theme:
-    void LinkWithWire(Subcircuit& in, int inNo, Subcircuit& out, int outNo, bool initWireState = true);
-    void LinkWithWire(Circuit& in, int inNo, Circuit& out, int outNo, bool initWireState = true);
+    static void LinkWithWire(Component in, int inNo, Component out, int outNo, bool initWireState = true);
 
     // Links two components in this circuit.
     void LinkWithWire(string inId, int inNo, string outId, int outNo, bool initWireState = true);

@@ -1,6 +1,7 @@
 #include "Circuit.h"
 #include "Subcircuit.h"
 #include "UpdateCounter.h"
+#include "Component.h"
 #include <string>
 #include <cstdlib>
 #include <utility>
@@ -11,39 +12,19 @@ using namespace std;
 ////
 
 // For comparing pairs, so I can use std::list's built-in sort operation.
-bool Circuit::compare_subcircuit_pairs(pair<string,Subcircuit*> first,
-                                       pair<string,Subcircuit*> second) {
+bool Circuit::compare_subcircuit_pairs(pair<string,Component> first,
+                                       pair<string,Component> second) {
     return first.first < second.first;
 }
 
-void Circuit::LinkOutput(Subcircuit* c) {
-    outputSubcircuits.push_back(c);
-}
-
-void Circuit::LinkInput(Subcircuit* c) {
-    inputSubcircuits.push_back(c);
-}
-
 // Helper Function to add a component pair
-void Circuit::AddComponent(string id,Subcircuit* c) {
+void Circuit::AddComponent(string id,Component c) {
     components[id.data()] = c;
 }
 
 // Constructor
-Circuit::Circuit()
-    : bodyRef(NULL) {
+Circuit::Circuit() {
     // Do Nothing
-}
-
-// Creates a top-level circuit from a Subcircuit
-Circuit::Circuit(Subcircuit& c)
-    : bodyRef(&c) {
-    // Do Nothing
-}
-
-Circuit::Circuit(const string& id, Subcircuit* c)
-    : bodyRef(c) {
-    bodyRef->SetSubcircuitName(bodyRef->GetSubcircuitName() + ":" + id);
 }
 
 // Destructor
@@ -51,37 +32,52 @@ Circuit::~Circuit () {
     // Do Nothing
 }
 
-// Returns the body of this circuit.
-Subcircuit* Circuit::body() {
-    return bodyRef;
+// Links a circuit as an input gate of this circuit.
+void Circuit::LinkInput(Component c) {
+    inputSubcircuits.push_back(c.body());
 }
 
-// Links a circuit as an input gate of this circuit.
-/*void Circuit::LinkInput(Circuit& c) { // deprecated
-    inputSubcircuits.push_back(c.body());
-}*/
+void Circuit::LinkInput(Subcircuit* c) {
+    inputSubcircuits.push_back(c);
+}
 
-void Circuit::LinkInput(string id,Subcircuit* c) {
-    LinkInput(c);
-    AddComponent(id,c);
+void Circuit::LinkInput(string id, Subcircuit* c) {
+    inputSubcircuits.push_back(c);
+    AddComponent(id,Component(c));
     c->SetSubcircuitName(c->GetSubcircuitName() + ":" + id);
+}
+
+void Circuit::LinkInput(string id, Component c) {
+    inputSubcircuits.push_back(c.body());
+    AddComponent(id,c);
+    c.body()->SetSubcircuitName(c.body()->GetSubcircuitName() + ":" + id);
 }
 
 // Links a subcircuit as an output gate of this circuit.
-/*void Circuit::LinkOutput(Circuit& c) { // deprecated
-    outputSubcircuits.push_back(c.body());
-}*/
+void Circuit::LinkOutput(Component c) {
+    outputComponents.push_back(c.body());
+}
 
-void Circuit::LinkOutput(string id,Subcircuit* c) {
-    LinkOutput(c);
-    AddComponent(id,c);
+void Circuit::LinkOutput(Subcircuit* c) {
+    outputComponents.push_back(c);
+}
+
+void Circuit::LinkOutput(string id, Subcircuit* c) {
+    outputComponents.push_back(c);
+    AddComponent(id,Component(c));
     c->SetSubcircuitName(c->GetSubcircuitName() + ":" + id);
 }
 
-// Links an arbitrary component with an identifier.
-void Circuit::Link(string id, Subcircuit* c) {
+void Circuit::LinkOutput(string id, Component c) {
+    outputComponents.push_back(c.body());
     AddComponent(id,c);
-    c->SetSubcircuitName(c->GetSubcircuitName() + ":" + id);
+    c.body()->SetSubcircuitName(c.body()->GetSubcircuitName() + ":" + id);
+}
+
+// Links an arbitrary component with an identifier.
+void Circuit::Link(string id, Component c) {
+    AddComponent(id,c);
+    c.body()->SetSubcircuitName(c.body()->GetSubcircuitName() + ":" + id);
 }
 
 // Returns the input subcircuits
@@ -91,32 +87,24 @@ list<Subcircuit*> Circuit::GetInputSubcircuits() const {
 
 // Returns the output subcircuits
 list<Subcircuit*> Circuit::GetOutputSubcircuits() const {
-    return outputSubcircuits;
+    return outputComponents;
 }
 
 // Returns the component with the given identifier.
-Subcircuit* Circuit::Lookup(const string& id) {
+Component Circuit::Lookup(string id) {
     return components[id];
 }
 
 // Links two circuits with a wire.
 // Uses the specified input and output wire numbers.
-void Circuit::LinkWithWire(Subcircuit* in, int inNo, Subcircuit* out, int outNo, bool initWireState) {
+void Circuit::LinkWithWire(Component in, int inNo, Component out, int outNo, bool initWireState) {
     Wire* p = new Wire();
-    in->SetOutputWire(p, inNo);
-    out->SetInputWire(p, outNo);
-    p->SetOutputCircuit(out);
-    p->SetInputCircuit(in);
+    in.body()->SetOutputWire(p, inNo);
+    out.body()->SetInputWire(p, outNo);
+    p->SetOutputCircuit(out.body());
+    p->SetInputCircuit(in.body());
     p->SetState(WireState(State(initWireState), 0));
     p->AttachObserver(new UpdateCounter());
-}
-
-void Circuit::LinkWithWire(Subcircuit& in, int inNo, Subcircuit& out, int outNo, bool initWireState) {
-    LinkWithWire(&in, inNo, &out, outNo, initWireState);
-}
-
-void Circuit::LinkWithWire(Circuit& in, int inNo, Circuit& out, int outNo, bool initWireState) {
-    LinkWithWire(in.body(), inNo, out.body(), outNo, initWireState);
 }
 
 // Links two components in this circuit.

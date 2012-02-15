@@ -16,7 +16,7 @@ class Wire;
 // From Subcircuit.h
 class Subcircuit;
 
-// From Circuit.h
-class Circuit;
+// From Component.h
+class Component;
 
 #endif

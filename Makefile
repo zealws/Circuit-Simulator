@@ -20,20 +20,18 @@ $(EXE): Makefile.dep
 # And files that were created automatically by flex and bison
 clean:
 	rm -f $(OBJS)
+	rm -rf $(DIST)
 
 # Cleans up everything that was created at compile time
 # Including the automatically created dependencies
-realclean: clean
-	rm -f 	main \
+realclean: clean deleteBackups
+	rm -f 	$(EXE) \
 		Makefile.dep
 	rm -rf $(DIST)
 
 # Delete backup files (created automatically by my text editor)
 deleteBackups:
 	rm -f `find . | grep ".*~"`
-
-# Deletes everthing realclean does, as well as backup files
-squeakyclean: realclean deleteBackups
 
 # Performs a line count of all the files i've written
 linecount:
