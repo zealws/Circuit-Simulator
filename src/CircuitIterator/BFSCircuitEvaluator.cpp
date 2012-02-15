@@ -89,21 +89,3 @@ void BFSCircuitEvaluator::Clear() {
     toBeVisited.clear();
     myCurrItem = NULL;
 }
-
-// Functional wrapper for BFSCircuitEvaluator
-void EvaluateCircuit(Circuit& c) {
-    BFSCircuitEvaluator v;
-    v.Setup(c);
-    try {
-        try {
-            v.Iterate();
-        } catch (SubcircuitError e) {
-            cerr << "Circuit Evaluation failed. Circuit gave message:\n";
-            cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetSubcircuitName() << "'\n";
-        }
-    } catch (WireError e) {
-        cerr << "Circuit Evaluation failed. Wire gave message:\n";
-        cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetSubcircuitName() << "' and '" << e.Offender()->Next()->GetSubcircuitName() << "'\n";
-    }
-    v.Clear();
-}

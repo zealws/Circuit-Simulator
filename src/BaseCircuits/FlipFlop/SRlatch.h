@@ -24,7 +24,7 @@ protected:
         ((CircuitInput*)(c.Lookup("R").body()))->SetState(inputStates[0]);
         ((CircuitInput*)(c.Lookup("S").body()))->SetState(inputStates[1]);
 
-        EvaluateCircuit(c);
+        c.Evaluate();
 
         outputStates[0] = ((CircuitOutput*)(c.Lookup("Q").body()))->GetState();
         outputStates[1] = ((CircuitOutput*)(c.Lookup("q").body()))->GetState();
@@ -45,14 +45,19 @@ public:
         {
 
         // We actually create the SR latch internals.
-        c.LinkInput("R", new CircuitInput()); // Input 0
-        c.LinkInput("S", new CircuitInput()); // Input 1
+        c.Link("R", new CircuitInput());
+        c.Link("S", new CircuitInput());
         c.Link("NorS", new Nor());
         c.Link("NorR", new Nor());
         c.Link("NorSsplit", new Splitter(2));
         c.Link("NorRsplit", new Splitter(2));
-        c.LinkOutput("Q", new CircuitOutput());
-        c.LinkOutput("q", new CircuitOutput());
+        c.Link("Q", new CircuitOutput());
+        c.Link("q", new CircuitOutput());
+
+        c.LinkInput("R"); // Input 0
+        c.LinkInput("S"); // Input 1
+        c.LinkOutput("Q"); // Output 0
+        c.LinkOutput("q"); // Output 1
 
         c.LinkWithWire("S", 0, "NorS", 0);
         c.LinkWithWire("R", 0, "NorR", 0);

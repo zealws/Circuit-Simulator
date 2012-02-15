@@ -52,7 +52,4 @@ public:
 
 };
 
-// Functional wrapper for BFSCircuitEvaluator
-void EvaluateCircuit(Circuit&);
-
 #endif

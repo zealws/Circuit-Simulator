@@ -1,15 +1,24 @@
 .PHONY: clean
 
-CIRCUIT_INCLUDES = ../build/include/
-CIRCUIT_LIB = ../build/lib/
+CIRCUIT_INCLUDES = ../build/include
+CIRCUIT_LIB = ../build/lib
 
 CXX = g++
-CXX_FLAGS = -g -I$(CIRCUIT_INCLUDES)
+CXX_FLAGS = -g -I$(CIRCUIT_INCLUDES) $(CIRCUIT_LIB)/*
 
-main: main.cpp $(CIRCUIT_LIB)/* $(CIRCUIT_INCLUDES)/*.h
-	g++ $(CXX_FLAGS) -o main main.cpp $(CIRCUIT_LIB)/*
+all: linkedInComponents independentComponents errorMsgBetter errorMsgBad $(CIRCUIT_LIB)/*
 
-main.cpp:
+linkedInComponents: linkedInComponents.cpp
+	g++ $(CXX_FLAGS) -o linkedInComponents linkedInComponents.cpp
+
+independentComponents: independentComponents.cpp
+	g++ $(CXX_FLAGS) -o independentComponents independentComponents.cpp
+
+errorMsgBad: errorMsgBad.cpp
+	g++ $(CXX_FLAGS) -o errorMsgBad errorMsgBad.cpp
+
+errorMsgBetter: errorMsgBetter.cpp
+	g++ $(CXX_FLAGS) -o errorMsgBetter errorMsgBetter.cpp
 
 clean:
-	rm -f main
+	rm -f linkedInComponents independentComponents errorMsgBetter errorMsgBad

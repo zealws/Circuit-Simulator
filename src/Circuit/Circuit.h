@@ -55,14 +55,12 @@ public:
     // Links a circuit as an input gate of this circuit, with an optional identifier
     void LinkInput(Component);
     void LinkInput(Subcircuit*);
-    void LinkInput(string, Subcircuit*);
-    void LinkInput(string, Component);
+    void LinkInput(string);
 
     // Links a subcircuit as an output gate of this circuit, with an optional identifier
     void LinkOutput(Component);
     void LinkOutput(Subcircuit*);
-    void LinkOutput(string, Subcircuit*);
-    void LinkOutput(string, Component);
+    void LinkOutput(string);
 
     // Links an arbitrary component with an identifier.
     void Link(string, Component);
@@ -84,6 +82,9 @@ public:
 
     // Links two components in this circuit.
     void LinkWithWire(string inId, int inNo, string outId, int outNo, bool initWireState = true);
+
+    // Evaluates the circuit
+    void Evaluate();
 
 };
 

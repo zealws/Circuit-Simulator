@@ -10,7 +10,7 @@
 ////
 //// Observes a wire until it has had so many updates, then kicks it out by throwing an exception.
 
-const long long MaxUpdatesBeforeFail = 20;
+const long long MaxUpdatesBeforeFail = 1000;
 
 class UpdateCounter : public Observer {
 

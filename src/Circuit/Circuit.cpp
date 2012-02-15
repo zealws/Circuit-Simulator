@@ -1,7 +1,10 @@
 #include "Circuit.h"
 #include "Subcircuit.h"
 #include "UpdateCounter.h"
+#include "BFSCircuitEvaluator.h"
+#include "Exceptions.h"
 #include "Component.h"
+#include <iostream>
 #include <string>
 #include <cstdlib>
 #include <utility>
@@ -41,16 +44,8 @@ void Circuit::LinkInput(Subcircuit* c) {
     inputSubcircuits.push_back(c);
 }
 
-void Circuit::LinkInput(string id, Subcircuit* c) {
-    inputSubcircuits.push_back(c);
-    AddComponent(id,Component(c));
-    c->SetSubcircuitName(c->GetSubcircuitName() + ":" + id);
-}
-
-void Circuit::LinkInput(string id, Component c) {
-    inputSubcircuits.push_back(c.body());
-    AddComponent(id,c);
-    c.body()->SetSubcircuitName(c.body()->GetSubcircuitName() + ":" + id);
+void Circuit::LinkInput(string id) {
+    LinkInput(Lookup(id));
 }
 
 // Links a subcircuit as an output gate of this circuit.
@@ -62,16 +57,8 @@ void Circuit::LinkOutput(Subcircuit* c) {
     outputComponents.push_back(c);
 }
 
-void Circuit::LinkOutput(string id, Subcircuit* c) {
-    outputComponents.push_back(c);
-    AddComponent(id,Component(c));
-    c->SetSubcircuitName(c->GetSubcircuitName() + ":" + id);
-}
-
-void Circuit::LinkOutput(string id, Component c) {
-    outputComponents.push_back(c.body());
-    AddComponent(id,c);
-    c.body()->SetSubcircuitName(c.body()->GetSubcircuitName() + ":" + id);
+void Circuit::LinkOutput(string id) {
+    LinkOutput(Lookup(id));
 }
 
 // Links an arbitrary component with an identifier.
@@ -110,4 +97,22 @@ void Circuit::LinkWithWire(Component in, int inNo, Component out, int outNo, boo
 // Links two components in this circuit.
 void Circuit::LinkWithWire(string inId, int inNo, string outId, int outNo, bool initWireState) {
     LinkWithWire(Lookup(inId), inNo, Lookup(outId), outNo, initWireState);
+}
+
+// Evaluates the circuit
+void Circuit::Evaluate() {
+    BFSCircuitEvaluator v;
+    v.Setup(*this);
+    try {
+        try {
+            v.Iterate();
+        } catch (SubcircuitError e) {
+            cerr << "Circuit Evaluation failed. Circuit gave message:\n";
+            cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetSubcircuitName() << "'\n";
+        }
+    } catch (WireError e) {
+        cerr << "Circuit Evaluation failed. Wire gave message:\n";
+        cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetSubcircuitName() << "' and '" << e.Offender()->Next()->GetSubcircuitName() << "'\n";
+    }
+    v.Clear();
 }

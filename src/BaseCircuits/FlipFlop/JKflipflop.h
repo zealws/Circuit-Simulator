@@ -20,6 +20,14 @@ protected:
 
         // Actually Do Stuff:
 
+        // This is bad, but I don't know another way around it.
+        ((CircuitInput*)(c.Lookup("J").body()))->SetState(inputStates[0]);
+        ((CircuitInput*)(c.Lookup("K").body()))->SetState(inputStates[1]);
+
+        c.Evaluate();
+
+        outputStates[0] = ((CircuitOutput*)(c.Lookup("Q").body()))->GetState();
+        outputStates[1] = ((CircuitOutput*)(c.Lookup("q").body()))->GetState();
 
         // Timestamp:
 
@@ -37,15 +45,21 @@ public:
         {
 
         // Uses an internal SR latch.
-        c.LinkInput("J", new CircuitInput()); // Input 0
-        c.LinkInput("K", new CircuitInput()); // Input 1
+        c.Link("J", new CircuitInput());
+        c.Link("K", new CircuitInput());
         c.Link("AndJ", new And());
         c.Link("AndK", new And());
         c.Link("SR", new SRlatch());
         c.Link("Qsplit", new Splitter(2));
         c.Link("qsplit", new Splitter(2));
-        c.LinkOutput("Q", new CircuitOutput());
-        c.LinkOutput("q", new CircuitOutput());
+
+        c.Link("Q", new CircuitOutput());
+        c.Link("q", new CircuitOutput());
+
+        c.LinkInput("J"); // Input 0
+        c.LinkInput("K"); // Input 1
+        c.LinkOutput("Q"); // Output 0
+        c.LinkOutput("q"); // Output 1
 
         c.LinkWithWire("J", 0, "AndJ", 0);
         c.LinkWithWire("K", 0, "AndK", 0);
