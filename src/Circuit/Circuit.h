@@ -1,7 +1,9 @@
 #ifndef __CIRCUIT_H__
 #define __CIRCUIT_H__
 
-#include "CircuitWireDecs.h"
+#include "Component.h"
+#include "CustomComponent.h"
+#include "Wire.h"
 #include <list>
 #include <string>
 #include "gc_cpp.h"
@@ -30,16 +32,13 @@ class Circuit : public gc {
 private:
 
     // Inputs to the Circuit
-    list<CustomComponent*> inputSubcircuits;
+    list<CustomComponent*> inputComponents;
 
     // Outputs to the Circuit
     list<CustomComponent*> outputComponents;
 
     // Hash table for all the linked components
     google::sparse_hash_map<string, Component, tr1::hash<string>, eqstr> components;
-
-    // Helper Function to add a component pair
-    void AddComponent(string, Component);
 
 public:
 
@@ -49,18 +48,45 @@ public:
     // Destructor
     virtual ~Circuit ();
 
+    ////
+    //// Hashing Functions
+    ////
+
     // Links a circuit as an input gate of this circuit, with an optional identifier
-    void LinkInput(Component);
-    void LinkInput(CustomComponent*);
-    void LinkInput(string);
+    void AddInput(Component);
+    void AddInput(CustomComponent*);
+    void AddInput(string);
 
     // Links a subcircuit as an output gate of this circuit, with an optional identifier
-    void LinkOutput(Component);
-    void LinkOutput(CustomComponent*);
-    void LinkOutput(string);
+    void AddOutput(Component);
+    void AddOutput(CustomComponent*);
+    void AddOutput(string);
 
     // Links an arbitrary component with an identifier.
-    void Link(string, Component);
+    void AddComponent(string, Component);
+    void Add(string, Component);
+
+    // Returns the component with the given identifier.
+    Component Lookup(string);
+
+    // Alias for Lookup
+    Component operator()(string);
+
+    ////
+    //// Helper Functions
+    ////
+
+    // Links two circuits with a wire.
+    // Uses the specified input and output wire numbers.
+    static void Connect(Component in, int inNo, Component out, int outNo, bool initWireState = true);
+    void Connect(string inId, int inNo, string outId, int outNo, bool initWireState = true);
+
+    ////
+    //// Circuit Evaluation
+    ////
+
+    // Evaluates the circuit
+    void Evaluate();
 
     // Returns the input subcircuits
     list<CustomComponent*> GetInputComponents() const;
@@ -68,20 +94,15 @@ public:
     // Returns the output subcircuits
     list<CustomComponent*> GetOutputComponents() const;
 
-    // Returns the component with the given identifier.
-    Component Lookup(string);
+    ////
+    //// Helper Functions for Black-Box components:
+    ////
 
-    // Links two circuits with a wire.
-    // Uses the specified input and output wire numbers.
+    // Copies a circuit's output components's states to a vector:
+    void PushOutput(vector<State>&);
 
-    // This function does all the work
-    static void LinkWithWire(Component in, int inNo, Component out, int outNo, bool initWireState = true);
-
-    // Links two components in this circuit.
-    void LinkWithWire(string inId, int inNo, string outId, int outNo, bool initWireState = true);
-
-    // Evaluates the circuit
-    void Evaluate();
+    // Provides input to the circuit from a vector:
+    void PullInput(const vector<State>&);
 
 };
 

@@ -4,6 +4,7 @@
 #include "BFSCircuitEvaluator.h"
 #include "Exceptions.h"
 #include "Component.h"
+#include "BaseCircuits.h"
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -13,11 +14,6 @@ using namespace std;
 ////
 //// Circuit Class
 ////
-
-// Helper Function to add a component pair
-void Circuit::AddComponent(string id,Component c) {
-    components[id.data()] = c;
-}
 
 // Constructor
 Circuit::Circuit() {
@@ -30,40 +26,44 @@ Circuit::~Circuit () {
 }
 
 // Links a circuit as an input gate of this circuit.
-void Circuit::LinkInput(Component c) {
-    inputSubcircuits.push_back(c.body());
+void Circuit::AddInput(Component c) {
+    inputComponents.push_back(c.body());
 }
 
-void Circuit::LinkInput(CustomComponent* c) {
-    inputSubcircuits.push_back(c);
+void Circuit::AddInput(CustomComponent* c) {
+    inputComponents.push_back(c);
 }
 
-void Circuit::LinkInput(string id) {
-    LinkInput(Lookup(id));
+void Circuit::AddInput(string id) {
+    AddInput(Lookup(id));
 }
 
 // Links a subcircuit as an output gate of this circuit.
-void Circuit::LinkOutput(Component c) {
+void Circuit::AddOutput(Component c) {
     outputComponents.push_back(c.body());
 }
 
-void Circuit::LinkOutput(CustomComponent* c) {
+void Circuit::AddOutput(CustomComponent* c) {
     outputComponents.push_back(c);
 }
 
-void Circuit::LinkOutput(string id) {
-    LinkOutput(Lookup(id));
+void Circuit::AddOutput(string id) {
+    AddOutput(Lookup(id));
 }
 
 // Links an arbitrary component with an identifier.
-void Circuit::Link(string id, Component c) {
-    AddComponent(id,c);
+void Circuit::AddComponent(string id, Component c) {
+    components[id] = c;
     c.body()->SetName(c.body()->GetName() + ":" + id);
+}
+
+void Circuit::Add(string id, Component c) {
+    AddComponent(id, c);
 }
 
 // Returns the input subcircuits
 list<CustomComponent*> Circuit::GetInputComponents() const {
-    return inputSubcircuits;
+    return inputComponents;
 }
 
 // Returns the output subcircuits
@@ -76,9 +76,14 @@ Component Circuit::Lookup(string id) {
     return components[id];
 }
 
+// Shortcut for Lookup
+Component Circuit::operator()(string id) {
+    return components[id];
+}
+
 // Links two circuits with a wire.
 // Uses the specified input and output wire numbers.
-void Circuit::LinkWithWire(Component in, int inNo, Component out, int outNo, bool initWireState) {
+void Circuit::Connect(Component in, int inNo, Component out, int outNo, bool initWireState) {
     Wire* p = new Wire();
     in.body()->SetOutputWire(p, inNo);
     out.body()->SetInputWire(p, outNo);
@@ -89,8 +94,8 @@ void Circuit::LinkWithWire(Component in, int inNo, Component out, int outNo, boo
 }
 
 // Links two components in this circuit.
-void Circuit::LinkWithWire(string inId, int inNo, string outId, int outNo, bool initWireState) {
-    LinkWithWire(Lookup(inId), inNo, Lookup(outId), outNo, initWireState);
+void Circuit::Connect(string inId, int inNo, string outId, int outNo, bool initWireState) {
+    Connect(Lookup(inId), inNo, Lookup(outId), outNo, initWireState);
 }
 
 // Evaluates the circuit
@@ -101,7 +106,7 @@ void Circuit::Evaluate() {
         try {
             v.Iterate();
         } catch (ComponentError e) {
-            cerr << "Circuit Evaluation failed. Circuit gave message:\n";
+            cerr << "Circuit Evaluation failed. CCompircuit gave message:\n";
             cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetName() << "'\n";
         }
     } catch (WireError e) {
@@ -109,4 +114,25 @@ void Circuit::Evaluate() {
         cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetName() << "' and '" << e.Offender()->Next()->GetName() << "'\n";
     }
     v.Clear();
+}
+
+
+// Copies a circuit's output components's states to a vector:
+void Circuit::PushOutput(vector<State>& output) {
+    list<CustomComponent*>::iterator it(outputComponents.begin());
+    for(int i = 0; i < output.size(); i++) {
+        CircuitOutput* out = dynamic_cast<CircuitOutput*>(*it);
+        output[i] = out->GetState();
+        it++;
+    }
+}
+
+// Provides input to the circuit from a vector:
+void Circuit::PullInput(const vector<State>& input) {
+    list<CustomComponent*>::iterator it(inputComponents.begin());
+    for(int i = 0; i < input.size(); i++) {
+        CircuitInput* in = dynamic_cast<CircuitInput*>(*it);
+        in->SetState(input[i]);
+        it++;
+    }
 }

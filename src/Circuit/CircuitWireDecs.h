@@ -13,10 +13,10 @@ class WireState;
 // From Wire.h
 class Wire;
 
-// From CustomComponent.h
-class CustomComponent;
-
 // From Component.h
 class Component;
+
+// From CustomComponent.h
+class CustomComponent;
 
 #endif

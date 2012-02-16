@@ -15,19 +15,19 @@ int main() {
     // are in the circuit, rather than just the input and output components.
 
     // Create the components.
-    topLevel.Link("in", new BitVectorInput(2));
-    topLevel.Link("SR", new SRlatch());
-    topLevel.Link("out", new BitVectorOutput(2));
+    topLevel.AddComponent("in", new BitVectorInput(2));
+    topLevel.AddComponent("SR", new SRlatch());
+    topLevel.AddComponent("out", new BitVectorOutput(2));
 
     // Link the components.
-    topLevel.LinkWithWire("in",0,"SR",0);
-    topLevel.LinkWithWire("in",1,"SR",1);
-    topLevel.LinkWithWire("SR",0,"out",0);
-    topLevel.LinkWithWire("SR",1,"out",1);
+    topLevel.Connect("in",0,"SR",0);
+    topLevel.Connect("in",1,"SR",1);
+    topLevel.Connect("SR",0,"out",0);
+    topLevel.Connect("SR",1,"out",1);
 
     // Specify the input (and output) components.
-    topLevel.LinkInput("in");
-    topLevel.LinkOutput("out");
+    topLevel.AddInput("in");
+    topLevel.AddOutput("out");
 
     // Evaluate the circuit.
     topLevel.Evaluate();

@@ -20,14 +20,11 @@ protected:
 
         // Actually Do Stuff:
 
-        // This is bad, but I don't know another way around it.
-        ((CircuitInput*)(c.Lookup("R").body()))->SetState(inputStates[0]);
-        ((CircuitInput*)(c.Lookup("S").body()))->SetState(inputStates[1]);
+        c.PullInput(inputStates);
 
         c.Evaluate();
 
-        outputStates[0] = ((CircuitOutput*)(c.Lookup("Q").body()))->GetState();
-        outputStates[1] = ((CircuitOutput*)(c.Lookup("q").body()))->GetState();
+        c.PushOutput(outputStates);
 
     }
 
@@ -47,28 +44,28 @@ public:
         {
 
         // We actually create the SR latch internals.
-        c.Link("R", new CircuitInput());
-        c.Link("S", new CircuitInput());
-        c.Link("NorS", new Nor());
-        c.Link("NorR", new Nor());
-        c.Link("NorSsplit", new Splitter(2));
-        c.Link("NorRsplit", new Splitter(2));
-        c.Link("Q", new CircuitOutput());
-        c.Link("q", new CircuitOutput());
+        c.AddComponent("R", new CircuitInput());
+        c.AddComponent("S", new CircuitInput());
+        c.AddComponent("NorS", new Nor());
+        c.AddComponent("NorR", new Nor());
+        c.AddComponent("NorSsplit", new Splitter(2));
+        c.AddComponent("NorRsplit", new Splitter(2));
+        c.AddComponent("Q", new CircuitOutput());
+        c.AddComponent("q", new CircuitOutput());
 
-        c.LinkInput("R"); // Input 0
-        c.LinkInput("S"); // Input 1
-        c.LinkOutput("Q"); // Output 0
-        c.LinkOutput("q"); // Output 1
+        c.AddInput("R"); // Input 0
+        c.AddInput("S"); // Input 1
+        c.AddOutput("Q"); // Output 0
+        c.AddOutput("q"); // Output 1
 
-        c.LinkWithWire("S", 0, "NorS", 0);
-        c.LinkWithWire("R", 0, "NorR", 0);
-        c.LinkWithWire("NorS", 0, "NorSsplit", 0, true);
-        c.LinkWithWire("NorR", 0, "NorRsplit", 0, false);
-        c.LinkWithWire("NorSsplit", 0, "q", 0, true);
-        c.LinkWithWire("NorRsplit", 0, "Q", 0, false);
-        c.LinkWithWire("NorSsplit", 1, "NorR", 1, true);
-        c.LinkWithWire("NorRsplit", 1, "NorS", 1, false);
+        c.Connect("S", 0, "NorS", 0);
+        c.Connect("R", 0, "NorR", 0);
+        c.Connect("NorS", 0, "NorSsplit", 0, true);
+        c.Connect("NorR", 0, "NorRsplit", 0, false);
+        c.Connect("NorSsplit", 0, "q", 0, true);
+        c.Connect("NorRsplit", 0, "Q", 0, false);
+        c.Connect("NorSsplit", 1, "NorR", 1, true);
+        c.Connect("NorRsplit", 1, "NorS", 1, false);
     }
 
 };

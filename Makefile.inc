@@ -10,9 +10,11 @@ DIST = build
 
 # Included Directories
 INCLUDES = \
+	-Isrc/ \
 	-Isrc/Circuit \
 	-Isrc/Observer \
 	-Isrc/CircuitIterator \
+	-Isrc/BaseCircuits \
 	-Isrc/Exceptions \
 	-Isrc/gc/include \
 	-Isrc/sparsehash

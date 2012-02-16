@@ -20,14 +20,11 @@ protected:
 
         // Actually Do Stuff:
 
-        // This is bad, but I don't know another way around it.
-        ((CircuitInput*)(c.Lookup("J").body()))->SetState(inputStates[0]);
-        ((CircuitInput*)(c.Lookup("K").body()))->SetState(inputStates[1]);
+        c.PullInput(inputStates);
 
         c.Evaluate();
 
-        outputStates[0] = ((CircuitOutput*)(c.Lookup("Q").body()))->GetState();
-        outputStates[1] = ((CircuitOutput*)(c.Lookup("q").body()))->GetState();
+        c.PushOutput(outputStates);
 
     }
 
