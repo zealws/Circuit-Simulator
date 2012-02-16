@@ -4,6 +4,7 @@
 
 #include "Circuit.h"
 #include "CustomComponent.h"
+#include "BlackBox.h"
 #include "Component.h"
 #include "Observable.h"
 #include "Observer.h"

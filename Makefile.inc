@@ -12,6 +12,8 @@ DIST = build
 INCLUDES = \
 	-Isrc/ \
 	-Isrc/Circuit \
+	-Isrc/Wire \
+	-Isrc/Component \
 	-Isrc/Observer \
 	-Isrc/CircuitIterator \
 	-Isrc/BaseCircuits \
@@ -37,11 +39,13 @@ DEPFLAGS = -m -Y
 CIRCUIT_LIBRARY = src/BaseCircuits/
 
 # List of object files for linking and building the dist folder
-OBJS =  src/Circuit/WireState.o \
+OBJS =  \
 	src/Circuit/Circuit.o \
-	src/Circuit/CustomComponent.o \
-	src/Circuit/Component.o \
-	src/Circuit/Wire.o \
+	src/Wire/WireState.o \
+	src/Wire/Wire.o \
+	src/Component/CustomComponent.o \
+	src/Component/Component.o \
+	src/Component/BlackBox.o \
 	src/Observer/Observable.o \
 	src/Observer/Observer.o \
 	src/Observer/UpdateCounter.o \
@@ -55,12 +59,13 @@ OBJS =  src/Circuit/WireState.o \
 # when building it.
 DIST_FILES = \
 	src/CircuitSimulator.h \
-	src/Circuit/WireState.h \
+	src/CircuitWireDecs.h \
+	src/Wire/WireState.h \
+	src/Wire/Wire.h \
 	src/Circuit/Circuit.h \
-	src/Circuit/CustomComponent.h \
-	src/Circuit/Component.h \
-	src/Circuit/Wire.h \
-	src/Circuit/CircuitWireDecs.h \
+	src/Component/CustomComponent.h \
+	src/Component/Component.h \
+	src/Component/BlackBox.h \
 	src/Observer/Observable.h \
 	src/Observer/Observer.h \
 	src/Observer/ObserverDecs.h \
@@ -93,11 +98,12 @@ OTHER_FILES =  \
 	src/Observer/UpdateCounter.cpp \
 	src/Observer/Observable.cpp \
 	src/Observer/Observer.cpp \
-	src/Circuit/WireState.cpp \
-	src/Circuit/CustomComponent.cpp \
 	src/Circuit/Circuit.cpp \
-	src/Circuit/Wire.cpp \
-	src/Circuit/Component.cpp
+	src/Wire/Wire.cpp \
+	src/Wire/WireState.cpp \
+	src/Component/Component.cpp \
+	src/Component/CustomComponent.cpp \
+	src/Component/BlackBox.cpp
 
 # List of Source Files for the dependency generator
 SRCS = $(DIST_FILES) $(OTHER_FILES)
