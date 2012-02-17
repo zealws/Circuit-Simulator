@@ -1,7 +1,6 @@
 #ifndef __CustomComponent_H__
 #define __CustomComponent_H__
 
-#include "CircuitWireDecs.h"
 #include "Observable.h"
 #include "Wire.h"
 #include <vector>
@@ -32,10 +31,10 @@ protected:
 
     // Evaluates the CustomComponent with certain states.
     // If not simulating gate delays, a 0 should be returned.
-    virtual void Evaluate(const vector<State>& inputStates, vector<State>& outputStates) = 0;
+    virtual void Evaluate(const vector<State::Boolean>& inputStates, vector<State::Boolean>& outputStates) = 0;
 
     // Returns the delay of the circuit.
-    virtual Timestamp Delay() = 0;
+    virtual State::Timestamp Delay() = 0;
 
 public:
 

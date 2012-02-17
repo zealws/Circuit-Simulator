@@ -20,6 +20,6 @@ UpdateCounter::~UpdateCounter() {
 void UpdateCounter::Observe() {
     NumUpdates++;
     if(NumUpdates > MaxUpdatesBeforeFail) {
-        throw WireError("Update Count Maxed", Observed);
+        throw WireError("Update Count Maxed", dynamic_cast<Wire*>(Observed));
     }
 }

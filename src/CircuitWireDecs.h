@@ -6,9 +6,7 @@
 ////
 
 // From WireState.h
-class Timestamp;
 class State;
-class WireState;
 
 // From Wire.h
 class Wire;

@@ -22,7 +22,7 @@ protected:
     Circuit& internal();
 
     // Evaluates the Subcircuit with certain states.
-    void Evaluate(const vector<State>& inputStates, vector<State>& outputStates);
+    void Evaluate(const vector<State::Boolean>& inputStates, vector<State::Boolean>& outputStates);
 
 public:
 

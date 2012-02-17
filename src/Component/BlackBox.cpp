@@ -10,7 +10,7 @@ Circuit& BlackBox::internal() {
 }
 
 // Evaluates the Subcircuit with certain states.
-void BlackBox::Evaluate(const vector<State>& inputStates, vector<State>& outputStates) {
+void BlackBox::Evaluate(const vector<State::Boolean>& inputStates, vector<State::Boolean>& outputStates) {
 
     internal().PullInput(inputStates);
 

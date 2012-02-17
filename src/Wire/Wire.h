@@ -14,7 +14,7 @@ class Wire : public Observable
 
 private:
 
-    WireState myState;
+    State myState;
 
     CustomComponent* outputCircuit;
 
@@ -33,10 +33,10 @@ public:
 
     // Updates the state of the wire.
     // Returns true if the wire's state was changed.
-    bool Update(WireState);
+    bool Update(State);
 
     // Sets the state without modifying beenUpdated or notifying observers.
-    bool SetState(WireState);
+    bool SetState(State);
 
     // The output circuit of this wire.
     CustomComponent* Next();
@@ -45,7 +45,7 @@ public:
     CustomComponent* Prev();
 
     // Gets the state of the wire.
-    WireState State() const;
+    State GetState() const;
 
     // Sets the output of this wire.
     void SetOutputCircuit(CustomComponent*);

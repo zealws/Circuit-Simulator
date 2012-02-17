@@ -14,7 +14,7 @@ protected:
     // Evaluates the Subcircuit with certain states.
     // Returns the amount of time it takes to run.
     // If not simulating gate delays, a 0 should be returned.
-    void Evaluate(const vector<State>& inputStates, vector<State>& outputStates) {
+    void Evaluate(const vector<State::Boolean>& inputStates, vector<State::Boolean>& outputStates) {
 
         // Actually Do Stuff:
 
@@ -33,7 +33,7 @@ protected:
     }
     
     // Returns the delay of the component
-    Timestamp Delay() {
+    State::Timestamp Delay() {
         return 1;
     }
 

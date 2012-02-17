@@ -12,7 +12,7 @@ class JKflipflop : public BlackBox {
 protected:
 
     // Returns the delay of the component
-    Timestamp Delay() {
+    State::Timestamp Delay() {
         return 10;
     }
 

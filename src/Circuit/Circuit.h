@@ -99,10 +99,10 @@ public:
     ////
 
     // Copies a circuit's output components's states to a vector:
-    void PushOutput(vector<State>&);
+    void PushOutput(vector<State::Boolean>&);
 
     // Provides input to the circuit from a vector:
-    void PullInput(const vector<State>&);
+    void PullInput(const vector<State::Boolean>&);
 
 };
 

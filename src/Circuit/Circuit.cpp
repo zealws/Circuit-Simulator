@@ -89,7 +89,7 @@ void Circuit::Connect(Component in, int inNo, Component out, int outNo, bool ini
     out.body()->SetInputWire(p, outNo);
     p->SetOutputCircuit(out.body());
     p->SetInputCircuit(in.body());
-    p->SetState(WireState(State(initWireState), 0));
+    p->SetState(State(State::Boolean(initWireState), 0));
     p->AttachObserver(new UpdateCounter());
 }
 
@@ -118,7 +118,7 @@ void Circuit::Evaluate() {
 
 
 // Copies a circuit's output components's states to a vector:
-void Circuit::PushOutput(vector<State>& output) {
+void Circuit::PushOutput(vector<State::Boolean>& output) {
     list<CustomComponent*>::iterator it(outputComponents.begin());
     for(int i = 0; i < output.size(); i++) {
         CircuitOutput* out = dynamic_cast<CircuitOutput*>(*it);
@@ -128,7 +128,7 @@ void Circuit::PushOutput(vector<State>& output) {
 }
 
 // Provides input to the circuit from a vector:
-void Circuit::PullInput(const vector<State>& input) {
+void Circuit::PullInput(const vector<State::Boolean>& input) {
     list<CustomComponent*>::iterator it(inputComponents.begin());
     for(int i = 0; i < input.size(); i++) {
         CircuitInput* in = dynamic_cast<CircuitInput*>(*it);

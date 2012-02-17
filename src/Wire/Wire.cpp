@@ -23,7 +23,7 @@ Wire::~Wire () {
 
 // Updates the state of the wire.
 // Returns true if the wire's state was changed.
-bool Wire::Update(WireState newState) {
+bool Wire::Update(State newState) {
     if(beenUpdated && myState == newState) {
         beenUpdated = true;
         return false;
@@ -37,7 +37,7 @@ bool Wire::Update(WireState newState) {
 }
 
 // Sets the state without modifying beenUpdated or notifying observers.
-bool Wire::SetState(WireState newState) {
+bool Wire::SetState(State newState) {
     myState = newState;
 }
 
@@ -52,7 +52,7 @@ CustomComponent* Wire::Prev() {
 }
 
 // Gets the state of the wire.
-WireState Wire::State() const {
+State Wire::GetState() const {
     return myState;
 }
 
