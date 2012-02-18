@@ -15,19 +15,23 @@ int main() {
     // store the input and output components for the circuit for later use during evaluation.
 
     // Create the components.
-    Component in(new BitVectorInput(2));
+    Component in1(new Button());
+    Component in2(new Button());
     Component SR(new SRlatch());
-    Component out(new BitVectorOutput(2));
+    Component out1(new LED());
+    Component out2(new LED());
 
     // Link the components.
-    topLevel.Connect(in,0,SR,0);
-    topLevel.Connect(in,1,SR,1);
-    topLevel.Connect(SR,0,out,0);
-    topLevel.Connect(SR,1,out,1);
+    topLevel.Connect(in1,0,SR,0);
+    topLevel.Connect(in2,1,SR,1);
+    topLevel.Connect(SR,0,out1,0);
+    topLevel.Connect(SR,1,out2,1);
 
     // Specify the input (and output) components.
-    topLevel.AddInput(in);
-    topLevel.AddOutput(out);
+    topLevel.AddInput(in1);
+    topLevel.AddInput(in2);
+    topLevel.AddOutput(out1);
+    topLevel.AddOutput(out2);
 
     // Evaluate the circuit.
     topLevel.Evaluate();
