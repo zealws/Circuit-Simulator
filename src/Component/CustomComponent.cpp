@@ -36,11 +36,15 @@ CustomComponent::~CustomComponent() {
 // Then calls Evaluate
 // Then copies the output state vector to the output wires.
 // Returns a list of all the CustomComponents that need to be evaluated.
-list<CustomComponent*> CustomComponent::EvaluateCustomComponent() {
+list<Wire*> CustomComponent::EvaluateCustomComponent() {
 
     // Create the input state vector
     vector<State::Boolean> inputStateList(inputWireList.size(), State::Boolean(false));
+    State::Timestamp latestChange = 0;
     for(int i = 0; i < inputStateList.size(); i++) {
+        if(inputWireList[i]->GetState().Time() > latestChange) {
+            latestChange = inputWireList[i]->GetState().Time();
+        }
         if(inputWireList[i] == NULL) {
             ostringstream s;
             s << "Missing input Wire on port " << i;
@@ -52,7 +56,7 @@ list<CustomComponent*> CustomComponent::EvaluateCustomComponent() {
     // Create the output state vector
     vector<State::Boolean> outputStateList(outputWireList.size(), State::Boolean(false));
 
-    list<CustomComponent*> updated;
+    list<Wire*> updated;
 
     // Evaluate the CustomComponent
     Evaluate(inputStateList, outputStateList);
@@ -77,12 +81,11 @@ list<CustomComponent*> CustomComponent::EvaluateCustomComponent() {
 
         // Finally, we update the wire.
         bool oldState = bool(outputWireList[i]->GetState());
-        bool changed = outputWireList[i]->Update(State(outputStateList[i], delta));
-        //cout << GetCustomComponentName() << "[" << i << "] updated from " << oldState << " to " << bool(outputWireList[i]->State()) << ".\n";
+        bool changed = outputWireList[i]->Update(State(outputStateList[i], latestChange = delta));
 
         // If it was actually changed, we mark the CustomComponent for evaluation.
         if(changed) {
-            updated.push_back(outputWireList[i]->Next());
+            updated.push_back(outputWireList[i]);
         }
     }
 

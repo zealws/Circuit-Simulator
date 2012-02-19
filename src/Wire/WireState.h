@@ -49,6 +49,12 @@ public:
         // Subtraction
         Timestamp operator-(const Timestamp&) const;
 
+        // Greater than
+        bool operator>(const Timestamp&) const;
+
+        // Less than
+        bool operator<(const Timestamp&) const;
+
         unsigned long long value() const;
 
     };
@@ -136,6 +142,9 @@ public:
 
     // Returns the current state of the wire.
     Boolean CurrentValue() const;
+
+    // Returns the timestamp of the wire state.
+    Timestamp Time() const;
 
     // Convert to a bool
     operator bool() const;

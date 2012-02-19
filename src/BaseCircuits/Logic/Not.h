@@ -21,7 +21,7 @@ protected:
         outputStates[0] = State::Boolean(not inputStates[0]);
 
     }
-    
+
     // Returns the delay of the component
     State::Timestamp Delay() {
         return 1;

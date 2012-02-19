@@ -1,7 +1,9 @@
-#ifndef __CIRCUIT_EVALUATOR__
-#define __CIRCUIT_EVALUATOR__
+#ifndef __BFS_CIRCUIT_EVALUATOR__
+#define __BFS_CIRCUIT_EVALUATOR__
 
 #include "CircuitIterator.h"
+#include <list>
+using namespace std;
 
 ////
 //// BFSCircuitEvaluator class
@@ -12,12 +14,16 @@ class BFSCircuitEvaluator : public CircuitIterator {
 private:
 
     list<CustomComponent*> toBeVisited;
+    list<CustomComponent*> outputList;
 
     CustomComponent* myCurrItem;
 
     Circuit* myCircuit;
 
 protected:
+
+    // Returns whether or not a component occurs in outputList
+    bool IsOutput(CustomComponent*);
 
     // Are we done?
     virtual bool IsDone();

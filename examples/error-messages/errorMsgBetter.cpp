@@ -10,6 +10,7 @@ int main() {
 
     // Create the top-level circuit
     Circuit topLevel;
+    topLevel.UseGateDelays();
 
     // In this example, we use this to store information about the components that
     // are in the circuit, rather than just the input and output components.

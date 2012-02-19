@@ -22,7 +22,7 @@ protected:
             outputStates[i] = inputStates[0];
         }
     }
-    
+
     // Returns the delay of the component
     State::Timestamp Delay() {
         return 0;

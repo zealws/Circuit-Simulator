@@ -27,7 +27,7 @@ protected:
 
     // Returns the delay of the component
     State::Timestamp Delay() {
-        return 1;
+        return 0;
     }
 
     // Return the state of the input.

@@ -27,7 +27,7 @@ int main() {
     topLevel.Connect(SR,0,out1,0);
     topLevel.Connect(SR,1,out2,1);
 
-    // Specify the input (and output) components.
+    // Specify the input and output components.
     topLevel.AddInput(in1);
     topLevel.AddInput(in2);
     topLevel.AddOutput(out1);

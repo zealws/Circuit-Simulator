@@ -40,6 +40,9 @@ private:
     // Hash table for all the linked components
     google::sparse_hash_map<string, Component, tr1::hash<string>, eqstr> components;
 
+    // Are we simulating gate delays?
+    bool simulateGateDelays;
+
 public:
 
     // Constructor
@@ -87,6 +90,10 @@ public:
 
     // Evaluates the circuit
     void Evaluate();
+
+    // Toggle gate delays
+    void UseGateDelays();
+    void IgnoreGateDelays();
 
     // Returns the input subcircuits
     list<CustomComponent*> GetInputComponents() const;

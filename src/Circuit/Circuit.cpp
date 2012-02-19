@@ -2,6 +2,7 @@
 #include "CustomComponent.h"
 #include "UpdateCounter.h"
 #include "BFSCircuitEvaluator.h"
+#include "DelayCircuitEvaluator.h"
 #include "Exceptions.h"
 #include "Component.h"
 #include "BaseCircuits.h"
@@ -16,7 +17,7 @@ using namespace std;
 ////
 
 // Constructor
-Circuit::Circuit() {
+Circuit::Circuit() : simulateGateDelays(false) {
     // Do Nothing
 }
 
@@ -100,22 +101,47 @@ void Circuit::Connect(string inId, int inNo, string outId, int outNo, bool initW
 
 // Evaluates the circuit
 void Circuit::Evaluate() {
-    BFSCircuitEvaluator v;
-    v.Setup(*this);
-    try {
+    if(simulateGateDelays) {
+        DelayCircuitEvaluator v;
+        v.Setup(*this);
         try {
-            v.Iterate();
-        } catch (ComponentError e) {
-            cerr << "Circuit Evaluation failed. CCompircuit gave message:\n";
-            cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetName() << "'\n";
+            try {
+                v.Iterate();
+            } catch (ComponentError e) {
+                cerr << "Circuit Evaluation failed. CCompircuit gave message:\n";
+                cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetName() << "'\n";
+            }
+        } catch (WireError e) {
+            cerr << "Circuit Evaluation failed. Wire gave message:\n";
+            cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetName() << "' and '" << e.Offender()->Next()->GetName() << "'\n";
         }
-    } catch (WireError e) {
-        cerr << "Circuit Evaluation failed. Wire gave message:\n";
-        cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetName() << "' and '" << e.Offender()->Next()->GetName() << "'\n";
+        v.Clear();
     }
-    v.Clear();
+    else {
+        BFSCircuitEvaluator v;
+        v.Setup(*this);
+        try {
+            try {
+                v.Iterate();
+            } catch (ComponentError e) {
+                cerr << "Circuit Evaluation failed. CCompircuit gave message:\n";
+                cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetName() << "'\n";
+            }
+        } catch (WireError e) {
+            cerr << "Circuit Evaluation failed. Wire gave message:\n";
+            cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetName() << "' and '" << e.Offender()->Next()->GetName() << "'\n";
+        }
+        v.Clear();
+    }
 }
 
+// Toggle gate delays
+void Circuit::UseGateDelays() {
+    simulateGateDelays = true;
+}
+void Circuit::IgnoreGateDelays() {
+    simulateGateDelays = false;
+}
 
 // Copies a circuit's output components's states to a vector:
 void Circuit::PushOutput(vector<State::Boolean>& output) {

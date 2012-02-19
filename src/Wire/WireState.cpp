@@ -32,6 +32,16 @@ State::Timestamp State::Timestamp::operator-(const Timestamp& other) const {
     return Timestamp(value()-other.value());
 }
 
+// Greater than
+bool State::Timestamp::operator>(const Timestamp& other) const {
+    return value() > other.value();
+}
+
+// Less than
+bool State::Timestamp::operator<(const Timestamp& other) const {
+    return value() < other.value();
+}
+
 unsigned long long State::Timestamp::value() const {
     return stamp;
 }
@@ -103,7 +113,7 @@ State::State (STATE_CHANGE initChange, Timestamp time)
 
 // Creates a Wire State with a particular initial state.
 State::State (const Boolean& other, const Timestamp time)
-    : change(other == Up ? UpShift : DownShift) {
+    : change(other == Up ? UpShift : DownShift), changeTime(time) {
     // Do Nothing
 }
 
@@ -120,6 +130,11 @@ State::Boolean State::LastValue() const {
 // Returns the current state of the wire.
 State::Boolean State::CurrentValue() const {
     return Boolean(change == UpShift);
+}
+
+// Returns the timestamp of the wire state.
+State::Timestamp State::Time() const {
+    return changeTime;
 }
 
 // Convert to a bool

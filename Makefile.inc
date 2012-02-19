@@ -51,6 +51,7 @@ OBJS =  \
 	src/Observer/UpdateCounter.o \
 	src/CircuitIterator/CircuitIterator.o \
 	src/CircuitIterator/BFSCircuitEvaluator.o \
+	src/CircuitIterator/DelayCircuitEvaluator.o \
 	src/Exceptions/WireError.o \
 	src/Exceptions/CircuitEvalError.o \
 	src/Exceptions/ComponentError.o
@@ -72,6 +73,7 @@ DIST_FILES = \
 	src/Observer/UpdateCounter.h \
 	src/CircuitIterator/CircuitIterator.h \
 	src/CircuitIterator/BFSCircuitEvaluator.h \
+	src/CircuitIterator/DelayCircuitEvaluator.h \
 	src/Exceptions/Exceptions.h \
 	src/Exceptions/CircuitEvalError.h \
 	src/Exceptions/WireError.h \
@@ -95,6 +97,7 @@ OTHER_FILES =  \
 	src/Exceptions/ComponentError.cpp \
 	src/CircuitIterator/CircuitIterator.cpp \
 	src/CircuitIterator/BFSCircuitEvaluator.cpp \
+	src/CircuitIterator/DelayCircuitEvaluator.cpp \
 	src/Observer/UpdateCounter.cpp \
 	src/Observer/Observable.cpp \
 	src/Observer/Observer.cpp \

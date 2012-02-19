@@ -53,7 +53,7 @@ public:
     // Then calls Evaluate
     // Then copies the output state vector to the output wires.
     // Returns a list of all the CustomComponents whos should be updated
-    virtual list<CustomComponent*> EvaluateCustomComponent();
+    virtual list<Wire*> EvaluateCustomComponent();
 
     // Get Input Wires to this CustomComponent.
     vector<Wire*> getInputWires();

@@ -21,10 +21,10 @@ protected:
         outputStates[0] = not(inputStates[0] or inputStates[1]);
 
     }
-    
+
     // Returns the delay of the component
     State::Timestamp Delay() {
-        return 2;
+        return 3;
     }
 
 public:

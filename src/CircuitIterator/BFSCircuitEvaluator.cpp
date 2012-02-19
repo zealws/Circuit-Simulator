@@ -8,6 +8,18 @@ using namespace std;
 //// BFSCircuitEvaluator class
 ////
 
+// Returns whether or not a component occurs in outputList
+bool BFSCircuitEvaluator::IsOutput(CustomComponent* search) {
+    list<CustomComponent*>::iterator it = outputList.begin();
+    while(it != outputList.end()) {
+        if(*it == search)
+            return true;
+        else
+            it++;
+    }
+    return false;
+}
+
 // Are we done?
 bool BFSCircuitEvaluator::IsDone() {
     return toBeVisited.empty() && myCurrItem == NULL;
@@ -16,7 +28,7 @@ bool BFSCircuitEvaluator::IsDone() {
 // Evaluate the current item
 void BFSCircuitEvaluator::EvaluateCurrentItem() {
 
-    // Remove duplicates from the toBeVisited vector
+    // Remove duplicates from the toBeVisited lists
     list<CustomComponent*>::iterator search = toBeVisited.begin();
     while(search != toBeVisited.end()) {
         if(*search == myCurrItem) {
@@ -29,11 +41,11 @@ void BFSCircuitEvaluator::EvaluateCurrentItem() {
         }
     }
 
-    list<CustomComponent*> updated = myCurrItem->EvaluateCustomComponent();
+    list<Wire*> updated = myCurrItem->EvaluateCustomComponent();
 
     while(not(updated.empty())) {
-        CustomComponent* p = updated.front();
-        toBeVisited.push_back(p);
+        Wire* p = updated.front();
+        toBeVisited.push_back(p->Next());
         updated.pop_front();
     }
 }
@@ -47,6 +59,9 @@ void BFSCircuitEvaluator::Progress() {
         myCurrItem = toBeVisited.front();
         toBeVisited.pop_front();
     }
+    if(IsOutput(myCurrItem)) {
+        Progress();
+    }
 }
 
 CustomComponent* BFSCircuitEvaluator::CurrentItem() {
@@ -57,6 +72,7 @@ CustomComponent* BFSCircuitEvaluator::CurrentItem() {
 void BFSCircuitEvaluator::reset() {
     Clear();
     toBeVisited = myCircuit->GetInputComponents();
+    outputList = myCircuit->GetOutputComponents();
     Progress();
 }
 
@@ -81,6 +97,11 @@ void BFSCircuitEvaluator::Iterate() {
     while(not IsDone()) {
         EvaluateCurrentItem();
         Progress();
+    }
+    list<CustomComponent*>::iterator it = outputList.begin();
+    while(it != outputList.end()) {
+        (*it)->EvaluateCustomComponent();
+        it++;
     }
 }
 
