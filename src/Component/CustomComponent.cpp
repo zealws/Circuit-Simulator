@@ -14,11 +14,6 @@ using namespace std;
 //// CustomComponent Class
 ////
 
-// Constructor
-CustomComponent::CustomComponent() {
-    // Do Nothing
-}
-
 // Specifies the sizes of the input and output list, respectively
 CustomComponent::CustomComponent(string id, int inSize, int outSize)
     : identifier(id) {

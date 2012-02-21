@@ -38,12 +38,9 @@ protected:
 
 public:
 
-    // Constructor
-    CustomComponent();
-
     // Specifies the identifier for the CustomComponent as well as
     // the sizes of the input and output list, respectively
-    CustomComponent(string, int, int);
+    CustomComponent(string id, int inSize, int outSize);
 
     // Destructor
     virtual ~CustomComponent();

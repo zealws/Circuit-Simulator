@@ -77,13 +77,14 @@ public:
     public:
 
         // Constructor
-        Boolean(bool init_state);
+        Boolean(bool);
 
         // Alternate Constructor
         // Leave unimplemented
-        Boolean(const State& other);
+        Boolean(const Boolean&);
 
-        // Leave destructor unimplemented
+        // Destructor
+        ~Boolean();
 
         // Comparison Operators
         bool operator ==(const Boolean&) const;
@@ -108,10 +109,8 @@ public:
 
 private:
 
-    enum STATE_CHANGE { DownShift = 0 , UpShift = 1 };
-
     // Most Recent State Change
-    STATE_CHANGE change;
+    Boolean change;
 
     // Timestamp of the most recent change.
     Timestamp changeTime;
@@ -123,16 +122,11 @@ public:
     static const Boolean Down;
     static const Boolean Low;
 
-    // Creates a Wire State with a State Change and Timestamp.
-    // Uses (0->1, 0) as default.
-    State (STATE_CHANGE = DownShift, Timestamp = 0);
-
-    // Creates a Wire State with a particular initial state.
+    // Creates a State with a Boolean value and Timestamp.
     State (const Boolean&, const Timestamp);
 
     // Copy Constructor
-    // Leave unimplemented.
-    // WireState(const WireState&);
+    WireState(const WireState&);
 
     // Destructor
     virtual ~State ();

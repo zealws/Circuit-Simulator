@@ -56,7 +56,10 @@ State::Boolean::Boolean(bool init_state)
     // Do Nothing
 }
 
-// Leave destructor unimplemented
+// Destructor
+State::Boolean::~Boolean() {
+    // Do Nothing
+}
 
 // Comparison Operators
 bool State::Boolean::operator ==(const State::Boolean& other) const {
@@ -124,12 +127,12 @@ State::~State () {
 
 // Returns the last state of the wire.
 State::Boolean State::LastValue() const {
-    return Boolean(change != UpShift);
+    return !(change);
 }
 
 // Returns the current state of the wire.
 State::Boolean State::CurrentValue() const {
-    return Boolean(change == UpShift);
+    return change;
 }
 
 // Returns the timestamp of the wire state.
@@ -139,7 +142,7 @@ State::Timestamp State::Time() const {
 
 // Convert to a bool
 State::operator bool() const {
-    return (change == UpShift);
+    return bool(change);
 }
 
 State::operator Boolean() const {
