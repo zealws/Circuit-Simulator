@@ -95,10 +95,6 @@ void DelayCircuitIterator::reset() {
     Progress();
 }
 
-DelayCircuitIterator::DelayCircuitIterator() {
-    // Do Nothing
-}
-
 // Destructor
 DelayCircuitIterator::~DelayCircuitIterator() {
     // Do Nothing

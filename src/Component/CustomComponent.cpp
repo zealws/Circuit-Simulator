@@ -114,7 +114,6 @@ void CustomComponent::SetInputWire(Wire* w, int n) {
         throw ComponentError(s.str(), this);
     }
     else {
-        cout << n << endl;
         inputWireList[n] = w;
     }
 }
@@ -127,7 +126,6 @@ void CustomComponent::SetOutputWire(Wire* w, int n) {
         throw ComponentError(s.str(), this);
     }
     else {
-        cout << n << endl;
         outputWireList[n] = w;
     }
 }

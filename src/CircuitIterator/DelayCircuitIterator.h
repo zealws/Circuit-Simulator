@@ -68,8 +68,6 @@ protected:
 
 public:
 
-    DelayCircuitIterator();
-
     // Destructor
     virtual ~DelayCircuitIterator();
 

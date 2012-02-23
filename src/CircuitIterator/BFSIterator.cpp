@@ -57,6 +57,22 @@ void BFSIterator::AddComponent(CustomComponent* p) {
     toBeVisited.push_back(p);
 }
 
+// Removes instances all of a component from the queue
+void BFSIterator::RemoveComponent(CustomComponent* p) {
+    list<CustomComponent*>::iterator search = toBeVisited.begin();
+    while(search != toBeVisited.end()) {
+        if(*search == p) {
+            list<CustomComponent*>::iterator del = search;
+            search++;
+            toBeVisited.erase(del);
+        }
+        else {
+            search++;
+        }
+    }
+}
+
+// Fetch the current item
 CustomComponent* BFSIterator::CurrentItem() {
     return myCurrItem;
 }
@@ -67,10 +83,6 @@ void BFSIterator::reset() {
     toBeVisited = myCircuit->GetInputComponents();
     outputList = myCircuit->GetOutputComponents();
     Progress();
-}
-
-BFSIterator::BFSIterator() {
-    // Do Nothing
 }
 
 // Destructor

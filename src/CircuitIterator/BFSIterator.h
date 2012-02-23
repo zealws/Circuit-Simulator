@@ -43,9 +43,10 @@ protected:
     // Add a component to the queue
     virtual void AddComponent(CustomComponent*);
 
-public:
+    // Removes instances all of a component from the queue
+    virtual void RemoveComponent(CustomComponent*);
 
-    BFSIterator();
+public:
 
     // Destructor
     virtual ~BFSIterator();
