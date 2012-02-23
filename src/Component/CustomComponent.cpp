@@ -1,9 +1,5 @@
 #include "CustomComponent.h"
-#include "Circuit.h"
-#include "Observable.h"
-#include "Exceptions.h"
-#include "Wire.h"
-#include "WireState.h"
+#include "CircuitSimulator.h"
 #include <cstdlib>
 #include <sstream>
 #include <iostream>
@@ -93,23 +89,47 @@ list<Wire*> CustomComponent::EvaluateCustomComponent() {
 }
 
 // Get Input Wires to this CustomComponent.
-vector<Wire*> CustomComponent::getInputWires() {
+vector<Wire*> CustomComponent::GetInputWires() {
     return inputWireList;
 }
 
 // Get Output Wires to this CustomComponent.
-vector<Wire*> CustomComponent::getOutputWires() {
+vector<Wire*> CustomComponent::GetOutputWires() {
     return outputWireList;
+}
+
+// Returns the input/output size of the component.
+unsigned int CustomComponent::InputSize() {
+    return inputWireList.size();
+}
+unsigned int CustomComponent::OutputSize() {
+    return outputWireList.size();
 }
 
 // Sets an Input Wire
 void CustomComponent::SetInputWire(Wire* w, int n) {
-    inputWireList[n] = w;
+    if(n >= inputWireList.size()) {
+        ostringstream s;
+        s << identifier << " has no input port " << n;
+        throw ComponentError(s.str(), this);
+    }
+    else {
+        cout << n << endl;
+        inputWireList[n] = w;
+    }
 }
 
 // Sets an Output Wire
 void CustomComponent::SetOutputWire(Wire* w, int n) {
-    outputWireList[n] = w;
+    if(n >= outputWireList.size()) {
+        ostringstream s;
+        s << identifier << " has no output port " << n;
+        throw ComponentError(s.str(), this);
+    }
+    else {
+        cout << n << endl;
+        outputWireList[n] = w;
+    }
 }
 
 // Gets the name of the circuit

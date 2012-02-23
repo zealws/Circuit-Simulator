@@ -23,7 +23,7 @@ int main() {
 
     // Link the components.
     topLevel.Connect("in1",0,"SR",0);
-    topLevel.Connect("in2",1,"SR",1);
+    topLevel.Connect("in2",0,"SR",1);
     topLevel.Connect("SR",0,"out1",0);
     topLevel.Connect("SR",1,"out2",1);
 

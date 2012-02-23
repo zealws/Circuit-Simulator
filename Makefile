@@ -1,5 +1,5 @@
 # These are phony targets since they don't actually create files with those names
-.PHONY : clean realclean squeakyclean deleteBackups linecount depend
+.PHONY : dist clean realclean squeakyclean deleteBackups linecount depend
 
 include Makefile.inc
 
