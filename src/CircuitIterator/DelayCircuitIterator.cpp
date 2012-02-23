@@ -1,6 +1,5 @@
-#include "DelayCircuitEvaluator.h"
-#include "Exceptions.h"
-#include "CircuitRefresher.h"
+#include "DelayCircuitIterator.h"
+#include "CircuitSimulator.h"
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -8,31 +7,31 @@
 using namespace std;
 
 ////
-//// DelayCircuitEvaluator class
+//// DelayCircuitIterator class
 ////
-DelayCircuitEvaluator::pair::pair()
+DelayCircuitIterator::pair::pair()
     : first(NULL), second(0) {
     // Do Nothing
 }
-DelayCircuitEvaluator::pair::pair(CustomComponent* f, State::Timestamp s)
+DelayCircuitIterator::pair::pair(CustomComponent* f, State::Timestamp s)
     : first(f), second(s) {
     // Do Nothing
 }
-DelayCircuitEvaluator::pair::pair(State::Timestamp s, CustomComponent* f)
+DelayCircuitIterator::pair::pair(State::Timestamp s, CustomComponent* f)
     : first(f), second(s) {
     // Do Nothing
 }
 
 // For comparison
-bool DelayCircuitEvaluator::pair::operator>(const pair& other) const {
+bool DelayCircuitIterator::pair::operator>(const pair& other) const {
     return second > other.second;
 }
-bool DelayCircuitEvaluator::pair::operator<(const pair& other) const {
+bool DelayCircuitIterator::pair::operator<(const pair& other) const {
     return second < other.second;
 }
 
 // Returns whether or not a component occurs in outputList
-bool DelayCircuitEvaluator::IsOutput(CustomComponent* search) {
+bool DelayCircuitIterator::IsOutput(CustomComponent* search) {
     list<CustomComponent*>::iterator it = outputList.begin();
     while(it != outputList.end()) {
         if(*it == search)
@@ -44,25 +43,12 @@ bool DelayCircuitEvaluator::IsOutput(CustomComponent* search) {
 }
 
 // Are we done?
-bool DelayCircuitEvaluator::IsDone() {
+bool DelayCircuitIterator::IsDone() {
     return (toBeVisited.size() == 0) && myCurrItem.first == NULL;
 }
 
-// Evaluate the current item
-void DelayCircuitEvaluator::EvaluateCurrentItem() {
-
-    list<Wire*> updated = myCurrItem.first->EvaluateCustomComponent();
-
-    while(not(updated.empty())) {
-        Wire* p = updated.front();
-        toBeVisited.push_back(pair(p->Next(), p->GetState().Time()));
-        push_heap(toBeVisited.begin(), toBeVisited.end());
-        updated.pop_front();
-    }
-}
-
 // Proceeds to the next item
-void DelayCircuitEvaluator::Progress() {
+void DelayCircuitIterator::Progress() {
     if(toBeVisited.size() == 0) {
         myCurrItem.first = NULL;
     }
@@ -76,16 +62,27 @@ void DelayCircuitEvaluator::Progress() {
     }
 }
 
-CustomComponent* DelayCircuitEvaluator::CurrentItem() {
+CustomComponent* DelayCircuitIterator::CurrentItem() {
     return myCurrItem.first;
 }
 
-State::Timestamp DelayCircuitEvaluator::CurrentDelay() {
+State::Timestamp DelayCircuitIterator::CurrentDelay() {
     return myCurrItem.second;
 }
 
+// Add a component to the queue
+void DelayCircuitIterator::AddComponent(CustomComponent* p) {
+    toBeVisited.push_back(pair(p, 0));
+    push_heap(toBeVisited.begin(), toBeVisited.end());
+}
+
+void DelayCircuitIterator::enqueue(Wire* p) {
+    toBeVisited.push_back(pair(p->Next(), p->GetState().Time()));
+    push_heap(toBeVisited.begin(), toBeVisited.end());
+}
+
 // Resets the simulator for the given circuit.
-void DelayCircuitEvaluator::reset() {
+void DelayCircuitIterator::reset() {
     Clear();
     list<CustomComponent*> components = myCircuit->GetInputComponents();
     outputList = myCircuit->GetOutputComponents();
@@ -98,23 +95,23 @@ void DelayCircuitEvaluator::reset() {
     Progress();
 }
 
-DelayCircuitEvaluator::DelayCircuitEvaluator() {
+DelayCircuitIterator::DelayCircuitIterator() {
     // Do Nothing
 }
 
 // Destructor
-DelayCircuitEvaluator::~DelayCircuitEvaluator() {
+DelayCircuitIterator::~DelayCircuitIterator() {
     // Do Nothing
 }
 
 // Sets up iteration for a given circuit.
-void DelayCircuitEvaluator::Setup(Circuit& toEvaluate) {
+void DelayCircuitIterator::Setup(Circuit& toEvaluate) {
     myCircuit = &toEvaluate;
     reset();
 }
 
 // Iterate
-void DelayCircuitEvaluator::Iterate() {
+void DelayCircuitIterator::Iterate() {
     reset();
     while(not IsDone()) {
         EvaluateCurrentItem();
@@ -128,7 +125,7 @@ void DelayCircuitEvaluator::Iterate() {
 }
 
 // Clears the queue of items.
-void DelayCircuitEvaluator::Clear() {
+void DelayCircuitIterator::Clear() {
     toBeVisited.resize(0);
     myCurrItem.first = NULL;
     myCurrItem.second = 0;

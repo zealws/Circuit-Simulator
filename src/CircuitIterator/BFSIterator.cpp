@@ -1,15 +1,14 @@
-#include "BFSCircuitEvaluator.h"
-#include "Exceptions.h"
-#include "CircuitRefresher.h"
+#include "BFSIterator.h"
+#include "CircuitSimulator.h"
 #include <iostream>
 using namespace std;
 
 ////
-//// BFSCircuitEvaluator class
+//// BFSIterator class
 ////
 
 // Returns whether or not a component occurs in outputList
-bool BFSCircuitEvaluator::IsOutput(CustomComponent* search) {
+bool BFSIterator::IsOutput(CustomComponent* search) {
     list<CustomComponent*>::iterator it = outputList.begin();
     while(it != outputList.end()) {
         if(*it == search)
@@ -21,12 +20,22 @@ bool BFSCircuitEvaluator::IsOutput(CustomComponent* search) {
 }
 
 // Are we done?
-bool BFSCircuitEvaluator::IsDone() {
+bool BFSIterator::IsDone() {
     return toBeVisited.empty() && myCurrItem == NULL;
 }
 
-// Evaluate the current item
-void BFSCircuitEvaluator::EvaluateCurrentItem() {
+// Proceeds to the next item
+void BFSIterator::Progress() {
+    if(toBeVisited.empty()) {
+        myCurrItem = NULL;
+    }
+    else {
+        myCurrItem = toBeVisited.front();
+        toBeVisited.pop_front();
+    }
+    if(IsOutput(myCurrItem)) {
+        Progress();
+    }
 
     // Remove duplicates from the toBeVisited lists
     list<CustomComponent*>::iterator search = toBeVisited.begin();
@@ -40,59 +49,43 @@ void BFSCircuitEvaluator::EvaluateCurrentItem() {
             search++;
         }
     }
-
-    list<Wire*> updated = myCurrItem->EvaluateCustomComponent();
-
-    while(not(updated.empty())) {
-        Wire* p = updated.front();
-        toBeVisited.push_back(p->Next());
-        updated.pop_front();
-    }
 }
 
-// Proceeds to the next item
-void BFSCircuitEvaluator::Progress() {
-    if(toBeVisited.empty()) {
-        myCurrItem = NULL;
-    }
-    else {
-        myCurrItem = toBeVisited.front();
-        toBeVisited.pop_front();
-    }
-    if(IsOutput(myCurrItem)) {
-        Progress();
-    }
+
+// Add a component to the queue
+void BFSIterator::AddComponent(CustomComponent* p) {
+    toBeVisited.push_back(p);
 }
 
-CustomComponent* BFSCircuitEvaluator::CurrentItem() {
+CustomComponent* BFSIterator::CurrentItem() {
     return myCurrItem;
 }
 
 // Resets the simulator for the given circuit.
-void BFSCircuitEvaluator::reset() {
+void BFSIterator::reset() {
     Clear();
     toBeVisited = myCircuit->GetInputComponents();
     outputList = myCircuit->GetOutputComponents();
     Progress();
 }
 
-BFSCircuitEvaluator::BFSCircuitEvaluator() {
+BFSIterator::BFSIterator() {
     // Do Nothing
 }
 
 // Destructor
-BFSCircuitEvaluator::~BFSCircuitEvaluator() {
+BFSIterator::~BFSIterator() {
     // Do Nothing
 }
 
 // Sets up iteration for a given circuit.
-void BFSCircuitEvaluator::Setup(Circuit& toEvaluate) {
+void BFSIterator::Setup(Circuit& toEvaluate) {
     myCircuit = &toEvaluate;
     reset();
 }
 
 // Iterate
-void BFSCircuitEvaluator::Iterate() {
+void BFSIterator::Iterate() {
     reset();
     while(not IsDone()) {
         EvaluateCurrentItem();
@@ -106,7 +99,7 @@ void BFSCircuitEvaluator::Iterate() {
 }
 
 // Clears the queue of items.
-void BFSCircuitEvaluator::Clear() {
+void BFSIterator::Clear() {
     toBeVisited.clear();
     myCurrItem = NULL;
 }

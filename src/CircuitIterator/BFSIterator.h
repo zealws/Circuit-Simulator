@@ -1,15 +1,15 @@
-#ifndef __BFS_CIRCUIT_EVALUATOR__
-#define __BFS_CIRCUIT_EVALUATOR__
+#ifndef __BFS_ITERATOR__
+#define __BFS_ITERATOR__
 
 #include "CircuitIterator.h"
 #include <list>
 using namespace std;
 
 ////
-//// BFSCircuitEvaluator class
+//// BFSIterator class
 ////
 
-class BFSCircuitEvaluator : public CircuitIterator {
+class BFSIterator : public CircuitIterator {
 
 private:
 
@@ -29,7 +29,7 @@ protected:
     virtual bool IsDone();
 
     // Evaluate the current item
-    virtual void EvaluateCurrentItem();
+    virtual void EvaluateCurrentItem() = 0;
 
     // Proceeds to the next item
     virtual void Progress();
@@ -40,12 +40,15 @@ protected:
     // Resets the simulator for the given circuit.
     void reset();
 
+    // Add a component to the queue
+    virtual void AddComponent(CustomComponent*);
+
 public:
 
-    BFSCircuitEvaluator();
+    BFSIterator();
 
     // Destructor
-    virtual ~BFSCircuitEvaluator();
+    virtual ~BFSIterator();
 
     // Sets up iteration for a given circuit.
     virtual void Setup(Circuit&);

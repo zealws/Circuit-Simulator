@@ -25,6 +25,9 @@ protected:
     // Fetch the current item
     virtual CustomComponent* CurrentItem() = 0;
 
+    // Add and delete components from the iterator
+    virtual void AddComponent(CustomComponent*) = 0;
+
 public:
 
     // Destructor

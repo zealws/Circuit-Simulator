@@ -1,17 +1,17 @@
-#ifndef __DELAY_CIRCUIT_EVALUATOR__
-#define __DELAY_CIRCUIT_EVALUATOR__
+#ifndef __DELAY_CIRCUIT_ITERATOR__
+#define __DELAY_CIRCUIT_ITERATOR__
 
 #include "CircuitIterator.h"
 #include <vector>
 using namespace std;
 
 ////
-//// DelayCircuitEvaluator class
+//// DelayCircuitIterator class
 ////
 
-class DelayCircuitEvaluator : public CircuitIterator {
+class DelayCircuitIterator : public CircuitIterator {
 
-private:
+protected:
 
     // For the heap priority queue
     class pair {
@@ -26,6 +26,8 @@ private:
         bool operator>(const pair&) const;
         bool operator<(const pair&) const;
     };
+
+private:
 
     // The nodes we have yet to visit
     vector<pair> toBeVisited;
@@ -48,7 +50,7 @@ protected:
     virtual bool IsDone();
 
     // Evaluate the current item
-    virtual void EvaluateCurrentItem();
+    virtual void EvaluateCurrentItem() = 0;
 
     // Proceeds to the next item
     virtual void Progress();
@@ -57,15 +59,19 @@ protected:
     virtual CustomComponent* CurrentItem();
     virtual State::Timestamp CurrentDelay();
 
+    // Add a component to the queue
+    virtual void AddComponent(CustomComponent*);
+    virtual void enqueue(Wire*);
+
     // Resets the simulator for the given circuit.
     void reset();
 
 public:
 
-    DelayCircuitEvaluator();
+    DelayCircuitIterator();
 
     // Destructor
-    virtual ~DelayCircuitEvaluator();
+    virtual ~DelayCircuitIterator();
 
     // Sets up iteration for a given circuit.
     virtual void Setup(Circuit&);

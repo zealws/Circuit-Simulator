@@ -1,5 +1,5 @@
 #include "CircuitRefresher.h"
-#include "Exceptions.h"
+#include "CircuitSimulator.h"
 #include <iostream>
 using namespace std;
 
@@ -36,7 +36,7 @@ void CircuitRefresher::EvaluateCurrentItem() {
 
     for(int i = 0; i < nextWires.size(); i++) {
         nextWires[i]->Refresh();
-        toBeVisited.push_back(nextWires[i]->Next());
+        AddComponent(nextWires[i]->Next());
     }
 }
 
@@ -57,6 +57,11 @@ void CircuitRefresher::Progress() {
         p++) {
         RemoveAll(*p, toBeVisited);
     }
+}
+
+// Add a component to the queue
+void CircuitRefresher::AddComponent(CustomComponent* p) {
+    toBeVisited.push_back(p);
 }
 
 CustomComponent* CircuitRefresher::CurrentItem() {

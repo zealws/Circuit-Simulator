@@ -31,6 +31,9 @@ protected:
     // Fetch the current item
     virtual CustomComponent* CurrentItem();
 
+    // Add a component to the queue
+    virtual void AddComponent(CustomComponent*);
+
 public:
 
     CircuitRefresher();
