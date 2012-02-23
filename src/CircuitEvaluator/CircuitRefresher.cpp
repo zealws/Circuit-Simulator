@@ -24,7 +24,7 @@ bool Exists(T item, list<T>& lis) {
 ////
 
 // Evaluate the current item
-void CircuitRefresher::EvaluateCurrentItem() {
+void CircuitRefresher::Evaluate() {
     if(Exists(CurrentItem(), beenVisited)) {
         // Do Nothing
     }

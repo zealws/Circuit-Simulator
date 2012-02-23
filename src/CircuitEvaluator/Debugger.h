@@ -1,15 +1,15 @@
-#ifndef __DELAY_EVALUATOR__
-#define __DELAY_EVALUATOR__
+#ifndef __DEBUGGER_EVALUATOR__
+#define __DEBUGGER_EVALUATOR__
 
 #include "DelayCircuitIterator.h"
 #include <vector>
 using namespace std;
 
 ////
-//// DelayEvaluator class
+//// Debugger class
 ////
 
-class DelayEvaluator : public DelayCircuitIterator {
+class Debugger : public DelayCircuitIterator {
 
 protected:
 
@@ -18,7 +18,7 @@ protected:
 
 public:
 
-    ~DelayEvaluator();
+    ~Debugger();
 
 };
 

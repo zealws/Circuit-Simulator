@@ -9,75 +9,54 @@ using namespace std;
 ////
 //// DelayCircuitIterator class
 ////
-DelayCircuitIterator::pair::pair()
-    : first(NULL), second(0) {
+DelayCircuitIterator::triple::triple()
+    : wire(NULL), time(0), value(State::Down) {
     // Do Nothing
 }
-DelayCircuitIterator::pair::pair(CustomComponent* f, State::Timestamp s)
-    : first(f), second(s) {
-    // Do Nothing
-}
-DelayCircuitIterator::pair::pair(State::Timestamp s, CustomComponent* f)
-    : first(f), second(s) {
+DelayCircuitIterator::triple::triple(Wire* w, State::Timestamp t, State::Boolean v)
+    : wire(w), time(t), value(v) {
     // Do Nothing
 }
 
 // For comparison
-bool DelayCircuitIterator::pair::operator>(const pair& other) const {
-    return second > other.second;
+bool DelayCircuitIterator::triple::operator>(const triple& other) const {
+    return time > other.time;
 }
-bool DelayCircuitIterator::pair::operator<(const pair& other) const {
-    return second < other.second;
-}
-
-// Returns whether or not a component occurs in outputList
-bool DelayCircuitIterator::IsOutput(CustomComponent* search) {
-    list<CustomComponent*>::iterator it = outputList.begin();
-    while(it != outputList.end()) {
-        if(*it == search)
-            return true;
-        else
-            it++;
-    }
-    return false;
+bool DelayCircuitIterator::triple::operator<(const triple& other) const {
+    return time < other.time;
 }
 
 // Are we done?
 bool DelayCircuitIterator::IsDone() {
-    return (toBeVisited.size() == 0) && myCurrItem.first == NULL;
+    return (toBeVisited.size() == 0) && myCurrItem.wire == NULL;
 }
 
 // Proceeds to the next item
 void DelayCircuitIterator::Progress() {
     if(toBeVisited.size() == 0) {
-        myCurrItem.first = NULL;
+        myCurrItem.wire = NULL;
     }
     else {
         myCurrItem = toBeVisited.front();
         pop_heap(toBeVisited.begin(), toBeVisited.end());
         toBeVisited.pop_back();
     }
-    if(IsOutput(myCurrItem.first)) {
-        Progress();
-    }
 }
 
 CustomComponent* DelayCircuitIterator::CurrentItem() {
-    return myCurrItem.first;
+    return myCurrItem.wire->Next();
 }
 
 State::Timestamp DelayCircuitIterator::CurrentDelay() {
-    return myCurrItem.second;
+    return myCurrItem.time;
 }
 
-// Add a component to the queue
-void DelayCircuitIterator::AddComponent(CustomComponent* p) {
-    toBeVisited.push_back(pair(p, 0));
-    push_heap(toBeVisited.begin(), toBeVisited.end());
+State::Boolean DelayCircuitIterator::CurrentValue() {
+    return myCurrItem.value;
 }
 
 void DelayCircuitIterator::enqueue(Wire* p) {
-    toBeVisited.push_back(pair(p->Next(), p->GetState().Time()));
+    toBeVisited.push_back(triple(p, p->GetState().Time(), p->GetState().CurrentValue()));
     push_heap(toBeVisited.begin(), toBeVisited.end());
 }
 
@@ -85,10 +64,14 @@ void DelayCircuitIterator::enqueue(Wire* p) {
 void DelayCircuitIterator::reset() {
     Clear();
     list<CustomComponent*> components = myCircuit->GetInputComponents();
-    outputList = myCircuit->GetOutputComponents();
     list<CustomComponent*>::iterator it = components.begin();
     while(it != components.end()) {
-        toBeVisited.push_back(pair(*it,0));
+        // Since we do our traversal by wires now, we need some way to kickstart
+        // the iteration with the input nodes. So we create "void" wires,
+        // and make them lead to the input nodes.
+        Wire* p = new Wire();
+        p->SetOutputCircuit(*it);
+        toBeVisited.push_back(triple(p,0, State::Up));
         push_heap(toBeVisited.begin(), toBeVisited.end());
         it++;
     }
@@ -110,19 +93,15 @@ void DelayCircuitIterator::Setup(Circuit& toEvaluate) {
 void DelayCircuitIterator::Iterate() {
     reset();
     while(not IsDone()) {
-        EvaluateCurrentItem();
+        myCurrItem.wire->SetState(CurrentValue());
+        Evaluate();
         Progress();
-    }
-    list<CustomComponent*>::iterator it = outputList.begin();
-    while(it != outputList.end()) {
-        (*it)->EvaluateCustomComponent();
-        it++;
     }
 }
 
 // Clears the queue of items.
 void DelayCircuitIterator::Clear() {
-    toBeVisited.resize(0);
-    myCurrItem.first = NULL;
-    myCurrItem.second = 0;
+    toBeVisited.clear();
+    myCurrItem.wire = NULL;
+    myCurrItem.time = 0;
 }

@@ -14,43 +14,37 @@ class DelayCircuitIterator : public CircuitIterator {
 protected:
 
     // For the heap priority queue
-    class pair {
+    class triple {
     public:
-        pair();
-        pair(CustomComponent*, State::Timestamp);
-        pair(State::Timestamp, CustomComponent*);
-        CustomComponent* first;
-        State::Timestamp second;
+        triple();
+        triple(Wire*, State::Timestamp, State::Boolean);
+        Wire* wire;
+        State::Boolean value;
+        State::Timestamp time;
 
         // For comparison
-        bool operator>(const pair&) const;
-        bool operator<(const pair&) const;
+        bool operator>(const triple&) const;
+        bool operator<(const triple&) const;
     };
 
 private:
 
     // The nodes we have yet to visit
-    vector<pair> toBeVisited;
-
-    // The list of all the output components
-    list<CustomComponent*> outputList;
+    vector<triple> toBeVisited;
 
     // The current item
-    pair myCurrItem;
+    triple myCurrItem;
 
     // The circuit we're evaluating
     Circuit* myCircuit;
 
 protected:
 
-    // Returns whether or not a component occurs in outputList
-    bool IsOutput(CustomComponent*);
-
     // Are we done?
     virtual bool IsDone();
 
     // Evaluate the current item
-    virtual void EvaluateCurrentItem() = 0;
+    virtual void Evaluate() = 0;
 
     // Proceeds to the next item
     virtual void Progress();
@@ -60,7 +54,6 @@ protected:
     virtual State::Timestamp CurrentDelay();
 
     // Add a component to the queue
-    virtual void AddComponent(CustomComponent*);
     virtual void enqueue(Wire*);
 
     // Resets the simulator for the given circuit.

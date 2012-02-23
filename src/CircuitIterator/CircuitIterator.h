@@ -17,16 +17,13 @@ protected:
     virtual bool IsDone() = 0;
 
     // Evaluate the current item
-    virtual void EvaluateCurrentItem() = 0;
+    virtual void Evaluate() = 0;
 
     // Proceeds to the next item
     virtual void Progress() = 0;
 
     // Fetch the current item
     virtual CustomComponent* CurrentItem() = 0;
-
-    // Add and delete components from the iterator
-    virtual void AddComponent(CustomComponent*) = 0;
 
 public:
 

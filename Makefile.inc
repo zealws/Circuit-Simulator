@@ -56,6 +56,7 @@ OBJS =  \
 	src/CircuitEvaluator/NormalEvaluator.o \
 	src/CircuitEvaluator/DelayEvaluator.o \
 	src/CircuitEvaluator/CircuitRefresher.o \
+	src/CircuitEvaluator/Debugger.o \
 	src/Exceptions/WireError.o \
 	src/Exceptions/CircuitEvalError.o \
 	src/Exceptions/ComponentError.o
@@ -81,6 +82,7 @@ DIST_FILES = \
 	src/CircuitEvaluator/NormalEvaluator.h \
 	src/CircuitEvaluator/DelayEvaluator.h \
 	src/CircuitEvaluator/CircuitRefresher.h \
+	src/CircuitEvaluator/Debugger.h \
 	src/Exceptions/Exceptions.h \
 	src/Exceptions/CircuitEvalError.h \
 	src/Exceptions/WireError.h \
@@ -108,6 +110,7 @@ OTHER_FILES =  \
 	src/CircuitEvaluator/NormalEvaluator.cpp \
 	src/CircuitEvaluator/DelayEvaluator.cpp \
 	src/CircuitEvaluator/CircuitRefresher.cpp \
+	src/CircuitEvaluator/Debugger.cpp \
 	src/Observer/UpdateCounter.cpp \
 	src/Observer/Observable.cpp \
 	src/Observer/Observer.cpp \

@@ -1,11 +1,15 @@
-#include "DelayEvaluator.h"
+#include "Debugger.h"
 #include "CircuitSimulator.h"
 #include <list>
 #include <vector>
 using namespace std;
 
 // Evaluate the current item
-void DelayEvaluator::Evaluate() {
+void Debugger::Evaluate() {
+
+    cout << CurrentItem()->GetName() << " > ";
+    char c;
+    cin >> c;
 
     list<Wire*> updated = CurrentItem()->EvaluateCustomComponent();
 
@@ -17,6 +21,6 @@ void DelayEvaluator::Evaluate() {
 }
 
 // Destructor
-DelayEvaluator::~DelayEvaluator() {
+Debugger::~Debugger() {
     // Do Nothing
 }

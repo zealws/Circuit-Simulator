@@ -15,7 +15,7 @@ class NormalEvaluator : public BFSIterator {
 protected:
 
     // Evaluate the current item
-    virtual void EvaluateCurrentItem();
+    virtual void Evaluate();
 
 public:
 

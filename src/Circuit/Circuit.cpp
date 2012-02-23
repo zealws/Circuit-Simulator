@@ -11,7 +11,7 @@ using namespace std;
 ////
 
 // Constructor
-Circuit::Circuit() : simulateGateDelays(false) {
+Circuit::Circuit() : simulateGateDelays(true) {
     // Do Nothing
 }
 

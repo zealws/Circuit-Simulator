@@ -4,7 +4,7 @@
 using namespace std;
 
 // Evaluate the current item
-void NormalEvaluator::EvaluateCurrentItem() {
+void NormalEvaluator::Evaluate() {
 
     list<Wire*> updated = CurrentItem()->EvaluateCustomComponent();
 

@@ -100,7 +100,7 @@ void BFSIterator::Setup(Circuit& toEvaluate) {
 void BFSIterator::Iterate() {
     reset();
     while(not IsDone()) {
-        EvaluateCurrentItem();
+        Evaluate();
         Progress();
     }
     list<CustomComponent*>::iterator it = outputList.begin();
