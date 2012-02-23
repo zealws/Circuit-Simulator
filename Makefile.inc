@@ -16,6 +16,7 @@ INCLUDES = \
 	-Isrc/Component \
 	-Isrc/Observer \
 	-Isrc/CircuitIterator \
+	-Isrc/CircuitEvaluator \
 	-Isrc/BaseCircuits \
 	-Isrc/Exceptions \
 	-Isrc/gc/include \
@@ -50,8 +51,12 @@ OBJS =  \
 	src/Observer/Observer.o \
 	src/Observer/UpdateCounter.o \
 	src/CircuitIterator/CircuitIterator.o \
-	src/CircuitIterator/BFSCircuitEvaluator.o \
-	src/CircuitIterator/DelayCircuitEvaluator.o \
+	src/CircuitIterator/BFSIterator.o \
+	src/CircuitIterator/DelayCircuitIterator.o \
+	src/CircuitEvaluator/NormalEvaluator.o \
+	src/CircuitEvaluator/DelayEvaluator.o \
+	src/CircuitEvaluator/CircuitRefresher.o \
+	src/CircuitEvaluator/Debugger.o \
 	src/Exceptions/WireError.o \
 	src/Exceptions/CircuitEvalError.o \
 	src/Exceptions/ComponentError.o
@@ -72,8 +77,12 @@ DIST_FILES = \
 	src/Observer/ObserverDecs.h \
 	src/Observer/UpdateCounter.h \
 	src/CircuitIterator/CircuitIterator.h \
-	src/CircuitIterator/BFSCircuitEvaluator.h \
-	src/CircuitIterator/DelayCircuitEvaluator.h \
+	src/CircuitIterator/BFSIterator.h \
+	src/CircuitIterator/DelayCircuitIterator.h \
+	src/CircuitEvaluator/NormalEvaluator.h \
+	src/CircuitEvaluator/DelayEvaluator.h \
+	src/CircuitEvaluator/CircuitRefresher.h \
+	src/CircuitEvaluator/Debugger.h \
 	src/Exceptions/Exceptions.h \
 	src/Exceptions/CircuitEvalError.h \
 	src/Exceptions/WireError.h \
@@ -96,8 +105,12 @@ OTHER_FILES =  \
 	src/Exceptions/CircuitEvalError.cpp \
 	src/Exceptions/ComponentError.cpp \
 	src/CircuitIterator/CircuitIterator.cpp \
-	src/CircuitIterator/BFSCircuitEvaluator.cpp \
-	src/CircuitIterator/DelayCircuitEvaluator.cpp \
+	src/CircuitIterator/BFSIterator.cpp \
+	src/CircuitIterator/DelayCircuitIterator.cpp \
+	src/CircuitEvaluator/NormalEvaluator.cpp \
+	src/CircuitEvaluator/DelayEvaluator.cpp \
+	src/CircuitEvaluator/CircuitRefresher.cpp \
+	src/CircuitEvaluator/Debugger.cpp \
 	src/Observer/UpdateCounter.cpp \
 	src/Observer/Observable.cpp \
 	src/Observer/Observer.cpp \

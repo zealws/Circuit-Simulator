@@ -57,23 +57,17 @@ public:
 
     // Links a circuit as an input gate of this circuit, with an optional identifier
     void AddInput(Component);
-    void AddInput(CustomComponent*);
     void AddInput(string);
 
     // Links a subcircuit as an output gate of this circuit, with an optional identifier
     void AddOutput(Component);
-    void AddOutput(CustomComponent*);
     void AddOutput(string);
 
     // Links an arbitrary component with an identifier.
     void AddComponent(string, Component);
-    void Add(string, Component);
 
     // Returns the component with the given identifier.
     Component Lookup(string);
-
-    // Alias for Lookup
-    Component operator()(string);
 
     ////
     //// Helper Functions
@@ -81,8 +75,8 @@ public:
 
     // Links two circuits with a wire.
     // Uses the specified input and output wire numbers.
-    static void Connect(Component in, int inNo, Component out, int outNo, bool initWireState = true);
-    void Connect(string inId, int inNo, string outId, int outNo, bool initWireState = true);
+    static void Connect(Component in, unsigned int inNo, Component out, unsigned int outNo, bool initWireState = true);
+    void Connect(string inId, unsigned int inNo, string outId, unsigned int outNo, bool initWireState = true);
 
     ////
     //// Circuit Evaluation

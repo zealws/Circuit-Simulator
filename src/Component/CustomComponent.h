@@ -53,10 +53,14 @@ public:
     virtual list<Wire*> EvaluateCustomComponent();
 
     // Get Input Wires to this CustomComponent.
-    vector<Wire*> getInputWires();
+    vector<Wire*> GetInputWires();
 
     // Get Output Wires to this CustomComponent.
-    vector<Wire*> getOutputWires();
+    vector<Wire*> GetOutputWires();
+
+    // Returns the input/output size of the component.
+    unsigned int InputSize();
+    unsigned int OutputSize();
 
     // Sets an Input Wire
     // Does not change the wire at all

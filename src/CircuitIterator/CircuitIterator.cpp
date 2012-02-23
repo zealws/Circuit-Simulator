@@ -1,4 +1,5 @@
 #include "CircuitIterator.h"
+#include "CircuitSimulator.h"
 
 ////
 //// CircuitIterator class

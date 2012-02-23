@@ -17,7 +17,7 @@ protected:
     virtual bool IsDone() = 0;
 
     // Evaluate the current item
-    virtual void EvaluateCurrentItem() = 0;
+    virtual void Evaluate() = 0;
 
     // Proceeds to the next item
     virtual void Progress() = 0;

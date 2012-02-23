@@ -1,11 +1,5 @@
 #include "Circuit.h"
-#include "CustomComponent.h"
-#include "UpdateCounter.h"
-#include "BFSCircuitEvaluator.h"
-#include "DelayCircuitEvaluator.h"
-#include "Exceptions.h"
-#include "Component.h"
-#include "BaseCircuits.h"
+#include "CircuitSimulator.h"
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -17,7 +11,7 @@ using namespace std;
 ////
 
 // Constructor
-Circuit::Circuit() : simulateGateDelays(false) {
+Circuit::Circuit() : simulateGateDelays(true) {
     // Do Nothing
 }
 
@@ -31,10 +25,6 @@ void Circuit::AddInput(Component c) {
     inputComponents.push_back(c.body());
 }
 
-void Circuit::AddInput(CustomComponent* c) {
-    inputComponents.push_back(c);
-}
-
 void Circuit::AddInput(string id) {
     AddInput(Lookup(id));
 }
@@ -42,10 +32,6 @@ void Circuit::AddInput(string id) {
 // Links a subcircuit as an output gate of this circuit.
 void Circuit::AddOutput(Component c) {
     outputComponents.push_back(c.body());
-}
-
-void Circuit::AddOutput(CustomComponent* c) {
-    outputComponents.push_back(c);
 }
 
 void Circuit::AddOutput(string id) {
@@ -56,10 +42,6 @@ void Circuit::AddOutput(string id) {
 void Circuit::AddComponent(string id, Component c) {
     components[id] = c;
     c.body()->SetName(c.body()->GetName() + ":" + id);
-}
-
-void Circuit::Add(string id, Component c) {
-    AddComponent(id, c);
 }
 
 // Returns the input subcircuits
@@ -77,14 +59,9 @@ Component Circuit::Lookup(string id) {
     return components[id];
 }
 
-// Shortcut for Lookup
-Component Circuit::operator()(string id) {
-    return components[id];
-}
-
 // Links two circuits with a wire.
 // Uses the specified input and output wire numbers.
-void Circuit::Connect(Component in, int inNo, Component out, int outNo, bool initWireState) {
+void Circuit::Connect(Component in, unsigned int inNo, Component out, unsigned int outNo, bool initWireState) {
     Wire* p = new Wire();
     in.body()->SetOutputWire(p, inNo);
     out.body()->SetInputWire(p, outNo);
@@ -95,20 +72,20 @@ void Circuit::Connect(Component in, int inNo, Component out, int outNo, bool ini
 }
 
 // Links two components in this circuit.
-void Circuit::Connect(string inId, int inNo, string outId, int outNo, bool initWireState) {
+void Circuit::Connect(string inId, unsigned int inNo, string outId, unsigned int outNo, bool initWireState) {
     Connect(Lookup(inId), inNo, Lookup(outId), outNo, initWireState);
 }
 
 // Evaluates the circuit
 void Circuit::Evaluate() {
     if(simulateGateDelays) {
-        DelayCircuitEvaluator v;
+        DelayEvaluator v;
         v.Setup(*this);
         try {
             try {
                 v.Iterate();
             } catch (ComponentError e) {
-                cerr << "Circuit Evaluation failed. CCompircuit gave message:\n";
+                cerr << "Circuit Evaluation failed. Circuit gave message:\n";
                 cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetName() << "'\n";
             }
         } catch (WireError e) {
@@ -118,13 +95,13 @@ void Circuit::Evaluate() {
         v.Clear();
     }
     else {
-        BFSCircuitEvaluator v;
+        NormalEvaluator v;
         v.Setup(*this);
         try {
             try {
                 v.Iterate();
             } catch (ComponentError e) {
-                cerr << "Circuit Evaluation failed. CCompircuit gave message:\n";
+                cerr << "Circuit Evaluation failed. Circuit gave message:\n";
                 cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetName() << "'\n";
             }
         } catch (WireError e) {
