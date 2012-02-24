@@ -52,6 +52,7 @@ protected:
     // Fetch the current item
     virtual CustomComponent* CurrentItem();
     virtual State::Timestamp CurrentDelay();
+    virtual State::Boolean CurrentValue();
 
     // Add a component to the queue
     virtual void enqueue(Wire*);

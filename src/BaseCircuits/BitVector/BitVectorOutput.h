@@ -20,7 +20,7 @@ protected:
 
         cout << "[" << GetName() << "] ";
         for(int i = 0; i < inputStates.size(); i++) {
-            cout << boolalpha << bool(inputStates[i]) << " ";
+            cout << bool(inputStates[i]);
         }
         cout << endl;
     }

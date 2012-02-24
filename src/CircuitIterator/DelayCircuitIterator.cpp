@@ -70,7 +70,7 @@ void DelayCircuitIterator::reset() {
         // the iteration with the input nodes. So we create "void" wires,
         // and make them lead to the input nodes.
         Wire* p = new Wire();
-        p->SetOutputCircuit(*it);
+        p->SetOutputCircuit(*it, 0);
         toBeVisited.push_back(triple(p,0, State::Up));
         push_heap(toBeVisited.begin(), toBeVisited.end());
         it++;
@@ -93,8 +93,9 @@ void DelayCircuitIterator::Setup(Circuit& toEvaluate) {
 void DelayCircuitIterator::Iterate() {
     reset();
     while(not IsDone()) {
-        myCurrItem.wire->SetState(CurrentValue());
-        Evaluate();
+        myCurrItem.wire->SetState(State(CurrentValue(), CurrentDelay()));
+        if(myCurrItem.wire->ForcesEvaluation())
+            Evaluate();
         Progress();
     }
 }

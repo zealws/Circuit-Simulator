@@ -12,7 +12,7 @@ using namespace std;
 // Constructor
 // Create a wire with no output gate.
 Wire::Wire()
-    : beenUpdated(false), myState(), outputCircuit(NULL) {
+    : evaluationForced(true), beenUpdated(false), myState(), outputCircuit(NULL) {
     // Do Nothing
 }
 
@@ -57,13 +57,26 @@ State Wire::GetState() const {
 }
 
 // Sets the output of this wire.
-void Wire::SetOutputCircuit(CustomComponent* c) {
+void Wire::SetOutputCircuit(CustomComponent* c, int out) {
     outputCircuit = c;
+    outputPin = out;
 }
 
 // Sets the input of this wire.
-void Wire::SetInputCircuit(CustomComponent* c) {
+void Wire::SetInputCircuit(CustomComponent* c, int in) {
     inputCircuit = c;
+    inputPin = in;
+}
+
+// Evaluation of this wire does not cause re-evaluation of it's output
+// component. Used for busses.
+void Wire::DoNotForceEvaluation() {
+    evaluationForced = false;
+}
+
+// Does this wire force evaluation of it's output component?
+bool Wire::ForcesEvaluation() {
+    return evaluationForced;
 }
 
 // Refreshes the wire, so it will be freshly evaluated.

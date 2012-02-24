@@ -38,8 +38,8 @@ protected:
 public:
 
     // Constructor
-    CircuitInput(bool initState = false)
-        : state(initState), CustomComponent("CircuitInput", 0, 1)
+    CircuitInput(bool initState = false, int outputSize = 1)
+        : state(initState), CustomComponent("CircuitInput", 0, outputSize)
         {
         // There are no internal mechanisms for our gate that need to be
         // created or initialized, so nothing goes here.
