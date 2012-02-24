@@ -47,6 +47,7 @@ OBJS =  \
 	src/Component/CustomComponent.o \
 	src/Component/Component.o \
 	src/Component/BlackBox.o \
+	src/Component/BusComponent.o \
 	src/Observer/Observable.o \
 	src/Observer/Observer.o \
 	src/Observer/UpdateCounter.o \
@@ -72,6 +73,7 @@ DIST_FILES = \
 	src/Component/CustomComponent.h \
 	src/Component/Component.h \
 	src/Component/BlackBox.h \
+	src/Component/BusComponent.h \
 	src/Observer/Observable.h \
 	src/Observer/Observer.h \
 	src/Observer/ObserverDecs.h \
@@ -119,7 +121,8 @@ OTHER_FILES =  \
 	src/Wire/WireState.cpp \
 	src/Component/Component.cpp \
 	src/Component/CustomComponent.cpp \
-	src/Component/BlackBox.cpp
+	src/Component/BlackBox.cpp \
+	src/Component/BusComponent.cpp
 
 # List of Source Files for the dependency generator
 SRCS = $(DIST_FILES) $(OTHER_FILES)

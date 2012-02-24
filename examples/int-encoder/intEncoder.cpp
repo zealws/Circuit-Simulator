@@ -14,7 +14,7 @@ int main() {
     topLevel.AddComponent("out", new BitVectorOutput(sizeof(int)*8));
 
     // Link the components.
-    topLevel.ConnectBus("in",0,"out",0, sizeof(int)*8);
+    topLevel.Connect("in",0,"out",0);
 
     // Specify the input and output components.
     topLevel.AddInput("in");

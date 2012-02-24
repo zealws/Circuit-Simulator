@@ -1,13 +1,13 @@
-#ifndef __LED_H__
-#define __LED_H__
+#ifndef __Xor_H__
+#define __Xor_H__
 
-#include "CircuitOutput.h"
+#include "CircuitSimulator.h"
 
 ////
-//// LED
+//// Xor Gate
 ////
 
-class LED : public CircuitOutput {
+class Xor : public CustomComponent {
 
 protected:
 
@@ -18,15 +18,20 @@ protected:
 
         // Actually Do Stuff:
 
-        cout << "[" << GetName() << ":] " << boolalpha << bool(inputStates[0]) << "\n";
+        outputStates[0] = State::Boolean(inputStates[0] xor inputStates[1]);
 
+    }
+
+    // Returns the delay of the component
+    State::Timestamp Delay() {
+        return 2;
     }
 
 public:
 
     // Constructor
-    LED()
-        : CircuitOutput("LED")
+    Xor()
+        : CustomComponent("Xor", 2, 1) // 2 inputs and 1 output
         {
         // There are no internal mechanisms for our gate that need to be
         // created or initialized, so nothing goes here.

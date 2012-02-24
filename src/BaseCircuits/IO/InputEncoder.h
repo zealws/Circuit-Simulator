@@ -10,7 +10,7 @@ using namespace std;
 ////
 
 template<typename encodedType>
-class InputEncoder : public CircuitInput {
+class InputEncoder : public BusComponent {
 
 protected:
 
@@ -35,14 +35,16 @@ protected:
 
     }
 
+    State::Timestamp Delay() {
+        return 0;
+    }
+
 public:
 
     // Constructor
     InputEncoder()
-        : CircuitInput("Encoder", sizeof(encodedType)*8)
         {
-        // There are no internal mechanisms for our gate that need to be
-        // created or initialized, so nothing goes here.
+        CreateVOutput(sizeof(encodedType));
     }
 
 };

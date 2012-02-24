@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <list>
+#include <utility>
 #include "gc_cpp.h"
 using namespace std;
 
@@ -18,16 +19,16 @@ class CustomComponent : public gc
 
 private:
 
+    // The Name of the CustomComponent
+    string identifier;
+
+protected:
+
     // List of wires that are inputs to this CustomComponent.
     vector<Wire*> inputWireList;
 
     // List of wires that are output to this CustomComponent.
     vector<Wire*> outputWireList;
-
-    // The Name of the CustomComponent
-    string identifier;
-
-protected:
 
     // Evaluates the CustomComponent with certain states.
     // If not simulating gate delays, a 0 should be returned.
@@ -35,6 +36,10 @@ protected:
 
     // Returns the delay of the circuit.
     virtual State::Timestamp Delay() = 0;
+
+    // Resizes the circuit's inputs/outputs
+    virtual void ResizeInputs(int);
+    virtual void ResizeOutputs(int);
 
 public:
 
@@ -53,22 +58,17 @@ public:
     virtual list<Wire*> EvaluateCustomComponent();
 
     // Get Input Wires to this CustomComponent.
-    vector<Wire*> GetInputWires();
+    virtual vector<Wire*> GetInputWires();
 
     // Get Output Wires to this CustomComponent.
-    vector<Wire*> GetOutputWires();
+    virtual vector<Wire*> GetOutputWires();
 
     // Returns the input/output size of the component.
-    unsigned int InputSize();
-    unsigned int OutputSize();
+    virtual unsigned int InputSize();
+    virtual unsigned int OutputSize();
 
-    // Sets an Input Wire
-    // Does not change the wire at all
-    void SetInputWire(Wire*, int);
-
-    // Sets an Output Wire
-    // Does not change the wire at all
-    void SetOutputWire(Wire*, int);
+    // Creates an output wire between this component and the next one.
+    virtual void ConnectOutput(int, CustomComponent*, int, State::Boolean = false);
 
     // Gets the name of the circuit
     string GetName() const;

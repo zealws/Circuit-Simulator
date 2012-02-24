@@ -6,6 +6,7 @@
 #include "CustomComponent.h"
 #include "BlackBox.h"
 #include "Component.h"
+#include "BusComponent.h"
 #include "Observable.h"
 #include "Observer.h"
 #include "UpdateCounter.h"

@@ -102,21 +102,14 @@ State::Boolean::operator bool() const {
 //// Wire State
 ////
 
-const State::Boolean State::Up = State::Boolean(true);
-const State::Boolean State::High = State::Boolean(true);
-const State::Boolean State::Down = State::Boolean(false);
-const State::Boolean State::Low = State::Boolean(false);
-
-// Creates a Wire State with a State Change and Timestamp.
-// Uses (0->1, 0) as default.
-State::State (STATE_CHANGE initChange, Timestamp time)
-    : change(initChange), changeTime(time) {
-    // Do Nothing
-}
+const State::Boolean State::Up = true;
+const State::Boolean State::High = true;
+const State::Boolean State::Down = false;
+const State::Boolean State::Low = false;
 
 // Creates a Wire State with a particular initial state.
 State::State (const Boolean& other, const Timestamp time)
-    : change(other == Up ? UpShift : DownShift), changeTime(time) {
+    : change(other), changeTime(time) {
     // Do Nothing
 }
 

@@ -7,7 +7,7 @@
 //// BitVectorOutput
 ////
 
-class BitVectorOutput : public CustomComponent {
+class BitVectorOutput : public BusComponent {
 
 protected:
 
@@ -33,11 +33,9 @@ protected:
 public:
 
     // Constructor
-    BitVectorOutput(int size)
-        : CustomComponent("BVout", size, 0)
-        {
-        // There are no internal mechanisms for our gate that need to be
-        // created or initialized, so nothing goes here.
+    BitVectorOutput(int size) {
+        CreateVInput(size);
+        CreateWires();
     }
 
 };

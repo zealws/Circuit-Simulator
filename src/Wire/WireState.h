@@ -79,10 +79,6 @@ public:
         // Constructor
         Boolean(bool);
 
-        // Alternate Constructor
-        // Leave unimplemented
-        Boolean(const Boolean&);
-
         // Destructor
         ~Boolean();
 
@@ -123,10 +119,7 @@ public:
     static const Boolean Low;
 
     // Creates a State with a Boolean value and Timestamp.
-    State (const Boolean&, const Timestamp);
-
-    // Copy Constructor
-    WireState(const WireState&);
+    State (const Boolean& = Down, const Timestamp = 0);
 
     // Destructor
     virtual ~State ();

@@ -19,7 +19,7 @@ protected:
         // Actually Do Stuff:
 
         char c;
-        cout << "[button:] ";
+        cout << "[" << GetName() << ":] ";
         cin >> c;
         bool temp =
             c == 'Y' ||

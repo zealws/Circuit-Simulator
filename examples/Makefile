@@ -13,7 +13,8 @@ EXEs = \
 	component-declaration/independentComponents \
 	component-declaration/linkedInComponents \
 	edge-trigger/edgeTrigger \
-	int-encoder/intEncoder
+	int-encoder/intEncoder \
+	full-adder/fullAdder
 
 all: $(EXEs)
 

@@ -10,6 +10,14 @@ using namespace std;
 //// CustomComponent Class
 ////
 
+// Resizes the circuit's inputs/outputs
+void CustomComponent::ResizeInputs(int x) {
+    inputWireList.resize(x, NULL);
+}
+void CustomComponent::ResizeOutputs(int x) {
+    outputWireList.resize(x, NULL);
+}
+
 // Specifies the sizes of the input and output list, respectively
 CustomComponent::CustomComponent(string id, int inSize, int outSize)
     : identifier(id) {
@@ -101,27 +109,27 @@ unsigned int CustomComponent::OutputSize() {
     return outputWireList.size();
 }
 
-// Sets an Input Wire
-void CustomComponent::SetInputWire(Wire* w, int n) {
-    if(n >= inputWireList.size()) {
-        ostringstream s;
-        s << identifier << " has no input port " << n;
-        throw ComponentError(s.str(), this);
-    }
-    else {
-        inputWireList[n] = w;
-    }
-}
-
 // Sets an Output Wire
-void CustomComponent::SetOutputWire(Wire* w, int n) {
-    if(n >= outputWireList.size()) {
+// Does not change the wire at all
+void CustomComponent::ConnectOutput(int out, CustomComponent* other, int in, State::Boolean init) {
+    if(out >= outputWireList.size()) {
         ostringstream s;
-        s << identifier << " has no output port " << n;
+        s << GetName() << " has no output port " << out;
         throw ComponentError(s.str(), this);
     }
+    else if(in >= other->InputSize()) {
+        ostringstream s;
+        s << other->GetName() << " has no input port " << in;
+        throw ComponentError(s.str(), other);
+    }
     else {
-        outputWireList[n] = w;
+        Wire* p = new Wire();
+        outputWireList[out] = p;
+        other->inputWireList[in] = p;
+        p->SetOutputCircuit(other, in);
+        p->SetInputCircuit(other, out);
+        p->SetState(State(init, 0));
+        p->AttachObserver(new UpdateCounter());
     }
 }
 

@@ -4,6 +4,7 @@
 // Base Logic Circuits
 #include "Logic/And.h"
 #include "Logic/Or.h"
+#include "Logic/Xor.h"
 #include "Logic/Nor.h"
 #include "Logic/Not.h"
 #include "Logic/Splitter.h"
@@ -24,5 +25,7 @@
 // BitVector Circuits
 #include "BitVector/BitVectorInput.h"
 #include "BitVector/BitVectorOutput.h"
+
+// Arithmatic Circuits
 
 #endif

@@ -66,39 +66,12 @@ Component Circuit::Lookup(string id) {
 // Links two circuits with a wire.
 // Uses the specified input and output wire numbers.
 void Circuit::Connect(Component in, unsigned int inNo, Component out, unsigned int outNo, bool initWireState) {
-    Wire* p = new Wire();
-    in.body()->SetOutputWire(p, inNo);
-    out.body()->SetInputWire(p, outNo);
-    p->SetOutputCircuit(out.body(), outNo);
-    p->SetInputCircuit(in.body(), inNo);
-    p->SetState(State(State::Boolean(initWireState), 0));
-    p->AttachObserver(new UpdateCounter());
+    in.body()->ConnectOutput(inNo, out.body(), outNo, initWireState);
 }
 
 // Links two components in this circuit.
 void Circuit::Connect(string inId, unsigned int inNo, string outId, unsigned int outNo, bool initWireState) {
     Connect(Lookup(inId), inNo, Lookup(outId), outNo, initWireState);
-}
-
-// Connects two circuits with a bus.
-void Circuit::ConnectBus(Component in, unsigned inNo,
-                         Component out, unsigned outNo, unsigned busSize) {
-    for(int i = 0; i < busSize; i++) {
-        Wire* p = new Wire();
-        in.body()->SetOutputWire(p, inNo+i);
-        out.body()->SetInputWire(p, outNo+i);
-        p->SetOutputCircuit(out.body(), outNo);
-        p->SetInputCircuit(in.body(), inNo);
-        p->SetState(State(State::Boolean(false), 0));
-        if(i > 0)
-            p->DoNotForceEvaluation();
-        p->AttachObserver(new UpdateCounter());
-    }
-}
-// Connects two circuits with a bus.
-void Circuit::ConnectBus(string inId, unsigned inNo,
-                         string outId, unsigned outNo, unsigned busSize) {
-    ConnectBus(Lookup(inId), inNo, Lookup(outId), outNo, busSize);
 }
 
 // Evaluates the circuit
