@@ -17,10 +17,14 @@ private:
     State myState;
 
     CustomComponent* outputCircuit;
+    int outputPin;
 
     CustomComponent* inputCircuit;
+    int inputPin;
 
     bool beenUpdated;
+
+    bool evaluationForced;
 
 public:
 
@@ -47,11 +51,18 @@ public:
     // Gets the state of the wire.
     State GetState() const;
 
-    // Sets the output of this wire.
-    void SetOutputCircuit(CustomComponent*);
+    // Sets the output of this wire. (on a particular pin)
+    void SetOutputCircuit(CustomComponent*, int);
 
-    // Sets the input of this wire.
-    void SetInputCircuit(CustomComponent*);
+    // Sets the input of this wire. (on a particular pin)
+    void SetInputCircuit(CustomComponent*, int);
+
+    // Evaluation of this wire does not cause re-evaluation of it's output
+    // component. Used for busses.
+    void DoNotForceEvaluation();
+
+    // Does this wire force evaluation of it's output component?
+    bool ForcesEvaluation();
 
     // Refreshes the wire, so it will be freshly evaluated.
     void Refresh();

@@ -56,7 +56,11 @@ list<CustomComponent*> Circuit::GetOutputComponents() const {
 
 // Returns the component with the given identifier.
 Component Circuit::Lookup(string id) {
-    return components[id];
+    if(components.find(id) == components.end()) {
+        throw CircuitEvalError("Lookup failed for key '" + id + "'");
+    }
+    else
+        return components[id];
 }
 
 // Links two circuits with a wire.
@@ -65,8 +69,8 @@ void Circuit::Connect(Component in, unsigned int inNo, Component out, unsigned i
     Wire* p = new Wire();
     in.body()->SetOutputWire(p, inNo);
     out.body()->SetInputWire(p, outNo);
-    p->SetOutputCircuit(out.body());
-    p->SetInputCircuit(in.body());
+    p->SetOutputCircuit(out.body(), outNo);
+    p->SetInputCircuit(in.body(), inNo);
     p->SetState(State(State::Boolean(initWireState), 0));
     p->AttachObserver(new UpdateCounter());
 }
@@ -76,6 +80,27 @@ void Circuit::Connect(string inId, unsigned int inNo, string outId, unsigned int
     Connect(Lookup(inId), inNo, Lookup(outId), outNo, initWireState);
 }
 
+// Connects two circuits with a bus.
+void Circuit::ConnectBus(Component in, unsigned inNo,
+                         Component out, unsigned outNo, unsigned busSize) {
+    for(int i = 0; i < busSize; i++) {
+        Wire* p = new Wire();
+        in.body()->SetOutputWire(p, inNo+i);
+        out.body()->SetInputWire(p, outNo+i);
+        p->SetOutputCircuit(out.body(), outNo);
+        p->SetInputCircuit(in.body(), inNo);
+        p->SetState(State(State::Boolean(false), 0));
+        if(i > 0)
+            p->DoNotForceEvaluation();
+        p->AttachObserver(new UpdateCounter());
+    }
+}
+// Connects two circuits with a bus.
+void Circuit::ConnectBus(string inId, unsigned inNo,
+                         string outId, unsigned outNo, unsigned busSize) {
+    ConnectBus(Lookup(inId), inNo, Lookup(outId), outNo, busSize);
+}
+
 // Evaluates the circuit
 void Circuit::Evaluate() {
     if(simulateGateDelays) {
@@ -83,14 +108,19 @@ void Circuit::Evaluate() {
         v.Setup(*this);
         try {
             try {
-                v.Iterate();
-            } catch (ComponentError e) {
-                cerr << "Circuit Evaluation failed. Circuit gave message:\n";
-                cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetName() << "'\n";
+                try {
+                    v.Iterate();
+                } catch (ComponentError e) {
+                    cerr << "Circuit Evaluation failed. Component gave message:\n";
+                    cerr << "'" << e.text() << "' at Component '" << e.Offender()->GetName() << "'\n";
+                }
+            } catch (WireError e) {
+                cerr << "Circuit Evaluation failed. Wire gave message:\n";
+                cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetName() << "' and '" << e.Offender()->Next()->GetName() << "'\n";
             }
-        } catch (WireError e) {
-            cerr << "Circuit Evaluation failed. Wire gave message:\n";
-            cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetName() << "' and '" << e.Offender()->Next()->GetName() << "'\n";
+        } catch (CircuitEvalError e) {
+            cerr << "Circuit Evaluation failed. Circuit gave message:\n";
+            cerr << "'" << e.text() << "'\n";
         }
         v.Clear();
     }

@@ -78,6 +78,12 @@ public:
     static void Connect(Component in, unsigned int inNo, Component out, unsigned int outNo, bool initWireState = true);
     void Connect(string inId, unsigned int inNo, string outId, unsigned int outNo, bool initWireState = true);
 
+    // Connects two circuits with a bus.
+    void ConnectBus(Component in, unsigned inNo,
+                    Component out, unsigned outNo, unsigned busSize);
+    void ConnectBus(string inId, unsigned inNo,
+                    string outId, unsigned outNo, unsigned busSize);
+
     ////
     //// Circuit Evaluation
     ////

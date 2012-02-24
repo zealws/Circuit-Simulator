@@ -1,5 +1,5 @@
 # These are phony targets since they don't actually create files with those names
-.PHONY : dist clean realclean squeakyclean deleteBackups linecount depend
+.PHONY : dist examples clean realclean squeakyclean deleteBackups linecount depend
 
 include Makefile.inc
 
@@ -13,8 +13,8 @@ dist: Makefile.dep $(OBJS)
 	cp -r $(CIRCUIT_LIBRARY)/* $(DIST)/include/
 	cp $(DIST_FILES) $(DIST)/include/
 
-$(EXE): Makefile.dep
-	make --no-print-directory -f Makefile.real $(EXE)
+examples: dist
+	make --no-print-directory -C examples
 
 # Cleans up the source directory's object files
 # And files that were created automatically by flex and bison
@@ -28,6 +28,7 @@ realclean: clean deleteBackups
 	rm -f 	$(EXE) \
 		Makefile.dep
 	rm -rf $(DIST)
+	make --no-print-directory -C examples clean
 
 # Delete backup files (created automatically by my text editor)
 deleteBackups:

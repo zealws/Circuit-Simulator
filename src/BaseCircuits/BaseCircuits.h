@@ -13,6 +13,10 @@
 #include "IO/CircuitInput.h"
 #include "IO/CircuitOutput.h"
 #include "IO/Button.h"
+#include "IO/InputEncoder.h"
+#include "IO/StreamInput.h"
+#include "IO/StreamOutput.h"
+#include "IO/Toggle.h"
 
 // FlipFlop Circuits
 #include "FlipFlop/SRlatch.h"
