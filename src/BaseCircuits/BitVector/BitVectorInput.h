@@ -7,7 +7,7 @@
 //// BitVectorInput
 ////
 
-class BitVectorInput : public BusComponent {
+class BitVectorInput : public CustomComponent {
 
 protected:
 
@@ -41,9 +41,9 @@ public:
 
     // Constructor
     BitVectorInput(int size)
+        : CustomComponent("BitVectorInput", 0, size)
         {
-        CreateVOutput(size);
-        CreateWires();
+        // Do Nothing
     }
 
 };

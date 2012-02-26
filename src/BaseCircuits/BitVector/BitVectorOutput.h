@@ -7,7 +7,7 @@
 //// BitVectorOutput
 ////
 
-class BitVectorOutput : public BusComponent {
+class BitVectorOutput : public CustomComponent {
 
 protected:
 
@@ -33,9 +33,10 @@ protected:
 public:
 
     // Constructor
-    BitVectorOutput(int size) {
-        CreateVInput(size);
-        CreateWires();
+    BitVectorOutput(int size)
+        : CustomComponent("BitVectorOutput", size, 0)
+        {
+        // Do Nothing
     }
 
 };

@@ -10,7 +10,7 @@ using namespace std;
 ////
 
 template<typename encodedType>
-class InputEncoder : public BusComponent {
+class InputEncoder : public CustomComponent {
 
 protected:
 
@@ -43,8 +43,9 @@ public:
 
     // Constructor
     InputEncoder()
+        : CustomComponent("InputEncoder", 0, sizeof(encodedType))
         {
-        CreateVOutput(sizeof(encodedType));
+        // Do Nothing
     }
 
 };
