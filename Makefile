@@ -28,6 +28,7 @@ realclean: clean deleteBackups
 	rm -f 	$(EXE) \
 		Makefile.dep
 	rm -rf $(DIST)
+	rm -r html/ latex/
 	make --no-print-directory -C examples clean
 
 # Delete backup files (created automatically by my text editor)
@@ -48,3 +49,7 @@ Makefile.dep: $(SRCS)
 
 # for convenience
 depend: Makefile.dep
+
+# Build documentation using doxygen
+doc: Doxyfile $(SRCS)
+	doxygen Doxyfile
