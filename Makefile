@@ -28,7 +28,7 @@ realclean: clean deleteBackups
 	rm -f 	$(EXE) \
 		Makefile.dep
 	rm -rf $(DIST)
-	rm -r html/ latex/
+	rm -r html/
 	make --no-print-directory -C examples clean
 
 # Delete backup files (created automatically by my text editor)

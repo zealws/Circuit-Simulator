@@ -8,6 +8,7 @@
 #include "Logic/Nor.h"
 #include "Logic/Not.h"
 #include "Logic/Splitter.h"
+#include "Logic/Dead.h"
 
 // IO Circuits
 #include "IO/LED.h"

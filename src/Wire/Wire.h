@@ -3,7 +3,7 @@
 
 #include "CircuitWireDecs.h"
 #include "Observable.h"
-#include "WireState.h"
+#include "State.h"
 
 ////
 //// Wire Class Definition

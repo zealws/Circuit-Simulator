@@ -14,7 +14,8 @@ EXEs = \
 	component-declaration/linkedInComponents \
 	edge-trigger/edgeTrigger \
 	int-encoder/intEncoder \
-	full-adder/fullAdder
+	full-adder/fullAdder \
+	d-flipflop/d-flipflop
 
 all: $(EXEs)
 

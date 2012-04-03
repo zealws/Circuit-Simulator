@@ -31,7 +31,7 @@ protected:
     }
 
     // Return the state of the input.
-    bool GetState() {
+    bool GetState() const {
         return state;
     }
 

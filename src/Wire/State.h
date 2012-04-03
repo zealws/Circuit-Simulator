@@ -119,7 +119,7 @@ public:
     static const Boolean Low;
 
     // Creates a State with a Boolean value and Timestamp.
-    State (const Boolean&, const Timestamp);
+    State (const Boolean& = false, const Timestamp = 0);
 
     // Destructor
     virtual ~State ();

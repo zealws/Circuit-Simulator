@@ -1,6 +1,6 @@
 #include "Circuit.h"
 #include "CustomComponent.h"
-#include "WireState.h"
+#include "State.h"
 #include "Wire.h"
 #include <cstdlib>
 using namespace std;

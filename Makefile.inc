@@ -42,7 +42,7 @@ CIRCUIT_LIBRARY = src/BaseCircuits/
 # List of object files for linking and building the dist folder
 OBJS =  \
 	src/Circuit/Circuit.o \
-	src/Wire/WireState.o \
+	src/Wire/State.o \
 	src/Wire/Wire.o \
 	src/Component/CustomComponent.o \
 	src/Component/Component.o \
@@ -66,7 +66,7 @@ OBJS =  \
 DIST_FILES = \
 	src/CircuitSimulator.h \
 	src/CircuitWireDecs.h \
-	src/Wire/WireState.h \
+	src/Wire/State.h \
 	src/Wire/Wire.h \
 	src/Circuit/Circuit.h \
 	src/Component/CustomComponent.h \
@@ -116,7 +116,7 @@ OTHER_FILES =  \
 	src/Observer/Observer.cpp \
 	src/Circuit/Circuit.cpp \
 	src/Wire/Wire.cpp \
-	src/Wire/WireState.cpp \
+	src/Wire/State.cpp \
 	src/Component/Component.cpp \
 	src/Component/CustomComponent.cpp \
 	src/Component/BlackBox.cpp

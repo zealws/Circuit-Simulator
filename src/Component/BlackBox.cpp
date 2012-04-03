@@ -1,5 +1,5 @@
 #include "BlackBox.h"
-#include "WireState.h"
+#include "State.h"
 #include "Circuit.h"
 
 using namespace std;
