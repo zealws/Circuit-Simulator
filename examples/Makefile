@@ -15,7 +15,8 @@ EXEs = \
 	edge-trigger/edgeTrigger \
 	int-encoder/intEncoder \
 	full-adder/fullAdder \
-	d-flipflop/d-flipflop
+	d-flipflop/d-flipflop \
+	2-1-multiplexer/two2oneMultiplexerCircuit
 
 all: $(EXEs)
 

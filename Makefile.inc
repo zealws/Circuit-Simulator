@@ -50,6 +50,7 @@ OBJS =  \
 	src/Observer/Observable.o \
 	src/Observer/Observer.o \
 	src/Observer/UpdateCounter.o \
+	src/Observer/ComponentProbe.o \
 	src/CircuitIterator/CircuitIterator.o \
 	src/CircuitIterator/BFSIterator.o \
 	src/CircuitIterator/DelayCircuitIterator.o \
@@ -76,6 +77,7 @@ DIST_FILES = \
 	src/Observer/Observer.h \
 	src/Observer/ObserverDecs.h \
 	src/Observer/UpdateCounter.h \
+	src/Observer/ComponentProbe.h \
 	src/CircuitIterator/CircuitIterator.h \
 	src/CircuitIterator/BFSIterator.h \
 	src/CircuitIterator/DelayCircuitIterator.h \
@@ -111,6 +113,7 @@ OTHER_FILES =  \
 	src/CircuitEvaluator/DelayEvaluator.cpp \
 	src/CircuitEvaluator/CircuitRefresher.cpp \
 	src/CircuitEvaluator/Debugger.cpp \
+	src/Observer/ComponentProbe.cpp \
 	src/Observer/UpdateCounter.cpp \
 	src/Observer/Observable.cpp \
 	src/Observer/Observer.cpp \

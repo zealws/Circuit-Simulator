@@ -63,6 +63,19 @@ Component Circuit::Lookup(string id) {
         return components[id];
 }
 
+/// Attaches a probe to a particular component's output
+void Circuit::AttachProbe(string name, int outNo) {
+	CustomComponent* c = Lookup(name).body();
+	if(c->OutputSize() <= outNo) {
+		throw CircuitEvalError("Cannot attach probe to component '" + c->GetName() + "': no such output.");
+	}
+	else {
+		Wire* toAttach = c->GetOutputWires()[outNo];
+		Observer* p = new ComponentProbe();
+		p->Attach(toAttach);
+	}
+}
+
 // Links two circuits with a wire.
 // Uses the specified input and output wire numbers.
 void Circuit::Connect(Component in, unsigned int inNo, Component out, unsigned int outNo, bool initWireState) {
@@ -113,6 +126,24 @@ void Circuit::Evaluate() {
         }
         v.Clear();
     }
+}
+
+// Debug the circuit
+void Circuit::Debug() {
+	Debugger v;
+    v.Setup(*this);
+    try {
+        try {
+            v.Iterate();
+        } catch (ComponentError e) {
+            cerr << "Circuit Evaluation failed. Circuit gave message:\n";
+            cerr << "'" << e.text() << "' at Circuit '" << e.Offender()->GetName() << "'\n";
+        }
+    } catch (WireError e) {
+        cerr << "Circuit Evaluation failed. Wire gave message:\n";
+        cerr << "'" << e.text() << "' at wire between '" << e.Offender()->Prev()->GetName() << "' and '" << e.Offender()->Next()->GetName() << "'\n";
+    }
+    v.Clear();
 }
 
 // Toggle gate delays

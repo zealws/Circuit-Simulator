@@ -27,6 +27,17 @@ struct eqstr {
 //// Circuit Class Definition
 ////
 
+/**
+Class:
+	Circuit
+
+The circuit class provides a complete interface for interacting with circuit components and evaluators.
+
+All interactions that a user should routinely need are represented in this class, including creating components and
+adding them to the breadboard, connecting components with wires, desegnating components for input or output, and
+evaluating a circuit in a variety of ways.
+*/
+
 class Circuit : public gc {
 
 private:
@@ -45,36 +56,41 @@ private:
 
 public:
 
-    // Constructor
+    /// Constructor
+	/// Creates an empty breadboard circuit.
     Circuit();
 
-    // Destructor
+    /// Destructor
+	/// Empty destructor
     virtual ~Circuit ();
 
     ////
     //// Hashing Functions
     ////
 
-    // Links a circuit as an input gate of this circuit, with an optional identifier
+    /// Links a circuit as an input gate of this circuit, with an optional identifier
     void AddInput(Component);
     void AddInput(string);
 
-    // Links a subcircuit as an output gate of this circuit, with an optional identifier
+    /// Links a subcircuit as an output gate of this circuit, with an optional identifier
     void AddOutput(Component);
     void AddOutput(string);
 
-    // Links an arbitrary component with an identifier.
+    /// Links an arbitrary component with an identifier.
     void AddComponent(string, Component);
 
-    // Returns the component with the given identifier.
+    /// Returns the component with the given identifier.
     Component Lookup(string);
+
+	/// Attaches a probe to a particular component's output
+	void AttachProbe(string name, int outNo);
 
     ////
     //// Helper Functions
     ////
 
-    // Links two circuits with a wire.
-    // Uses the specified input and output wire numbers.
+    /// Links two circuits with a wire.
+    /// Uses the specified input and output wire numbers.
     static void Connect(Component in, unsigned int inNo, Component out, unsigned int outNo, bool initWireState = true);
     void Connect(string inId, unsigned int inNo, string outId, unsigned int outNo, bool initWireState = true);
 
@@ -82,27 +98,32 @@ public:
     //// Circuit Evaluation
     ////
 
-    // Evaluates the circuit
+    /// Evaluates the circuit
     void Evaluate();
 
-    // Toggle gate delays
+    /// Turn on using gate delays.
     void UseGateDelays();
+
+	/// Turn off using gate delays.
     void IgnoreGateDelays();
 
-    // Returns the input subcircuits
+	/// Debug the circuit
+	void Debug();
+
+    /// Returns the input subcircuits
     list<CustomComponent*> GetInputComponents() const;
 
-    // Returns the output subcircuits
+    /// Returns the output subcircuits
     list<CustomComponent*> GetOutputComponents() const;
 
     ////
     //// Helper Functions for Black-Box components:
     ////
 
-    // Copies a circuit's output components's states to a vector:
+    /// Copies a circuit's output components's states to a vector:
     void PushOutput(vector<State::Boolean>&);
 
-    // Provides input to the circuit from a vector:
+    /// Provides input to the circuit from a vector:
     void PullInput(const vector<State::Boolean>&);
 
 };
