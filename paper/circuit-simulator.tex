@@ -7,11 +7,14 @@
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{indentfirst}
+\usepackage{url}
 
 % Macro for Bold Text
 \newcommand{\Bold}[1]{\textbf{#1}}
 \newcommand{\Italics}[1]{\textit{#1}}
+
 \newcommand{\ClassName}[1]{\texttt{#1}}
+\newcommand{\FunctionName}[1]{\textit{#1}}
 
 \begin{document}
 
@@ -30,6 +33,8 @@ In many computer science programs, the field of digital electronics is introduce
 
 Users wishing to use the library to simulate circuits are assumed to have a basic familiarity with digital logic and C++ programming. More advanced users wishing to use the library to design new digital components must have an understanding of the role inheritance plays in object-oriented languages like C++. Multiple inheritance and other advanced object-oriented principles aren’t necessary, although they can be helpful in some cases. Finally, in order to fully understand use all aspects of the project, an understanding of algorithms and data structures is necessary. Specifically graphs and traversal methods, hash tables, and garbage collection are of particular interest.
 
+As a reading aid, modifications to the default font are used to indicate special meanings to identifiers. Words that are marked in type-writer font are class names and always begin with a capital letter, such as \ClassName{Circuit}. Words that are in italics are generally function names, and also begin with capital letters, such as \FunctionName{AddComponent}.
+
 Within the paper, sequence diagrams are used to detail class interactions. These diagrams show the function calls and returns across classes with arrows. Each solid arrow represents a function call from one class to another. Dotted arrows represent function return from previous calls. In each diagram, there is an implicit user on the far left, making the left-most calls through either a main function, or within a black-box component.
 
 \begin{figure}[H]
@@ -47,13 +52,13 @@ A variety of similar projects have been produced:
 
 \begin{itemize}
 
-\item Logisim: a circuit simulator written in Java. The project was thorough and implemented many of the features which CCSL implemented including delay-based evaluation and black-box components.
+\item Logisim: a circuit simulator written in Java. The project was thorough and implemented many of the features which CCSL implemented including delay-based evaluation and black-box components.\cite{Logisim}
 
-\item KLogic: a graphical circuit simulator developed in C++ with the QT interface. KLogic allows black-box components, which were a crucial feature of CCSL.
+\item KLogic: a graphical circuit simulator developed in C++ with the QT interface. KLogic allows black-box components, which were a crucial feature of CCSL.\cite{KLogic}
 
-\item Verilog: a hardware description language that can be used to model everything from digital circuits to computer chip organization. Verilog is a professional development tool used by many companies that produce electrical components; as a result, it is very well developed and quite extensive. Virtually every feature of CCSL is represented somehow in this language.
+\item Verilog: a hardware description language that can be used to model everything from digital circuits to computer chip organization. Verilog is a professional development tool used by many companies that produce electrical components; as a result, it is very well developed and quite extensive. Virtually every feature of CCSL is represented somehow in this language.\cite{Verilog}
 
-\item LibLCS: a library for digital circuit simulation written in C++, like CCSL. This project implements many of the features of CCSL, but does so in a very different way, especially the way components interact.
+\item LibLCS: a library for digital circuit simulation written in C++, like CCSL. This project implements many of the features of CCSL, but does so in a very different way, especially the way components interact.\cite{libLCS}
 
 \end{itemize}
 
@@ -152,11 +157,11 @@ Defines the interface for wires. Primarily this is used internally, and users wi
 
 \subsubsection{gc}
 
-Implementation of the Conservative Garbage Collector, which is used to include garbage collection in the project.
+Implementation of the Conservative Garbage Collector, which is used to include garbage collection in the project.\cite{gc}
 
 \subsubsection{sparsehash}
 
-Implementation of the Sparse Hash Library, which is used to include hash tables in the project.
+Implementation of the Sparse Hash Library, which is used to include hash tables in the project.\cite{sparsehash}
 
 \subsection{Wire States}
 
@@ -170,17 +175,17 @@ The timestamps passed around are implemented as quads (integers of 64 bits) to a
 
 Built-in component definitions are used to implement certain elementary components for users to use.
 
-For basic logic, binary And, Or, Nor, and Xor are included. Additionally,  the elementary Not gate is included. Since wires are defined simply as an input/output pair, they do not allow a single input value to be passed to several possible components. For this purpose, the splitter has been included. It propagates a single value to a variable number of components.
+For basic logic, binary \ClassName{And}, \ClassName{Or}, \ClassName{Nor}, and \ClassName{Xor} are included. Additionally,  the elementary \ClassName{Not} gate is included. Since wires are defined simply as an input/output pair, they do not allow a single input value to be passed to several possible components. For this purpose, the splitter has been included. It propagates a single value to a variable number of components.
 
-Input and output to circuits and components is done with instances of the CircuitInput and CircuitOutput classes. These two classes provide a generalized interface for interacting circuits via their input and output components. From these two generalized interfaces, more specific classes have been derived. For input, the components are:
+Input and output to circuits and components is done with instances of the \ClassName{CircuitInput} and \ClassName{CircuitOutput} classes. These two classes provide a generalized interface for interacting circuits via their input and output components. From these two generalized interfaces, more specific classes have been derived. For input, the components are:
 
 \begin{itemize}
 
-\item A Button allows boolean input from standard input via cin.
+\item A \ClassName{Button} allows boolean input from standard input via cin.
 
-\item The StreamInput device is like a Button, but reads from an arbitrary steam.
+\item The \ClassName{StreamInput} device is like a \ClassName{Button}, but reads from an arbitrary steam.
 
-\item A Toggle is a device that is toggled, rather than assigned a specific state.
+\item A \ClassName{Toggle} is a device that is toggled, rather than assigned a specific state.
 
 \end{itemize}
 
@@ -188,17 +193,17 @@ For output, the predefined components are:
 
 \begin{itemize}
 
-\item An LED functions by printing a value to standard output via cout.
+\item An \ClassName{LED} functions by printing a value to standard output via cout.
 
-\item A StreamOutput is like an LED but prints to any steam.
+\item A \ClassName{StreamOutput} is like an LED but prints to any steam.
 
 \end{itemize}
 
-In addition to these components, simple components have been created to demonstrate other capabilities of the system. These include: a 1-bit FullAdder, which is included in the Arithmetic folder; input and output components for busses, BitVectorInput and BitVectorOutput, which are in the BitVectors folder; and an SRlatch and JKflipflop which are located in the FlipFlop folder.
+In addition to these components, simple components have been created to demonstrate other capabilities of the system. These include: a 1-bit \ClassName{FullAdder}, which is included in the \Italics{Arithmetic} folder; input and output components for busses, \ClassName{BitVectorInput} and \ClassName{BitVectorOutput}, which are in the \Italics{BitVectors} folder; and an \ClassName{SRlatch} and \ClassName{JKflipflop} which are located in the \Italics{FlipFlop} folder.
 
 \subsubsection{Black-box Components}
 
-Beside pre-defined components, CCSL attempts to make it as simple as possible for users to define their own components and use them in larger, more complex circuits. To this purpose, the concept of black-box component has be included. This concept allows users to create components from circuits they have already built, which can then be used in other circuits. The class BlackBox implements these features. In order to use this class, a user need only define a class with whatever name they would like to give their component, inherit from BlackBox, provide the delay function, and within the constructor create the circuit as they would within the main function of a circuit, using the result of the internal function as the top-level circuit. As an example of this, the pre-defined JKflipflop component has been created in this way.
+Beside pre-defined components, CCSL attempts to make it as simple as possible for users to define their own components and use them in larger, more complex circuits. To this purpose, the concept of black-box component has be included. This concept allows users to create components from circuits they have already built, which can then be used in other circuits. The class \ClassName{BlackBox} implements these features. In order to use this class, a user need only define a class with whatever name they would like to give their component, inherit from \ClassName{BlackBox}, provide the \FunctionName{Delay} function, and within the constructor create the circuit as they would within the main function of a circuit, using the result of the internal function as the top-level circuit. As an example of this, the pre-defined \ClassName{JKflipflop} component has been created in this way.
 
 \subsection{Class Interaction}
 
@@ -206,7 +211,7 @@ Within the project, classes interact in a variety of ways, depending on what thi
 
 \subsubsection{Circuit Evaluation}
 
-Perhaps the most important mechanism for a single run of a project is the evaluation of the circuit. The interaction of the various components within a circuit is what gives the circuit its abstract meaning. For example, a SR-latch is defined in terms of the smaller components, the XOR gates and splitters that compose it, and the interaction of these components gives the circuit its particular behaviour. To fully simulate the interactions for circuit evaluation, the project includes the CircuitIterator class hierarchy. This class is the base class for all classes that implement evaluation of a circuit.  An abstract base class is used to allow users to define their own evaluators that extend or alter pre-defined evaluation techniques. Three pre-defined circuit evaluators have been provided that allow different ways of modeling circuit interaction, NormalEvaluator which implements BFS evaluation, DelayEvaluator which implements delay-based evaluation, and Debugger which allows a user to interact with the circuit as a delay-based evaluation takes place. These evaluators are discussed in more detail below.
+Perhaps the most important mechanism for a single run of a project is the evaluation of the circuit. The interaction of the various components within a circuit is what gives the circuit its abstract meaning. For example, a SR-latch is defined in terms of the smaller components, the XOR gates and splitters that compose it, and the interaction of these components gives the circuit its particular behaviour. To fully simulate the interactions for circuit evaluation, the project includes the \ClassName{CircuitIterator} class hierarchy. This class is the base class for all classes that implement evaluation of a circuit.  An abstract base class is used to allow users to define their own evaluators that extend or alter pre-defined evaluation techniques. Three pre-defined circuit evaluators have been provided that allow different ways of modeling circuit interaction, \ClassName{NormalEvaluator} which implements BFS evaluation, \ClassName{DelayEvaluator} which implements delay-based evaluation, and \ClassName{Debugger} which allows a user to interact with the circuit as a delay-based evaluation takes place. These evaluators are discussed in more detail below.
 
 The interaction between the classes themselves is fairly simple. Upon a call to a circuit’s evaluate function, the circuit creates an evaluator that matches with the circuit’s evaluation method and then uses this evaluator to evaluate the circuit. An diagram of this is below.
 
@@ -214,39 +219,35 @@ The interaction between the classes themselves is fairly simple. Upon a call to 
     \begin{center}
         \includegraphics[angle=270,width=200pt]{imgs/CircuitEvaluationInteraction.pdf}
     \end{center}
-    \caption{An example where the Nash Equilibrium is not minimal cost.
-        (a) is one of the minimal cost solutions, but (b) is the stable Nash
-        Equilibrium.}
+    \caption{Interactions between the circuit, evaluator, and components when evaluating a circuit.}
 \end{figure}
 
-Circuit evaluation is done by some derived class which is based on the CircuitIterator class. This CircuitIterator ensures that the evaluators share a similar interface, but provides little other restrictions on their behavior. As a result of this, evaluators can choose any order in which to evaluate the components. In addition, there is nothing disallowing components from being evaluated more than once, in fact this is guaranteed by some evaluation methods. In particular, all the built-in evaluators can evaluate components many times. Due to this lack of restriction, it is the responsibility of the evaluator to determine in which order the components are evaluated and keep track of them internally.
+Circuit evaluation is done by some derived class which is based on the \ClassName{CircuitIterator} class. This \ClassName{CircuitIterator} ensures that the evaluators share a similar interface, but provides little other restrictions on their behavior. As a result of this, evaluators can choose any order in which to evaluate the components. In addition, there is nothing disallowing components from being evaluated more than once, in fact this is guaranteed by some evaluation methods. In particular, all the built-in evaluators can evaluate components many times. Due to this lack of restriction, it is the responsibility of the evaluator to determine in which order the components are evaluated and keep track of them internally.
 
 The two built-in evaluation methods are breadth first evaluation and delay-based evaluation. Both of these methods are provided as a way of simulating real circuits, although each has their own advantages and disadvantages. Of the two, delay-based evaluation comes closer to the behavior of actual circuits, but breadth first evaluation has the advantage of being easy to understand from the point of view of the component interactions, as well as the implementation, since a plain queue can be used, rather than a priority queue.
 
-There is a third implemented Evaluator that is based on a modified version of delay-based evaluation called the Debugger. This evaluator evaluates the circuit using delay-based evaluation, but stops at each component to print output about what the components are doing, and prompt the user for input. This allows the user to see what is happening and interact with the circuit’s evaluation, as it is being evaluated.
+There is a third implemented evaluator that is based on a modified version of delay-based evaluation called the \ClassName{Debugger}. This evaluator evaluates the circuit using delay-based evaluation, but stops at each component to print output about what the components are doing, and prompt the user for input. This allows the user to see what is happening and interact with the circuit’s evaluation, as it is being evaluated.
 
-For any given circuit, the user can select which of these two evaluation methods are to be used by calling either of the functions UseGateDelays or IgnoreGateDelays, which enable or disable using gate delays, respectively. Alternatively, using a Debugger to evaluate the circuit can be done by calling a circuit’s Debug function.
+For any given circuit, the user can select which of these two evaluation methods are to be used by calling either of the functions \FunctionName{UseGateDelays} or \FunctionName{IgnoreGateDelays}, which enable or disable using gate delays, respectively. Alternatively, using a \ClassName{Debugger} to evaluate the circuit can be done by calling a circuit’s \FunctionName{Debug} function.
 
-Regardless of which type of evaluation the user selects, the evaluator needs to know which components indicate the inputs, or beginning of the evaluation. This is done with the AddInput function, which allows the user to indicate which components should start the circuit’s evaluation.
+Regardless of which type of evaluation the user selects, the evaluator needs to know which components indicate the inputs, or beginning of the evaluation. This is done with the \FunctionName{AddInput} function, which allows the user to indicate which components should start the circuit’s evaluation.
 
 \subsubsection{Circuit Creation}
 
-Circuit creation is also done via the Circuit class. This allows Circuit to be a single interface for all the necessaries of component interaction.
+Circuit creation is also done via the \ClassName{Circuit} class. This allows \ClassName{Circuit} to be a single interface for all the necessaries of component interaction.
 
-The diagram below demonstrates the interactions between the user (far left), Circuit, and hash table. Before a Circuit can be used, it must be created. This can be done by the use of its default constructor indicated by section A in the figure below. No additional work is needed to create the circuit, as the constructor does all the necessary setup. For creating a component, the Circuit class provides the AddComponent function, which adds a component to the Circuit with a particular name; represented by section B on the figure below. The AddComponent function requires a Component, passed by pointer, and a string for the name. The Component is generally passed by creating a new Component, since it is garbage collected. The string has no restrictions except that each component’s name must be unique in a given Circuit. For accessing that component later, the function Lookup is provided, which looks a component up by name; represented by section C in the figure.
+The diagram below demonstrates the interactions between the user (far left), \ClassName{Circuit}, and hash table. Before a \ClassName{Circuit} can be used, it must be created. This can be done by the use of its default constructor indicated by section \Bold{A} in the figure below. No additional work is needed to create the circuit, as the constructor does all the necessary setup. For creating a component, the \ClassName{Circuit} class provides the \FunctionName{AddComponent} function, which adds a component to the Circuit with a particular name; represented by section \Bold{B} on the figure below. The \FunctionName{AddComponent} function requires a \ClassName{Component}, passed by pointer, and a string for the name. The \ClassName{Component} is generally passed by creating a new Component, since it is garbage collected. The string has no restrictions except that each component’s name must be unique in a given \ClassName{Circuit}. For accessing that component later, the function \FunctionName{Lookup} is provided, which looks a component up by name; represented by section \Bold{C} in the figure.
 
 \begin{figure}[H]
     \begin{center}
         \includegraphics[angle=270,width=200pt]{imgs/ComponentCreationInteraction.pdf}
     \end{center}
-    \caption{An example where the Nash Equilibrium is not minimal cost.
-        (a) is one of the minimal cost solutions, but (b) is the stable Nash
-        Equilibrium.}
+    \caption{Interactions between a \ClassName{Circuit} and hash table when creating components.}
 \end{figure}
 
 \subsubsection{Circuit Connection}
 
-Being able to create and evaluate circuits is important, but means nothing without the ability to connect components. This allows the user to specify the way in which the components interact. Like component creation and evaluation, connection is done with the Circuit class. The class provides the member function Connect, which takes four parameters: the input component, the input pin number, the output component and the output pin number. This function creates a Wire and associates the Wire’s input with the specified pin number of the input component, and the Wire’s output with the specified pin number of the output component. The diagram below demonstrates the interaction between a Circuit and the newly created Wire.
+Being able to create and evaluate circuits is important, but means nothing without the ability to connect components. This allows the user to specify the way in which the components interact. Like component creation and evaluation, connection is done with the \ClassName{Circuit} class. The class provides the member function \FunctionName{Connect}, which takes four parameters: the input component, the input pin number, the output component and the output pin number. This function creates a \ClassName{Wire} and associates the wire’s input with the specified pin number of the input component, and the Wire’s output with the specified pin number of the output component. The diagram below demonstrates the interaction between a \ClassName{Circuit} and the newly created \ClassName{Wire}.
 
 \begin{figure}[H]
     \begin{center}
@@ -259,7 +260,7 @@ Being able to create and evaluate circuits is important, but means nothing witho
 
 There were a few tasks that the project sought to accomplish, but were left incomplete. The first of these tasks is a proof that detecting circuit oscillation is NP-complete. This proof would be a proof by reduction, as proofs of NP-completeness generally are. The outline of the proof is that detecting oscillation would require keeping track of every possible state in which the circuit has been. While finite, the number of possible states is likely to be exponential in worst-case, so such an algorithm would be at best exponential in space, which implies exponential in time.
 
-In addition, the concepts of circuit iterators and circuit evaluators aren’t necessarily distinct at this time. If given more time, the two concepts could be made into disjoint but related ideas and that difference could be made more clear in code. In particular, iterators should be objects that iterate over components in a circuit without necessarily the goal of evaluating them, e.g. an iterator could be used to search over all components to find a particular component by name. On the other hand, evaluators would be designed with the specific purpose of evaluating a circuit in mind. This would lead them to take either the delay-based or breadth-first approaches, as discussed above. For example, in addition to the three existing evaluators, one could be added that computes the delays for circuits, eliminating the need to define the Delay function in custom built components.
+In addition, the concepts of circuit iterators and circuit evaluators aren’t necessarily distinct at this time. If given more time, the two concepts could be made into disjoint but related ideas and that difference could be made more clear in code. In particular, iterators should be objects that iterate over components in a circuit without necessarily the goal of evaluating them, e.g. an iterator could be used to search over all components to find a particular component by name. On the other hand, evaluators would be designed with the specific purpose of evaluating a circuit in mind. This would lead them to take either the delay-based or breadth-first approaches, as discussed above. For example, in addition to the three existing evaluators, one could be added that computes the delays for circuits, eliminating the need to define the \FunctionName{Delay} function in custom built components.
 
 Finally, although busses were thought of as a desirable feature of the project, they were not a focus of the design. As a result, they can be made to work with for loops and similar techniques, but the approach is fairly ad-hoc and doesn’t fit with the interface for most other interactions to the library. In the future, busses could be made to work by generalizing the concept of wires to wire groups or busses. This would allow users to link wire groups between components, rather than single wires. Changing the interaction in this way would still allow users to use single wires - they would merely be interacting with unary wire groups - but allows simple interfaces for busses. Once this change had been made, it would be fairly easy to allow components to name ports, allowing users to reference them by name, rather than by an integer reference. This would greatly simplify something like an SR-latch, where each input and output has a specific name, but their ordering has been assigned arbitrarily.
 
