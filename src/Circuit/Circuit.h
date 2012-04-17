@@ -82,8 +82,8 @@ public:
     /// Returns the component with the given identifier.
     Component Lookup(string);
 
-	/// Attaches a probe to a particular component's output
-	void AttachProbe(string name, int outNo);
+    /// Attaches a probe to a particular component's output
+    void AttachProbe(string name, int outNo);
 
     ////
     //// Helper Functions
