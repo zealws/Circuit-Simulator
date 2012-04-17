@@ -4,26 +4,19 @@
 \documentclass{article}
 
 \usepackage[letterpaper,breaklinks=true]{hyperref}
-%\usepackage{breakurl}
-\usepackage{balance}    % to balance the last page's columns
-\usepackage{graphicx} % for images
-\usepackage{algorithmic}
+\usepackage{float}
+\usepackage{graphicx}
 \usepackage{indentfirst}
 
-% For a figure:
-% \begin{figure}
-%     \begin{center}
-%         \includegraphics[width=200pt]{imgs/NEnotMinCost.pdf}
-%     \end{center}
-%     \caption{An example where the Nash Equilibrium is not minimal cost.
-%         (a) is one of the minimal cost solutions, but (b) is the stable Nash
-%         Equilibrium.}
-% \end{figure}
+% Macro for Bold Text
+\newcommand{\Bold}[1]{\textbf{#1}}
+\newcommand{\Italics}[1]{\textit{#1}}
+\newcommand{\ClassName}[1]{\texttt{#1}}
 
 \begin{document}
 
-    \title{C++ Circuit Simulation Library}
-    \author{Zeal Jagannatha}
+\title{C++ Circuit Simulation Library}
+\author{Zeal Jagannatha}
 
 \maketitle
 
@@ -39,9 +32,9 @@ Users wishing to use the library to simulate circuits are assumed to have a basi
 
 Within the paper, sequence diagrams are used to detail class interactions. These diagrams show the function calls and returns across classes with arrows. Each solid arrow represents a function call from one class to another. Dotted arrows represent function return from previous calls. In each diagram, there is an implicit user on the far left, making the left-most calls through either a main function, or within a black-box component.
 
-\begin{figure}
+\begin{figure}[H]
     \begin{center}
-        \includegraphics[width=200pt]{imgs/NEnotMinCost.pdf}
+        \includegraphics[angle=270,width=200pt]{imgs/ComponentConnectionInteraction.pdf}
     \end{center}
     \caption{An example where the Nash Equilibrium is not minimal cost.
         (a) is one of the minimal cost solutions, but (b) is the stable Nash
@@ -217,7 +210,14 @@ Perhaps the most important mechanism for a single run of a project is the evalua
 
 The interaction between the classes themselves is fairly simple. Upon a call to a circuit’s evaluate function, the circuit creates an evaluator that matches with the circuit’s evaluation method and then uses this evaluator to evaluate the circuit. An diagram of this is below.
 
-%% FIGURE
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[angle=270,width=200pt]{imgs/CircuitEvaluationInteraction.pdf}
+    \end{center}
+    \caption{An example where the Nash Equilibrium is not minimal cost.
+        (a) is one of the minimal cost solutions, but (b) is the stable Nash
+        Equilibrium.}
+\end{figure}
 
 Circuit evaluation is done by some derived class which is based on the CircuitIterator class. This CircuitIterator ensures that the evaluators share a similar interface, but provides little other restrictions on their behavior. As a result of this, evaluators can choose any order in which to evaluate the components. In addition, there is nothing disallowing components from being evaluated more than once, in fact this is guaranteed by some evaluation methods. In particular, all the built-in evaluators can evaluate components many times. Due to this lack of restriction, it is the responsibility of the evaluator to determine in which order the components are evaluated and keep track of them internally.
 
@@ -235,13 +235,25 @@ Circuit creation is also done via the Circuit class. This allows Circuit to be a
 
 The diagram below demonstrates the interactions between the user (far left), Circuit, and hash table. Before a Circuit can be used, it must be created. This can be done by the use of its default constructor indicated by section A in the figure below. No additional work is needed to create the circuit, as the constructor does all the necessary setup. For creating a component, the Circuit class provides the AddComponent function, which adds a component to the Circuit with a particular name; represented by section B on the figure below. The AddComponent function requires a Component, passed by pointer, and a string for the name. The Component is generally passed by creating a new Component, since it is garbage collected. The string has no restrictions except that each component’s name must be unique in a given Circuit. For accessing that component later, the function Lookup is provided, which looks a component up by name; represented by section C in the figure.
 
-%% FIGURE
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[angle=270,width=200pt]{imgs/ComponentCreationInteraction.pdf}
+    \end{center}
+    \caption{An example where the Nash Equilibrium is not minimal cost.
+        (a) is one of the minimal cost solutions, but (b) is the stable Nash
+        Equilibrium.}
+\end{figure}
 
 \subsubsection{Circuit Connection}
 
 Being able to create and evaluate circuits is important, but means nothing without the ability to connect components. This allows the user to specify the way in which the components interact. Like component creation and evaluation, connection is done with the Circuit class. The class provides the member function Connect, which takes four parameters: the input component, the input pin number, the output component and the output pin number. This function creates a Wire and associates the Wire’s input with the specified pin number of the input component, and the Wire’s output with the specified pin number of the output component. The diagram below demonstrates the interaction between a Circuit and the newly created Wire.
 
-%% FIGURE
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[angle=270,width=200pt]{imgs/ComponentConnectionInteraction.pdf}
+    \end{center}
+    \caption{Interactions between a \ClassName{Circuit} and \ClassName{Wire} when connecting components.}
+\end{figure}
 
 \section{Future Work}
 
