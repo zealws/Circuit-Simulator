@@ -80,7 +80,7 @@ list<Wire*> CustomComponent::EvaluateCustomComponent() {
 
         // Finally, we update the wire.
         bool oldState = bool(outputWireList[i]->GetState());
-        bool changed = outputWireList[i]->Update(State(outputStateList[i], latestChange = delta));
+        bool changed = outputWireList[i]->Update(State(outputStateList[i], latestChange + delta));
 
         // If it was actually changed, we mark the CustomComponent for evaluation.
         if(changed) {
