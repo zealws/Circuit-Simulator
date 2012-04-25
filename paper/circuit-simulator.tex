@@ -18,33 +18,38 @@
 
 \begin{document}
 
-\title{C++ Circuit Simulation Library}
+\title{An Object-Oriented Circuit Simulation Library}
 \author{Zeal Jagannatha}
 
 \maketitle
 
+\begin{abstract}
+
+In many computer science programs, the field of digital electronics is introduced within computer organization or computer architecture courses, with the help of graphical tools. However, little attention is given to text-based approaches. The C++ Circuit Simulation Library (CCSL), attempts to present an intuitive text-based interface for those with experience with C++, while still giving advanced users an efficient framework for digital circuit design and development.
+
+\end{abstract}
+
 \section{Introduction}
 
-Digital electronics is a pivotal field today, in both computer science and in physics. From the point of view of an electrical engineering student, digital circuits are composed of wires, transistors, resistors, capacitors, and a variety of components each of which have some functionality. When pieced together correctly, these functionalities allow us to abstract out the ground-level components and focus on the functionality of modules of these components. The functionality of these modules are the main focus of digital electronics within computer science. Computer scientists ignores the resistors, capacitors and other details, and focuses purely on the functionality of the components, e.g. and, or, and not gates. These gates, along with a host of other components, form the basis for modern computers.
+\subsection{Purpose}
 
-In many computer science programs, the field of digital electronics is introduced within computer organization or computer architecture courses, with the help of graphical tools. This graphical view of components is helpful for learning purposes, but can be unfamiliar to someone with little experience with digital circuits. This project, C++ Circuit Simulation Library (CCSL), attempts to present a more intuitive interface for those with experience with C++, while still giving more advanced students and professionals an efficient framework for Digital Circuit design and development.
+The project is a logic simulator that is entirely programmed in C++. This logic simulator is meant to be used as a solid foundation and intuitive interface for digital circuit development in C++. The library should be easily usable by users from a variety of experience levels from as simple as wiring up a pulse generator to as complicated as building an ALU. In addition, it seeks to represent the interactions of real digital circuits as closely as possible. To this purpose, the project simulates circuit creation, connection and evaluation with evaluators and circuit bread-boxes. In addition, tools have been added that allow easy generalization and expansion of circuits, such as black-box components.
 
-\subsection{Background}
+When pieced together correctly, basic components allow us to abstract out the ground-level components and focus on the functionality of modules of these components. These modules are the main focus of digital electronics within computer science. Computer scientists ignore the resistors, capacitors and other details, and focus purely on the modules, e.g. \Bold{and}, \Bold{or}, and \Bold{not} gates.
 
-Users wishing to use the library to simulate circuits are assumed to have a basic familiarity with digital logic and C++ programming. More advanced users wishing to use the library to design new digital components must have an understanding of the role inheritance plays in object-oriented languages like C++. Multiple inheritance and other advanced object-oriented principles aren’t necessary, although they can be helpful in some cases. Finally, in order to fully understand use all aspects of the project, an understanding of algorithms and data structures is necessary. Specifically graphs and traversal methods, hash tables, and garbage collection are of particular interest.
+CCSL users are assumed to have a basic familiarity with C++ programming. Users wishing to use the library to design new digital components must have an understanding of C++ inheritance\cite{bjarne}. Finally, in order to fully understand use all aspects of the project, an understanding of algorithms and data structures is necessary. Specifically hash tables, garbage collection, and algorithms related to graphs are of particular interest.
 
-As a reading aid, modifications to the default font are used to indicate special meanings to identifiers. Words that are marked in type-writer font are class names and always begin with a capital letter, such as \ClassName{Circuit}. Words that are in italics are generally function names, and also begin with capital letters, such as \FunctionName{AddComponent}.
+In the remainder of this paper, words that are marked in \ClassName{typewriter font} are class names and always begin with a capital letter. Words that are in \FunctionName{italics} are generally function names, and also begin with capital letters.
 
-Within the paper, sequence diagrams are used to detail class interactions. These diagrams show the function calls and returns across classes with arrows. Each solid arrow represents a function call from one class to another. Dotted arrows represent function return from previous calls. In each diagram, there is an implicit user on the far left, making the left-most calls through either a main function, or within a black-box component.
+\subsection{Intended Audience}
 
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[angle=270,width=200pt]{imgs/ComponentConnectionInteraction.pdf}
-    \end{center}
-    \caption{An example where the Nash Equilibrium is not minimal cost.
-        (a) is one of the minimal cost solutions, but (b) is the stable Nash
-        Equilibrium.}
-\end{figure}
+Although the idea behind the project should be understandable to those without programming experience, the intended audience of this project is software engineers who wish to design and simulate digital circuits in C++. However, the user's level of experience limits what they are able to do with this project. There are three experience levels that have different methods of interacting with the project: introductory users, advanced users, and expert users.
+
+Introductory users are users who are able to create and use simple circuits using pre-defined components but are unable to create their own components or extend the libraries in any way. This group of users has only a vague understanding of the traversal methods and design principles used by the project, and so, are unable to extend it completely. This group of users are around the level of introductory computer architecture or hardware courses.
+
+Advanced users are users who can both construct simple circuits using predefined components, as well as create their own components by either extending existing components, or by creating brand new components from scratch. These users can also extend the existing iterators to their own uses. In addition to being able to create components, they have a good understanding of the principles used in the design of the project and can use this knowledge to extend their components and iterators. These users would be students who have completed courses in algorithms, project design, and computer hardware.
+
+Expert users are users who are able to construct circuits from components, both predefined and of their own making, can extend existing iterators to create new ways of evaluating and interacting with circuits, and have a deep understanding of the project's design principles. These users are those who understand not only the principles which the project was design with, but have a good understanding of the internal mechanisms of the project as well.
 
 \subsection{Similar Projects}
 
@@ -52,31 +57,17 @@ A variety of similar projects have been produced:
 
 \begin{itemize}
 
-\item Logisim: a circuit simulator written in Java. The project was thorough and implemented many of the features which CCSL implemented including delay-based evaluation and black-box components.\cite{Logisim}
+\item Logisim: A graphical circuit simulator written in Java. The project was thorough and implemented many of the features which CCSL implemented including delay-based evaluation and black-box components.\cite{Logisim}
 
-\item KLogic: a graphical circuit simulator developed in C++ with the QT interface. KLogic allows black-box components, which were a crucial feature of CCSL.\cite{KLogic}
+\item KLogic: A graphical circuit simulator developed in C++ with the QT interface. KLogic allows black-box components, which were a crucial feature of CCSL.\cite{KLogic}
 
-\item Verilog: a hardware description language that can be used to model everything from digital circuits to computer chip organization. Verilog is a professional development tool used by many companies that produce electrical components; as a result, it is very well developed and quite extensive. Virtually every feature of CCSL is represented somehow in this language.\cite{Verilog}
+\item Verilog: A hardware description language that can be used to model everything from digital circuits to computer chip organization. Verilog is a professional development tool used by many companies that produce electrical components; as a result, it is very well developed and quite extensive. Virtually every feature of CCSL is represented in this language.\cite{Verilog}
 
-\item LibLCS: a library for digital circuit simulation written in C++, like CCSL. This project implements many of the features of CCSL, but does so in a very different way, especially the way components interact.\cite{libLCS}
+\item LibLCS: A library for digital circuit simulation written in C++, like CCSL. This project implements many of the features of CCSL, but differes in a number of ways, especially in the way components interact.\cite{libLCS}
 
 \end{itemize}
 
-\section{Design}
-
-\subsection{Purpose}
-
-The project is a logic simulator that is entirely programmed in C++. This logic simulator is meant to be used as a solid foundation and intuitive interface for digital circuit development in C++. The library should be easily usable by users from a variety of experience levels from as simple as wiring up a pulse generator to as complicated as building an ALU. In addition, it seeks to represent the interactions of real digital circuits as closely as possible. To this purpose, the project simulates circuit creation, connection and evaluation with evaluators and circuit bread-boxes. In addition, tools have been added that allow easy generalization and expansion of circuits, such as black-box components.
-
-\subsection{Intended Audience}
-
-Although I certainly hope that aspects of this project are understandable to those without programming experience, the intended audience of this project is software engineers who wish to design and simulate digital circuits in C++. However, as with most fields, the user's level of experience limits what they are able to do with a given project. I have attempted to define experience levels that have different methods of interacting with project: introductory users, advanced users, and expert users.
-
-Introductory users are users who are able to create and use simple circuits using pre-defined components but are unable to create their own components or extend the libraries in any way. This group of users has only a vague understanding of the traversal methods and design principles used by the project, and so, are unable to extend it completely. This group of users are around the level of introductory Computer Architecture or Hardware courses.
-
-Advanced users are users who can both construct simple circuits using predefined components, as well as create their own components by either extending existing components, or by creating brand new components from scratch. These users can also extend the existing iterators to their own uses. In addition to being able to create components, they have a good understanding of the principles used in the design of the project and can use this knowledge to extend their components and iterators. These users would be students who have completed courses in algorithms, project design, and computer hardware.
-
-Expert users are users who are able to construct circuits from components, both predefined and of their own making, can extend existing iterators to create new ways of evaluating and interacting with circuits, and have a deep understanding of the project's design principles. These users are those who understand not only the principles which the project was design with, but have a good understanding of the internal mechanisms of the project as well.
+\section{Project Design}
 
 \subsection{Organization}
 
@@ -211,9 +202,10 @@ Within the project, classes interact in a variety of ways, depending on what thi
 
 \subsubsection{Circuit Evaluation}
 
-Perhaps the most important mechanism for a single run of a project is the evaluation of the circuit. The interaction of the various components within a circuit is what gives the circuit its abstract meaning. For example, a SR-latch is defined in terms of the smaller components, the XOR gates and splitters that compose it, and the interaction of these components gives the circuit its particular behaviour. To fully simulate the interactions for circuit evaluation, the project includes the \ClassName{CircuitIterator} class hierarchy. This class is the base class for all classes that implement evaluation of a circuit.  An abstract base class is used to allow users to define their own evaluators that extend or alter pre-defined evaluation techniques. Three pre-defined circuit evaluators have been provided that allow different ways of modeling circuit interaction, \ClassName{NormalEvaluator} which implements BFS evaluation, \ClassName{DelayEvaluator} which implements delay-based evaluation, and \ClassName{Debugger} which allows a user to interact with the circuit as a delay-based evaluation takes place. These evaluators are discussed in more detail below.
+Perhaps the most important mechanism for a single run of a project is the evaluation of the circuit. The interaction of the various components within a circuit is what gives the circuit its abstract meaning. For example, a SR-latch is defined in terms of the smaller components, the XOR gates and splitters that compose it, and the interaction of these components gives the circuit its particular behaviour. To fully simulate the interactions for circuit evaluation, the project includes the \ClassName{CircuitIterator} class hierarchy. This class is the base class for all classes that implement evaluation of a circuit.  An abstract base class is used to allow users to define their own evaluators that extend or alter pre-defined evaluation techniques. Three pre-defined circuit evaluators have been provided that allow different ways of modeling circuit interaction, \ClassName{NormalEvaluator} which implements BFS evaluation, \ClassName{DelayEvaluator} which implements delay-based evaluation, and \ClassName{Debugger}
+ which allows a user to interact with the circuit as a delay-based evaluation takes place. These evaluators are discussed in more detail below.
 
-The interaction between the classes themselves is fairly simple. Upon a call to a circuit’s evaluate function, the circuit creates an evaluator that matches with the circuit’s evaluation method and then uses this evaluator to evaluate the circuit. An diagram of this is below.
+The interaction between the classes themselves is fairly simple. Upon a call to a circuit’s evaluate function, the circuit creates an evaluator that matches with the circuit’s evaluation method and then uses this evaluator to evaluate the circuit. An sequence diagram of this interaction is used below to detail class interactions. This diagrams shows the function calls and returns across classes with arrows. Each solid arrow represents a function call from one class to another. Dotted arrows represent function return from previous calls. In each diagram, there is an implicit user on the far left, making the left-most calls through either a main function, or within a black-box component.
 
 \begin{figure}[H]
     \begin{center}
@@ -236,7 +228,8 @@ Regardless of which type of evaluation the user selects, the evaluator needs to 
 
 Circuit creation is also done via the \ClassName{Circuit} class. This allows \ClassName{Circuit} to be a single interface for all the necessaries of component interaction.
 
-The diagram below demonstrates the interactions between the user (far left), \ClassName{Circuit}, and hash table. Before a \ClassName{Circuit} can be used, it must be created. This can be done by the use of its default constructor indicated by section \Bold{A} in the figure below. No additional work is needed to create the circuit, as the constructor does all the necessary setup. For creating a component, the \ClassName{Circuit} class provides the \FunctionName{AddComponent} function, which adds a component to the Circuit with a particular name; represented by section \Bold{B} on the figure below. The \FunctionName{AddComponent} function requires a \ClassName{Component}, passed by pointer, and a string for the name. The \ClassName{Component} is generally passed by creating a new Component, since it is garbage collected. The string has no restrictions except that each component’s name must be unique in a given \ClassName{Circuit}. For accessing that component later, the function \FunctionName{Lookup} is provided, which looks a component up by name; represented by section \Bold{C} in the figure.
+The diagram below demonstrates the interactions between the user (far left), \ClassName{Circuit}, and hash table. Before a \ClassName{Circuit} can be used, it must be created. This can be done by the use of its default constructor indicated by section \Bold{A} in the figure below. No additional work is needed to create the circuit, as the constructor does all the necessary setup. For creating a component, the \ClassName{Circuit} class provides the \FunctionName{AddComponent} function, which adds a component to the Circuit with a particular name; represented by section \Bold{B} on the figure below. The \FunctionName{AddComponent} function requires a \ClassName{Component}, passed by pointer, and a string for the name. The \ClassName{Component} is generally passed by creating a new Component, since it is garbage collected. The string has no restrictions except that each component’s name must be unique in a given \ClassName{Circuit}. For accessing that component later, the function \FunctionName{Lookup} is
+provided, which looks a component up by name; represented by section \Bold{C} in the figure.
 
 \begin{figure}[H]
     \begin{center}
