@@ -25,45 +25,45 @@
 
 \begin{abstract}
 
-In many computer science programs, the field of digital electronics is introduced within computer organization or computer architecture courses, with the help of graphical tools. However, little attention is given to text-based approaches. The C++ Circuit Simulation Library (CCSL), attempts to present an intuitive text-based interface for those with experience with C++, while still giving advanced users an efficient framework for digital circuit design and development.
+The study of often digital electronics is introduced with the help of graphical tools. However, relatively little attention is given to code-based approaches. The C++ Circuit Simulation Library (CCSL), provides a C++ class library for working with simulated digital circuits, and gives users an efficient framework for digital circuit design and development.
 
 \end{abstract}
 
 \section{Introduction}
 
-\subsection{Purpose}
+CCSL provides digital logic simulation facilities that can be used as a foundation for digital circuit development in C++. The library should be easily usable by users from a variety of experience levels from as simple as creating a pulse generator to as complicated as building an ALU. In addition, CCSL seeks to represent the interactions of real digital circuits as closely as possible. To this purpose, the projects provides functionality to simulate circuit creation, connection and evaluation with evaluators and circuit bread-boxes. In addition, tools are included that allow easy generalization of circuits, such as black-box components.
 
-CCSL is a logic simulator that is programmed entirely in C++. This logic simulator is meant to be used as a solid foundation and intuitive interface for digital circuit development in C++. The library should be easily usable by users from a variety of experience levels from as simple as wiring up a pulse generator to as complicated as building an ALU. In addition, it seeks to represent the interactions of real digital circuits as closely as possible. To this purpose, the project simulates circuit creation, connection and evaluation with evaluators and circuit bread-boxes. In addition, tools have been added that allow easy generalization and expansion of circuits, such as black-box components.
+When pieced together correctly, basic components allow us to reach higher-level abstractions and focus on the functionality of collections of these components, rather than individual components. These collections are the typical focus of digital electronics within computer science. I.e. computer scientists ignore the resistors, capacitors and other details, and focus purely on the devices that can be made , e.g. \Bold{and}, \Bold{or}, and \Bold{not} gates.
 
-When pieced together correctly, basic components allow us to abstract out the ground-level components and focus on the functionality of modules of these components. These modules are the main focus of digital electronics within computer science. Computer scientists ignore the resistors, capacitors and other details, and focus purely on the modules, e.g. \Bold{and}, \Bold{or}, and \Bold{not} gates.
+CCSL users are assumed to have a basic familiarity with C++ programming. Users wishing to use the library to design new digital components must have an understanding of C++ inheritance\cite{bjarne}. Finally, in order to fully make use of all aspects of the project, an understanding of algorithms and data structures is necessary. In addition, hash tables, graph algorithms, and garbage collection play a large part of the project, but are not required for designing circuits or components of any kind.
 
-CCSL users are assumed to have a basic familiarity with C++ programming. Users wishing to use the library to design new digital components must have an understanding of C++ inheritance\cite{bjarne}. Finally, in order to fully make use of all aspects of the project, an understanding of algorithms and data structures is necessary. Specifically hash tables, garbage collection, and algorithms related to graphs are of particular interest.
+\subsection{Notation}
 
-In the remainder of this paper, words that are marked in \ClassName{typewriter font} are class names and always begin with a capital letter. Words that are in \FunctionName{italics} are function names, and also begin with capital letters.
+In the remainder of this paper, words that are marked in \ClassName{typewriter font} are class names and always begin with a capital letter. Words that are in \FunctionName{Italics} are function names, and also begin with capital letters.
 
 \subsection{Intended Audience}
 
-Although the idea behind the project should be understandable to those without programming experience, the intended audience of this project is software engineers who wish to design and simulate digital circuits in C++. However, the user's level of experience limits what they are able to do with this project. There are three experience levels that have different methods of interacting with the project: introductory users, advanced users, and expert users.
+The intended audience of the project is programmers who wish to design and simulate digital circuits in C++. However, the user's level of experience limits the functionalities within the project that are accessible to them. From the point of view of the project, there are three experience levels that have different methods of interacting with the project: introductory users, advanced users, and expert users.
 
-Introductory users are users who are able to create and use simple circuits using pre-defined components but are unable to create their own components or extend the libraries in any way. This group of users has only a vague understanding of the traversal methods and design principles used by the project, and so, are unable to extend it completely. This group of users are around the level of introductory computer architecture or hardware courses.
+Introductory users are those who are able to create and use simple circuits assembled from pre-defined components. This group of users has little to no understanding of the traversal methods and design principles used within the library. This group of users would include students in introductory computer architecture or hardware courses.
 
-Advanced users are users who can both construct simple circuits using predefined components, as well as create their own components by either extending existing components, or by creating brand new components from scratch. These users can also extend the existing iterators to their own uses. In addition to being able to create components, they have a good understanding of the principles used in the design of the project and can use this knowledge to extend their components and iterators. These users would be students who have completed courses in algorithms, project design, and computer hardware.
+Advanced users are those who additionally wish to create their own components by either extending existing components or by creating brand new components from scratch. These users can also extend the existing evaluation methods to their own uses. Such users have a good understanding of the principles used in the design of the project and can use this knowledge to extend their components and iterators. These users would be students who have completed courses in algorithms, object-oriented design, and computer hardware.
 
-Expert users are users who are able to construct circuits from components, both predefined and of their own making, can extend existing iterators to create new ways of evaluating and interacting with circuits, and have a deep understanding of the project's design principles. These users are those who understand not only the principles which the project was designed with, but have a good understanding of the internal mechanisms of the project as well.
+Expert users are users who are able to construct circuits from components, both predefined and of their own making, can extend existing iterators to create new ways of evaluating and interacting with circuits, and can freely modify the structure of the library to suit their needs. These users are those who understand not only the principles which the project was designed with, but have a good understanding of the internal mechanisms of the project as well.
 
-\subsection{Similar Projects}
+\subsection{Related Work}
 
-A variety of similar projects have been produced:
+A variety of related projects have been produced:
 
 \begin{itemize}
 
-\item Logisim: A graphical circuit simulator written in Java. The project was thorough and implemented many of the features which CCSL implemented including delay-based evaluation and black-box components.\cite{Logisim}
+\item Logisim: A graphical circuit simulator. The project was thorough and implemented many of the features which CCSL implemented including breadth-first evaluation and black-box components.\cite{Logisim}
 
-\item KLogic: A graphical circuit simulator developed in C++ with the QT interface. KLogic allows black-box components, which were a crucial feature of CCSL.\cite{KLogic}
+\item KLogic: A graphical circuit simulator. KLogic allows black-box components.\cite{KLogic}
 
-\item Verilog: A hardware description language that can be used to model everything from digital circuits to computer chip organization. Verilog is a professional development tool used by both academic as well as professional communities; as a result, it is very well developed and quite extensive. Virtually every feature of CCSL is represented in this language.\cite{Verilog}
+\item Verilog: A professional-level hardware description language that can be used to construct detailed models of digital circuits, down to the level of integrated circuit organization.\cite{Verilog}
 
-\item LibLCS: A library for digital circuit simulation written in C++, like CCSL. This project implements many of the features of CCSL, but differs in a number of ways, especially in the way components interact.\cite{libLCS}
+\item LibLCS: A code-based library for digital circuit simulation.\cite{libLCS}
 
 \end{itemize}
 
@@ -73,47 +73,43 @@ A variety of similar projects have been produced:
 
 \subsection{Organization}
 
-The organization of the project is based on the concept of a breadboard into which a user plugs in components which they wish to use. This model allows for arbitrarily complex circuits, and is intuitive for those without an understanding of digital circuits. In addition, certain methods can be used by the implementation of the breadboard to make accessing and using components easier, like component connection, which can be done without any direct contact with wires.
+The organizing concept for the project is that of a breadboard into which a user plugs components. This model is general and intuitive. In addition, certain methods can be used by the implementation of the breadboard to make accessing and using components easier. For example, component connection can be done without any direct contact with wires.
 
 \subsection{Evaluation Model}
 
-The project is based on a simple conceptual idea of interaction. Components are thought of as being somewhat akin to functions, and wires bearing similarities with values. In this way, evaluating a circuit would conceptually produce a series function calls passing along different values by calling and returning from the components' associated functions. However, this is a narrow view of components and only really allows for combinatorial circuits. Naively implemented, this method would cause the simulator to enter an infinite loop when simulating sequential circuits.
+Digital components are thought of as being akin to programming language functions. Similarly, wires are akin to simple values. Evaluating a circuit would conceptually produce a series of function calls passing along different values which can be simulated with function composition. However, while this view of circuits is sufficient to model combinational circuits, it is inadequate to model sequential circuits. Sequential circuits would not work because they are circuits that contain feedback, or loops. Naively implemented, this method would cause the simulator to enter an infinite loop when simulating sequential circuits via function composition.
 
-Although narrow, this view of things is not without its merits. In particular, it provides a very good way of conceptualizing the interactions between components and wires that expands easily to sequential circuits; components are function-like things that perform operations on wires, which store the states of the circuit. This is the method for interaction between wires and components that the project is based on.
+However, this view of things is not without merit. In particular, it provides a simple way of conceptualizing the interaction between components and wires that expands with some work to sequential circuits; components are function-like things that perform operations on wires, which store the states of the circuit. This is the method for interaction between wires and components that the library is based on.
 
-The other main aspect of component interaction is the evaluation method. There are two main ways of approaching this problem. The first, and simpler approach, is to treat the components as vertices in a graph with the wires designating edges. This leads us to two main ways of evaluating the circuit, based on graph traversal techniques. Depth-first traversal is generally unhelpful for simulating circuits, so we use breadth-first traversal to evaluate the components. This gives us the first method for circuit traversal. This method proves to have significant differences with actual circuits, however.
+The other main aspect of component interaction is the evaluation method. There are two main ways of approaching this problem. The first, and simpler approach, is to treat the components as vertices in a graph with the wires designating edges. This leads us to two main ways of evaluating the circuit, based on graph traversal techniques. Depth-first traversal is generally unhelpful for simulating circuits, so we use breadth-first traversal to evaluate the components. This gives us the first method for circuit traversal. This method proves to have significant differences with the behavior of actual circuits, however.
 
-In actual digital circuits, each component has a certain amount of delay that it introduces before it propagates its resulting values to the components that use these values. This delay is ignored by the depth-first traversal method, but in order to fully simulate the behavior of real digital circuits, we cannot ignore this propagation delay. Our second method takes this delay into account and evaluates the components in an order equivalent to evaluating actual digital components. This is primarily the evaluation method of interest, since breadth-first traversal doesn’t mirror the behavior of actual circuits in a wide variety of cases.
+In actual digital circuits, each component has an inherent delay that it introduces before it propagates its results to further components. This delay is ignored by the depth-first traversal method, but in order to fully simulate the behavior of real digital circuits, we cannot ignore this propagation delay. The second method is an order that takes delays into account and evaluates the components in an order equivalent to evaluating actual digital components.
 
 \subsection{Idioms and Design Patterns}
 
-The project uses several programming idioms and design patterns to simplify and generalize the layout of the project:
+The design and implementation of the library uses several programming idioms and design patterns\cite{gof} to simplify and generalize the layout of the project:
 
 \subsubsection{Iterator}
 
-To generalize the various ways in which a circuit can be evaluated or traversed, the project makes use of the iterator design pattern. This allowed it to scalably implement evaluators for both traversal patterns as well as other iterators with other purposes.
+To generalize the various ways in which a circuit can be evaluated or traversed, the project makes use of the iterator design pattern. This allows it to scalably implement evaluators for both traversal patterns as well as other iterators with other purposes. The iterator pattern is used by creating a class heirarchy that provides a variety of methods for circuit evaluation with a single interface enforced by inheritance.
 
 \subsubsection{Observer}
 
-For simulating probes and detecting feedback loops, the observer design pattern is used. This pattern is not as heavily used as either of the other design concepts.
+For simulating probes and detecting uncontrolled feedback loops, the observer design pattern is used. The Observer pattern is used by designing wires to inherit from an Observer base class, which allows a user to attach probes to the wires to observe their state.
 
 \subsubsection{Handle-Body}
 
 In order to present a clean interface to users, the project uses the handle-body idiom to generalize circuit components and allow the interface to be pointer-free, which increases its readability.
 
-\subsection{Potential Problems}
+\subsection{Infinite Oscillation}
 
-\subsubsection{Infinite Oscillation}
+When simulating sequential circuits, there is the problem of detecting loops that never stabilize. In general, deciding if a particular circuit has a set of input states that create an infinite oscillation when evaluated is believed to be NP-complete\cite{alg_bible}. As a result, a simple strategy is applied that works well in most, but not all, cases. This heuristic is to keep track of how many times each wire’s state has been changed. If a wire's update count exceeds a pre-defined amount, we assume that the circuit has entered an infinite loop and cease evaluation of the circuit.
 
-When simulating circuits with feedback, there is the problem of looping. While some sequential circuits loop infinitely, others do not, and it is important to allow sequential circuits due to their pivotal importance to computers. In general, deciding if a particular circuit has a set of input states that create an infinite oscillation when evaluated is NP-complete. As a result, a heuristic is applied that works well in most cases, but is not general enough to detect loops in arbitrary situations. This heuristic is to keep track of how many times each wire’s state has been changed. If a wire's update count exceeds some pre-defined amount, we assume that the circuit has entered an infinite loop and immediately cease evaluation of the circuit.
-
-\section{Project Implementation}
-
-The next section details the project’s implementation, including the implementation of various aspects of circuit simulation, organization, and interaction of components.
+\section{Implementation Details}
 
 \subsection{Library Structure}
 
-The structure of the source code is based on each module’s primary use and the most related code. These modules are grouped into a directory tree with these folders:
+The class sturcture is divided into several main modules. In programming, these modules take the form of class heirarchies. In source code, the various files are organized into the following folders:
 
 \subsubsection{BaseCircuits}
 
@@ -133,7 +129,7 @@ Contains the definitions for the two Iterators, \ClassName{BFSIterator} and \Cla
 
 \subsubsection{Component}
 
-Contains the definitions for the component classes. This is the most pivotal part of the project as most of the other classes are groundwork or wrappers for this class. Handle body is used to allow pointer-less interaction with Component class instances. The handle is named \ClassName{Component} and the body is named \ClassName{CustomComponent}.
+Contains the definitions for the component classes. This is the most pivotal part of the project as most of the other classes are groundwork or wrappers for this class. The handle-body idiom is used to allow pointer-less interaction with Component class instances. The handle is named \ClassName{Component} and the body is named \ClassName{CustomComponent}.
 
 \subsubsection{Exceptions}
 
@@ -157,9 +153,9 @@ Implementation of the Sparse Hash Library, which is used to include hash tables 
 
 \subsection{Wire States}
 
-The wire states for the project are implemented as a pair of the timestamp the wire was last updated, and the state it was given at that time. This allows us to keep track not only of the states being passed along wires, but also the time delay introduced by components in the circuit. The primary class for this implementation is the \ClassName{State} class, which includes the timestamp, state pair.
+The wire states for the project are implemented as an ordered pair $(t,s)$ where $t$ is the timestamp the wire was last updated, and $s$ is the state it was given at that time. This allows the evaluator to keep track not only of the states being passed along wires, but also the time delay introduced by components in the circuit. The primary class for this implementation is the \ClassName{State} class, which includes the timestamp, state pair.
 
-The timestamps passed around are implemented as quads (64-bit integers) to allow for very large timestamps for larger circuits that take much longer to run. In addition, the unit for these timestamps is defined as the amount of time it takes a negation component to operate. I chose this as the unit since it is the smallest and simplest component that does some form of computation, unlike a splitter, for example, which simply passes its value along to its outputs, so does not introduce any delay.
+The timestamps passed around are implemented as quads (64-bit integers) to allow for very large timestamps for larger circuits that take much longer to run. In addition, the unit for these timestamps is defined as the amount of time it takes a negation component to operate. This unit is chosen since it is the smallest and simplest component that does some form of computation, unlike a splitter, for example, which simply passes its value along to its outputs, and does not introduce any delay.
 
 \subsection{Component Classes}
 
