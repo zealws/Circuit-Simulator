@@ -3,22 +3,22 @@ BIB = bibtex
 TITLE = circuit-simulator
 .PHONY: clean realclean
 
-circuit-simulator.pdf: circuit-simulator.bib circuit-simulator.tex circuit-simulator.cls imgs/*.pdf
-	$(TEX) circuit-simulator.tex
-	$(BIB) circuit-simulator
-	$(TEX) circuit-simulator.tex
-	$(TEX) circuit-simulator.tex
+$(TITLE).pdf: $(TITLE).bib $(TITLE).tex $(TITLE).cls imgs/*.pdf
+	$(TEX) $(TITLE).tex
+	$(BIB) $(TITLE)
+	$(TEX) $(TITLE).tex
+	$(TEX) $(TITLE).tex
 
-circuit-simulator.bib:
+$(TITLE).bib:
 
-circuit-simulator.tex:
+$(TITLE).tex:
 
-circuit-simulator.cls:
+$(TITLE).cls:
 
 imgs/*.pdf:
 
 clean:
-	rm -f circuit-simulator.{aux,bbl,blg,log,out}
+	rm -f $(TITLE).{aux,bbl,blg,log,out}
 
 realclean: clean
-	rm -f circuit-simulator.pdf
+	rm -f $(TITLE).{pdf,dvi}
