@@ -5,9 +5,9 @@ TITLE = circuit-simulator
 
 $(TITLE).pdf: $(TITLE).bib $(TITLE).tex $(TITLE).cls imgs/*.pdf
 	$(TEX) $(TITLE).tex
-	$(BIB) $(TITLE)
-	$(TEX) $(TITLE).tex
-	$(TEX) $(TITLE).tex
+	#$(BIB) $(TITLE)
+	#$(TEX) $(TITLE).tex
+	#$(TEX) $(TITLE).tex
 
 $(TITLE).bib:
 

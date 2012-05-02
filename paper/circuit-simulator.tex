@@ -48,7 +48,7 @@ CCSL provides digital logic simulation facilities that can be used as a foundati
 
 When pieced together correctly, basic components allow us to reach higher-level abstractions and focus on the functionality of collections of these components, rather than individual components. These collections are the typical focus of digital electronics within computer science. I.e. computer scientists ignore the resistors, capacitors and other details, and focus purely on the devices that can be made , e.g. \Bold{and}, \Bold{or}, and \Bold{not} gates.
 
-CCSL users are assumed to have a basic familiarity with C++ programming. Users wishing to use the library to design new digital components must have an understanding of C++ inheritance\cite{Stroustrup-2000}. Finally, in order to fully make use of all aspects of the project, an understanding of algorithms and data structures is necessary. In addition, hash tables, graph algorithms, and garbage collection play large roles of the project, but are not required for designing circuits or components of any kind.
+CCSL users are assumed to have a basic familiarity with C++ programming. Users wishing to use the library to design new digital components must have an understanding of C++ inheritance [Stroustrup 2000]. Finally, in order to fully make use of all aspects of the project, an understanding of algorithms and data structures is necessary. In addition, hash tables, graph algorithms, and garbage collection play large roles of the project, but are not required for designing circuits or components of any kind.
 
 \subsection{Notation}
 
@@ -70,15 +70,13 @@ A variety of related projects have been produced:
 
 \begin{itemize}
 
-\item Logisim: A graphical circuit simulator. The project was thorough and implemented many of the features which CCSL implemented including breadth-first evaluation and black-box components  \cite{Burch-2002}.
+\item Logisim: A graphical circuit simulator. The project was thorough and implemented many of the features which CCSL implemented including breadth-first evaluation and black-box components [Burch 2002].
 
-\item KLogic: A graphical circuit simulator. KLogic allows black-box components. \cite{Rostin-2001}
+\item KLogic: A graphical circuit simulator. KLogic allows black-box components [Rostin 2001].
 
-\item Verilog: A professional-level hardware description language that can be used to construct detailed models of digital circuits, down to the level of integrated circuit organization.  \cite{IEEE-2006}
+\item Verilog: A professional-level hardware description language that can be used to construct detailed models of digital circuits, down to the level of integrated circuit organization [IEEE 2006].
 
-\item LibLCS: A code-based library for digital circuit simulation.
-
-\cite{Chandra-2007}
+\item LibLCS: A code-based library for digital circuit simulation [Chandra 2007].
 
 \end{itemize}
 
@@ -86,7 +84,55 @@ A variety of related projects have been produced:
 
 \subsection{Example}
 
+As a simple example, consider the design of a simple 2-to-1 Multiplexer:
 
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[angle=0,width=200pt]{imgs/Mux.pdf}
+    \end{center}
+    \caption{Circuit diagram for a 2-to-1 Multiplexer.}
+\end{figure}
+
+When designing the library, we would like the interface to be as intuitive as possible, and for a simple circuit to have simple code. This is the case for the 2-to-1 Multiplexer, as is the case with most components. The code for the Multiplexer is given below:
+
+\begin{lstlisting}
+// Create the Circuit Breadboard
+Circuit topLevel;
+
+// Declare Components
+topLevel.AddComponent("Select", new Button());
+topLevel.AddComponent("In0", new Button());
+topLevel.AddComponent("In1", new Button());
+topLevel.AddComponent("Out", new LED());
+topLevel.AddComponent("Split", new Splitter(2));
+topLevel.AddComponent("And0", new And());
+topLevel.AddComponent("And1", new And());
+topLevel.AddComponent("Not", new Not());
+topLevel.AddComponent("Or", new Or());
+
+// Connect the Components
+topLevel.Connect("Select",0,"Split",0);
+topLevel.Connect("Split",0,"And0",0);
+topLevel.Connect("Split",1,"And1",0);
+topLevel.Connect("In0",0,"And0",1);
+topLevel.Connect("In1",0,"And1",1);
+topLevel.Connect("And0",0,"Or",0);
+topLevel.Connect("And1",0,"Or",1);
+topLevel.Connect("Or",0,"Out",0);
+
+// Specify the input and output components
+topLevel.AddInput("Select");
+topLevel.AddInput("In0");
+topLevel.AddInput("In1");
+topLevel.AddOutput("Out");
+
+// Evaluate the Circuit
+topLevel.Evaluate();
+\end{lstlisting}
+
+The meaning of the specific function calls will be explained later, but the general idea when trying to convert a circuit to its cooresponding code there are a few steps that must be taken. First, the user must declare components, then they must be connected with wires. Once the user has done this, they must specify the inputs and outputs to the circuit, and trigger the evaluation.
+
+From that point on, the circuit will evaluate itself and return control back to the user, allowing them to view the resulting values. All of this interaction can be done through the use of a \ClassName{Circuit}, in this example called \ClassName{topLevel}. This common interface and other features have been provided to make code generation with this library as simple and easy as possible.
 
 \subsection{Organization}
 
@@ -104,7 +150,7 @@ In actual digital circuits, each component has an inherent delay that it introdu
 
 \subsection{Idioms and Design Patterns}
 
-The design and implementation of the library uses several programming idioms and design patterns\cite{Gamma-1995} to simplify and generalize the layout of the project:
+The design and implementation of the library uses several programming idioms and design patterns [Gamma 1995] to simplify and generalize the layout of the project:
 
 \subsubsection{Iterator}
 
@@ -120,7 +166,7 @@ In order to present a clean interface to users, the project uses the handle-body
 
 \subsection{Infinite Oscillation}
 
-When simulating sequential circuits, there is the problem of detecting loops that never stabilize. In general, deciding if a particular circuit has a set of input states that create an infinite oscillation when evaluated is believed to be NP-complete\cite{Cormen-2009}. As a result, a simple strategy is applied that works well in most, but not all, cases. This heuristic is to keep track of how many times each wire’s state has been changed. If a wire's update count exceeds a pre-defined amount, we assume that the circuit has entered an infinite loop and cease evaluation of the circuit.
+When simulating sequential circuits, there is the problem of detecting loops that never stabilize. In general, deciding if a particular circuit has a set of input states that create an infinite oscillation when evaluated is believed to be NP-complete [Cormen 2009]. As a result, a simple strategy is applied that works well in most, but not all, cases. This heuristic is to keep track of how many times each wire’s state has been changed. If a wire's update count exceeds a pre-defined amount, we assume that the circuit has entered an infinite loop and cease evaluation of the circuit.
 
 \section{Implementation Details}
 
@@ -162,11 +208,11 @@ Defines the interface for wires. Primarily this is used internally, and users wi
 
 \subsubsection{gc}
 
-Implementation of the Conservative Garbage Collector, which is used to include garbage collection in the project.\cite{Boehm-1993}
+Implementation of the Conservative Garbage Collector, which is used to include garbage collection in the project [Boehm 1993].
 
 \subsubsection{sparsehash}
 
-Implementation of the Sparse Hash Library, which is used to include hash tables in the project.\cite{sparsehash}
+Implementation of the Sparse Hash Library, which is used to include hash tables in the project [Silverstein 2012].
 
 \subsection{Wire States}
 
@@ -406,7 +452,24 @@ In addition, the concepts of circuit iterators and circuit evaluators aren't nec
 \subsection{Busses}
 Finally, although busses were thought of as a desirable feature of the project, they were not a focus of the design. As a result, they can be made to work with for loops and similar ad-hoc techniques, but the approach doesn’t fit with the interface for most other interactions to the library. In the future, busses could be made to work by generalizing the concept of wires to wire groups or busses. This would allow users to link wire groups between components, rather than single wires. Changing the interaction in this way would still allow users to use single wires -- they would merely be interacting with unary wire groups - but allows simple interfaces for busses. If this change were made, it would be fairly easy to permit components to name ports, allowing users to reference them by name, rather than by an integer reference. This would greatly simplify construction of circuits such as SR-latches, where each input and output has a specific name, but arbitrary ordering.
 
-\bibliographystyle{acmsmall}
-\bibliography{circuit-simulator}
+\section{References}
+
+[Boehm 1993] Boehm, H. 1993. Space efficient conservative garbage collection. ACM SIGPLAN.
+
+[Burch 2002] Burch, C. 2002. Logisim: A graphical tool for logic circuit design and simulation. Journal of Educational and Resources in Computing.
+
+[Chandra 2007] Chandra, S. 2007. libLCS: A logic circuit simulation library in C++. http://liblcs.sourceforge.net/
+
+[Cormen et al. 2009] Cormen, T., Leiserson, C., Rivest, R., and Stein, C. 2009. Introduction to algorithms. The MIT Press.
+
+[Gamma et al.1995] Gamma, E., Helm, R., Johnson, R., and Vlissides, J. 1995. Design patterns. Addison-Wesley.
+
+[IEEE 2006] IEEE. 2006. Ieee standard for verilog hardware description language. Institute of Electrical and Electronics Engineers.
+
+[Rostin 2001] Rostin, A. 2001. http://www.a-rostin.de/. Klogic: Digital circuit simulation.
+
+[Stroustrup 2000] Stroustrup, B. 2000. The C++ Programming Language. Addison-Wesley.
+
+[Silverstein 2012] Silverstein, C. sparsehash: An extremely memory-efficient hash\_map implementation. http://code.google.com/p/sparsehash/
 
 \end{document}
